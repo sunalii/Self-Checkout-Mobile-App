@@ -1,16 +1,15 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:selfcheckoutapp/constants.dart';
-import 'package:selfcheckoutapp/screens/register.dart';
 import 'package:selfcheckoutapp/widgets/custom_button.dart';
 import 'package:selfcheckoutapp/widgets/custom_input.dart';
 
-class LoginPage extends StatefulWidget {
+import '../constants.dart';
+
+class RegisterPage extends StatefulWidget {
   @override
-  _LoginPageState createState() => _LoginPageState();
+  _RegisterPageState createState() => _RegisterPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _RegisterPageState extends State<RegisterPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,24 +23,28 @@ class _LoginPageState extends State<LoginPage> {
                 padding: EdgeInsets.only(
                   top: 24.0,
                 ),
-                child: Text(
-                  "Welcome Shopper!\nLogin to your account",
+                child: Text("Create A New Account",
                   textAlign: TextAlign.center,
-                  style: Constants.boldHeading,
-                ),
+                  style: Constants.boldHeading,),
               ),
               Column(
                 children: [
-                  CustomInput(
+                  CustomInputRegister(
+                    hintText: "Name...",
+                  ),
+                  CustomInputRegister(
                     hintText: "Email...",
                   ),
-                  CustomInputPassword(
+                  CustomInputRegisterPass(
                     hintText: "Password...",
                   ),
+                  CustomInputRegNumber(
+                    hintText: "Add Phone Number...",
+                  ),
                   CustomBtn(
-                    text: "Login",
-                    onPressed: () {
-                      print("logged in");
+                    text: "Back to Login",
+                    onPressed: (){
+                      Navigator.pop(context);
                     },
                   ),
                 ],
@@ -52,13 +55,8 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 child: CustomBtn(
                   text: "Create New Account",
-                  onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => RegisterPage()
-                        )
-                    );
+                  onPressed: (){
+                    print ("clicked");
                   },
                   outlineBtn: true,
                 ),

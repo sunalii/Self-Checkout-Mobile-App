@@ -14,7 +14,7 @@ class _HomePageState extends State<HomePage> {
         child: Center(
           child: Text(
             "Home Page",
-            style: constants.regularHeading,
+            style: Constants.regularHeading,
           ),
         ),
       ),
