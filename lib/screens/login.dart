@@ -13,7 +13,7 @@ class _LoginPageState extends State<LoginPage> {
       body: Container(
         child: Center(
           child: Text(
-            "Login Page",
+            "Login Page created",
             style: constants.regularHeading,
           ),
         ),
