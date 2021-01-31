@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "922644439460",
+    "project_id": "selfcheckoutapp-c9e17",
+    "storage_bucket": "selfcheckoutapp-c9e17.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:922644439460:android:5a08acd6b04fe5ad692131",
+        "android_client_info": {
+          "package_name": "com.sunali.selfcheckoutapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "922644439460-el0rrgj60kvh8ii2upo88d8v6bsq0ou4.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.sunali.selfcheckoutapp",
+            "certificate_hash": "46cb82b2953983dbc5582c98d0655477dd4288ae"
+          }
+        },
+        {
+          "client_id": "922644439460-vfsefltf2svjfd7iqb5bfqqf5emv70et.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBK9lukMgbykf2pVkfcMxss2DuTIzwEPU0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "922644439460-vfsefltf2svjfd7iqb5bfqqf5emv70et.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
