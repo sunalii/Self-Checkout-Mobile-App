@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:selfcheckoutapp/constants.dart';
 
@@ -12,10 +13,12 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       body: Container(
         child: Center(
-          child: Text(
-            "Home Page",
-            style: Constants.regularHeading,
-          ),
+          child: FlatButton(
+            child: Text("Logout"),
+            onPressed: (){
+              FirebaseAuth.instance.signOut();
+            },
+          )
         ),
       ),
     );

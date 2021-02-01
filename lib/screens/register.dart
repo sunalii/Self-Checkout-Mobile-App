@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:selfcheckoutapp/widgets/custom_button.dart';
 import 'package:selfcheckoutapp/widgets/custom_input.dart';
@@ -13,7 +14,7 @@ class RegisterPage extends StatefulWidget {
 class _RegisterPageState extends State<RegisterPage> {
 
   //ALERT DIALOG TO DISPLAY ERRORS
-  Future<void> _alertDialogBuilder() async {
+  Future<void> _alertDialogBuilder(String error) async {
     return showDialog(
         context: context,
         barrierDismissible: false,
@@ -21,7 +22,7 @@ class _RegisterPageState extends State<RegisterPage> {
           return AlertDialog(
             title: Text("Error"),
             content: Container(
-              child: Text("An error has been occurred!"),
+              child: Text(error),
             ),
             actions: [
               FlatButton(
@@ -55,7 +56,27 @@ class _RegisterPageState extends State<RegisterPage> {
     }
   }
 
+  void _submitForm() async {
+    //SET THE FORM TO LOADING STATE
+    setState(() {
+      _registerFromLoading = true;
+    });
 
+    //RUN THE CREATE ACCOUNT METHOD
+    String _createAccountFeedback = await _createAccount();
+    if(_createAccountFeedback != null){
+      _alertDialogBuilder(_createAccountFeedback);
+
+      //SET THE FORM TO REGULAR STATE
+      setState(() {
+        _registerFromLoading = false;
+      });
+    }
+    else{
+      //STRING WAS NULL -> HOME PAGE
+      Navigator.pop(context);
+    }
+  }
 
   //DEFAULT LOADING STATE
   bool _registerFromLoading = false;
@@ -118,17 +139,7 @@ class _RegisterPageState extends State<RegisterPage> {
               ),
               Column(
                 children: [
-                  CustomInputRegister(
-                    hintText: "Name...",
-                    onChanged: (value) {
-                      _registerName = value;
-                    },
-                    onSubmitted: (value) {
-                      _inputFocusNodeName.requestFocus();
-                    },
-                    textInputAction: TextInputAction.next,
-                  ),
-                  CustomInputRegister(
+                  CustomInput(
                     hintText: "Email...",
                     onChanged: (value) {
                       _registerEmail = value;
@@ -139,7 +150,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     focusNode: _inputFocusNodeName,
                     textInputAction: TextInputAction.next,
                   ),
-                  CustomInputRegister(
+                  CustomInput(
                     hintText: "Password...",
                     isPasswordField: true,
                     onChanged: (value) {
@@ -151,13 +162,10 @@ class _RegisterPageState extends State<RegisterPage> {
                     focusNode: _inputFocusNodeEmail,
                     textInputAction: TextInputAction.next,
                   ),
-                  CustomInputRegNumber(
-                    hintText: "Add Phone Number...",
-                  ),
                   CustomBtn(
                     text: "Create New Account",
                     onPressed: () {
-                      m
+                      _submitForm();
                     },
                     isLoading: _registerFromLoading,
                   ),
