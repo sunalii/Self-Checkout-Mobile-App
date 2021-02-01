@@ -35,8 +35,9 @@ class _LoginPageState extends State<LoginPage> {
                   CustomInput(
                     hintText: "Email...",
                   ),
-                  CustomInputPassword(
+                  CustomInput(
                     hintText: "Password...",
+                    isPasswordField: true,
                   ),
                   CustomBtn(
                     text: "Login",

@@ -1,15 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:selfcheckoutapp/constants.dart';
 
-//Regular TextField Input Box
+//TEXT FIELD INPUT BOX
 class CustomInput extends StatelessWidget {
 
   final String hintText;
+  final Function(String) onChanged;
+  final Function(String) onSubmitted;
+  final FocusNode focusNode;
+  final TextInputAction textInputAction;
+  final bool isPasswordField;
 
-  const CustomInput({Key key, this.hintText}) : super(key: key);
+  const CustomInput({Key key, this.hintText, this.onChanged, this.onSubmitted, this.focusNode, this.textInputAction, this.isPasswordField}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+
+    bool _isPasswordField = isPasswordField ?? false;
+
     return Container(
       margin: EdgeInsets.symmetric(
         horizontal: 24.0,
@@ -20,6 +28,11 @@ class CustomInput extends StatelessWidget {
         borderRadius: BorderRadius.circular(12.0),
       ),
       child: TextField(
+        obscureText: _isPasswordField,
+        focusNode: focusNode,
+        onChanged: onChanged,
+        onSubmitted: onSubmitted,
+        textInputAction: textInputAction,
         decoration: InputDecoration(
           border: InputBorder.none,
           hintText: hintText ?? "Hint Text...",
@@ -34,41 +47,7 @@ class CustomInput extends StatelessWidget {
   }
 }
 
-//Regular Password TextField Input Box
-class CustomInputPassword extends StatelessWidget {
-
-  final String hintText;
-
-  const CustomInputPassword({Key key, this.hintText}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-        margin: EdgeInsets.symmetric(
-          horizontal: 24.0,
-          vertical: 8.0,
-        ),
-        decoration: BoxDecoration(
-          color: Color(0xfff2f2f2),
-          borderRadius: BorderRadius.circular(12.0),
-        ),
-        child: TextField(
-          obscureText: true,
-          decoration: InputDecoration(
-              border: InputBorder.none,
-              hintText: hintText ?? "Hint Text...",
-              contentPadding: EdgeInsets.symmetric(
-                  horizontal: 24.0,
-                  vertical: 20.0
-              )
-          ),
-          style: Constants.regularDarkText,
-        )
-    );
-  }
-}
-
-//Register TextField Input Box
+//REGISTER TEXT FIELD INPUT BOX
 class CustomInputRegister extends StatelessWidget {
 
   final String hintText;
@@ -76,11 +55,15 @@ class CustomInputRegister extends StatelessWidget {
   final Function(String) onSubmitted;
   final FocusNode focusNode;
   final TextInputAction textInputAction;
+  final bool isPasswordField;
 
-  const CustomInputRegister({Key key, this.hintText, this.onChanged, this.onSubmitted, this.focusNode, this.textInputAction}) : super(key: key);
+  const CustomInputRegister({Key key, this.hintText, this.onChanged, this.onSubmitted, this.focusNode, this.textInputAction, this.isPasswordField}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+
+    bool _isPasswordField = isPasswordField ?? false;
+
     return Container(
         margin: EdgeInsets.symmetric(
           horizontal: 24.0,
@@ -91,6 +74,7 @@ class CustomInputRegister extends StatelessWidget {
           borderRadius: BorderRadius.circular(12.0),
         ),
         child: TextField(
+          obscureText: _isPasswordField,
           focusNode: focusNode,
           onChanged: onChanged,
           onSubmitted: onSubmitted,
@@ -109,49 +93,7 @@ class CustomInputRegister extends StatelessWidget {
   }
 }
 
-//Register Password TextField Input Box
-class CustomInputRegisterPass extends StatelessWidget {
-
-  final String hintText;
-  final Function(String) onChanged;
-  final Function(String) onSubmitted;
-  final FocusNode focusNode;
-  final TextInputAction textInputAction;
-
-  const CustomInputRegisterPass({Key key, this.hintText, this.onChanged, this.onSubmitted, this.focusNode, this.textInputAction}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-        margin: EdgeInsets.symmetric(
-          horizontal: 24.0,
-          vertical: 8.0,
-        ),
-        decoration: BoxDecoration(
-          color: Color(0xfff2f2f2),
-          borderRadius: BorderRadius.circular(12.0),
-        ),
-        child: TextField(
-          focusNode: focusNode,
-          onChanged: onChanged,
-          onSubmitted: onSubmitted,
-          textInputAction: textInputAction,
-          obscureText: true,
-          decoration: InputDecoration(
-              border: InputBorder.none,
-              hintText: hintText ?? "Hint Text...",
-              contentPadding: EdgeInsets.symmetric(
-                  horizontal: 24.0,
-                  vertical: 5.0
-              )
-          ),
-          style: Constants.regularDarkText,
-        )
-    );
-  }
-}
-
-//Register Phone Number TextField Input Box
+//REGISTER PHONE NUMBER TEXT FIELD INPUT BOX
 class CustomInputRegNumber extends StatelessWidget {
 
   final String hintText;
