@@ -10,6 +10,29 @@ class RegisterPage extends StatefulWidget {
 }
 
 class _RegisterPageState extends State<RegisterPage> {
+  Future<void> _alertDialogBuilder() async {
+    return showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context){
+        return AlertDialog(
+          title: Text("Error"),
+          content: Container(
+            child: Text("An error has been occurred!"),
+          ),
+          actions: [
+            FlatButton(
+              child: Text("Close"),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+            )
+          ],
+        );
+      }
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -23,9 +46,11 @@ class _RegisterPageState extends State<RegisterPage> {
                 padding: EdgeInsets.only(
                   top: 24.0,
                 ),
-                child: Text("Create A New Account",
+                child: Text(
+                  "Create A New Account",
                   textAlign: TextAlign.center,
-                  style: Constants.boldHeading,),
+                  style: Constants.boldHeading,
+                ),
               ),
               Column(
                 children: [
@@ -42,9 +67,10 @@ class _RegisterPageState extends State<RegisterPage> {
                     hintText: "Add Phone Number...",
                   ),
                   CustomBtn(
-                    text: "Back to Login",
-                    onPressed: (){
-                      Navigator.pop(context);
+                    text: "Create New Account",
+                    onPressed: () {
+                      //Navigator.pop(context);
+                      _alertDialogBuilder();
                     },
                   ),
                 ],
@@ -54,9 +80,9 @@ class _RegisterPageState extends State<RegisterPage> {
                   bottom: 24.0,
                 ),
                 child: CustomBtn(
-                  text: "Create New Account",
-                  onPressed: (){
-                    print ("clicked");
+                  text: "Back to Login",
+                  onPressed: () {
+                    print("clicked");
                   },
                   outlineBtn: true,
                 ),
