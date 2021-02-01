@@ -10,6 +10,8 @@ class RegisterPage extends StatefulWidget {
 }
 
 class _RegisterPageState extends State<RegisterPage> {
+
+  //Alert Dialog to display errors
   Future<void> _alertDialogBuilder() async {
     return showDialog(
       context: context,
@@ -31,6 +33,44 @@ class _RegisterPageState extends State<RegisterPage> {
         );
       }
     );
+  }
+
+  //Default Loading State
+  bool _registerFromLoading = false;
+
+  //Form Input Values
+  String _registerName = "";
+  String _registerEmail = "";
+  String _registerPassword = "";
+//  int _registerPhoneNumber = '' as int;
+
+  //Focus Node for Input Fields
+  FocusNode _inputFocusNodeName;
+  FocusNode _inputFocusNodeEmail;
+  FocusNode _inputFocusNodePassword;
+
+  @override
+  void initState() {
+    _inputFocusNodeName = FocusNode();
+    super.initState();
+
+    _inputFocusNodeEmail = FocusNode();
+    super.initState();
+
+    _inputFocusNodePassword = FocusNode();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _inputFocusNodeName.dispose();
+    super.dispose();
+
+    _inputFocusNodeEmail.dispose();
+    super.dispose();
+
+    _inputFocusNodePassword.dispose();
+    super.dispose();
   }
 
   @override
@@ -56,12 +96,32 @@ class _RegisterPageState extends State<RegisterPage> {
                 children: [
                   CustomInputRegister(
                     hintText: "Name...",
+                    onChanged: (value){
+                      _registerName = value;
+                    },
+                    onSubmitted: (value){
+                      _inputFocusNodeName.requestFocus();
+                    },
                   ),
                   CustomInputRegister(
                     hintText: "Email...",
+                    onChanged: (value){
+                      _registerEmail = value;
+                    },
+                    onSubmitted: (value){
+                      _inputFocusNodeEmail.requestFocus();
+                    },
+                    focusNode: _inputFocusNodeName,
                   ),
                   CustomInputRegisterPass(
                     hintText: "Password...",
+                    onChanged: (value){
+                      _registerPassword = value;
+                    },
+                    onSubmitted: (value){
+                      _inputFocusNodePassword.requestFocus();
+                    },
+                    focusNode: _inputFocusNodeEmail,
                   ),
                   CustomInputRegNumber(
                     hintText: "Add Phone Number...",
@@ -70,8 +130,12 @@ class _RegisterPageState extends State<RegisterPage> {
                     text: "Create New Account",
                     onPressed: () {
                       //Navigator.pop(context);
-                      _alertDialogBuilder();
+                     // _alertDialogBuilder();
+                      setState(() {
+                        _registerFromLoading = true;
+                      });
                     },
+                    isLoading: _registerFromLoading,
                   ),
                 ],
               ),

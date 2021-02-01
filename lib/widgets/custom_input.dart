@@ -72,8 +72,12 @@ class CustomInputPassword extends StatelessWidget {
 class CustomInputRegister extends StatelessWidget {
 
   final String hintText;
+  final Function(String) onChanged;
+  final Function(String) onSubmitted;
+  final FocusNode focusNode;
+  final TextInputAction textInputAction;
 
-  const CustomInputRegister({Key key, this.hintText}) : super(key: key);
+  const CustomInputRegister({Key key, this.hintText, this.onChanged, this.onSubmitted, this.focusNode, this.textInputAction}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -87,6 +91,10 @@ class CustomInputRegister extends StatelessWidget {
           borderRadius: BorderRadius.circular(12.0),
         ),
         child: TextField(
+          focusNode: focusNode,
+          onChanged: onChanged,
+          onSubmitted: onSubmitted,
+          textInputAction: textInputAction,
           decoration: InputDecoration(
               border: InputBorder.none,
               hintText: hintText ?? "Hint Text...",
@@ -105,8 +113,12 @@ class CustomInputRegister extends StatelessWidget {
 class CustomInputRegisterPass extends StatelessWidget {
 
   final String hintText;
+  final Function(String) onChanged;
+  final Function(String) onSubmitted;
+  final FocusNode focusNode;
+  final TextInputAction textInputAction;
 
-  const CustomInputRegisterPass({Key key, this.hintText}) : super(key: key);
+  const CustomInputRegisterPass({Key key, this.hintText, this.onChanged, this.onSubmitted, this.focusNode, this.textInputAction}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -120,6 +132,10 @@ class CustomInputRegisterPass extends StatelessWidget {
           borderRadius: BorderRadius.circular(12.0),
         ),
         child: TextField(
+          focusNode: focusNode,
+          onChanged: onChanged,
+          onSubmitted: onSubmitted,
+          textInputAction: textInputAction,
           obscureText: true,
           decoration: InputDecoration(
               border: InputBorder.none,
