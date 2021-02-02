@@ -24,7 +24,7 @@ class LandingPage extends StatelessWidget {
           return StreamBuilder(
             stream: FirebaseAuth.instance.authStateChanges(),
             builder: (context, streamSnapshot) {
-            if (snapshot.hasError) {
+            if (streamSnapshot.hasError) {
               return Scaffold(
                 body: Center(
                   child: Text("Error: ${streamSnapshot.error}"),

@@ -1,10 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:selfcheckoutapp/screens/login.dart';
 import 'package:selfcheckoutapp/widgets/custom_button.dart';
 import 'package:selfcheckoutapp/widgets/custom_input.dart';
-
-import '../constants.dart';
+import 'package:selfcheckoutapp/constants.dart';
 
 class RegisterPage extends StatefulWidget {
   @override
@@ -37,6 +36,10 @@ class _RegisterPageState extends State<RegisterPage> {
     );
   }
 
+  //FORM INPUT VALUES
+  String _registerEmail = "";
+  String _registerPassword = "";
+
   //CREATE A NEW ACCOUNT
   Future<String> _createAccount() async {
     try {
@@ -55,6 +58,9 @@ class _RegisterPageState extends State<RegisterPage> {
       return (e);
     }
   }
+
+  //DEFAULT LOADING STATE
+  bool _registerFromLoading = false;
 
   void _submitForm() async {
     //SET THE FORM TO LOADING STATE
@@ -78,29 +84,12 @@ class _RegisterPageState extends State<RegisterPage> {
     }
   }
 
-  //DEFAULT LOADING STATE
-  bool _registerFromLoading = false;
-
-  //FORM INPUT VALUES
-  String _registerName = "";
-  String _registerEmail = "";
-  String _registerPassword = "";
-//  int _registerPhoneNumber = '' as int;
-
   //FOCUS NODE FOR INPUT FIELDS
-  FocusNode _inputFocusNodeName;
-  FocusNode _inputFocusNodeEmail;
   FocusNode _inputFocusNodePassword;
 
   //FOCUS ON
   @override
   void initState() {
-    _inputFocusNodeName = FocusNode();
-    super.initState();
-
-    _inputFocusNodeEmail = FocusNode();
-    super.initState();
-
     _inputFocusNodePassword = FocusNode();
     super.initState();
   }
@@ -108,12 +97,6 @@ class _RegisterPageState extends State<RegisterPage> {
   //FOCUS OFF
   @override
   void dispose() {
-    _inputFocusNodeName.dispose();
-    super.dispose();
-
-    _inputFocusNodeEmail.dispose();
-    super.dispose();
-
     _inputFocusNodePassword.dispose();
     super.dispose();
   }
@@ -145,9 +128,8 @@ class _RegisterPageState extends State<RegisterPage> {
                       _registerEmail = value;
                     },
                     onSubmitted: (value) {
-                      _inputFocusNodeEmail.requestFocus();
+                      _inputFocusNodePassword.requestFocus();
                     },
-                    focusNode: _inputFocusNodeName,
                     textInputAction: TextInputAction.next,
                   ),
                   CustomInput(
@@ -156,11 +138,10 @@ class _RegisterPageState extends State<RegisterPage> {
                     onChanged: (value) {
                       _registerPassword = value;
                     },
-                    onSubmitted: (value) {
-                      _inputFocusNodePassword.requestFocus();
+                    onSubmitted: (value){
+                      _submitForm();
                     },
-                    focusNode: _inputFocusNodeEmail,
-                    textInputAction: TextInputAction.next,
+                    focusNode: _inputFocusNodePassword,
                   ),
                   CustomBtn(
                     text: "Create New Account",
@@ -178,7 +159,12 @@ class _RegisterPageState extends State<RegisterPage> {
                 child: CustomBtn(
                   text: "Back to Login",
                   onPressed: () {
-                    print("clicked");
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => LoginPage()
+                        )
+                    );
                   },
                   outlineBtn: true,
                 ),
