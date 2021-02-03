@@ -20,4 +20,3 @@ class Constants {
     color: Colors.black
   );
 }
-
