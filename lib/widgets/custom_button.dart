@@ -21,9 +21,9 @@ class CustomBtn extends StatelessWidget {
         height: 60.0,
         alignment: Alignment.center,
         decoration: BoxDecoration(
-          color: _outlineBtn ? Colors.transparent : Color(0XFF1faa00),
+          color: _outlineBtn ? Colors.transparent : Color(0xff1faa00),
           border: Border.all(
-            color: Color(0XFF1faa00),
+            color: Color(0xff1faa00),
             width: 2.0,
           ),
           borderRadius: BorderRadius.circular(12.0),
@@ -40,7 +40,7 @@ class CustomBtn extends StatelessWidget {
                 child: Text(text ?? "Text",
                 style: TextStyle(
                   fontSize: 16.0,
-                  color: _outlineBtn ? Color(0XFF1faa00) : Colors.white,
+                  color: _outlineBtn ? Color(0xff1faa00) : Colors.white,
                   fontWeight: FontWeight.w600,
                   ),
                 ),

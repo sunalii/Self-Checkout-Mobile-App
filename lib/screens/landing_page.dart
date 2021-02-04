@@ -20,6 +20,8 @@ class LandingPage extends StatelessWidget {
             ),
           );
         }
+
+        //CONNECTION INITIALIZED - FIREBASE APP IS RUNNING
         if (snapshot.connectionState == ConnectionState.done) {
           return StreamBuilder(
             stream: FirebaseAuth.instance.authStateChanges(),
@@ -32,16 +34,25 @@ class LandingPage extends StatelessWidget {
               );
             }
 
+            //CONNECTION STATE ACTIVE - DO THE LOGIN
             if(streamSnapshot.connectionState == ConnectionState.active){
+
+              //GET THE USER
               User _user = streamSnapshot.data;
 
+              //IF THE USER IS NULL - NOT LOGGING IN
               if(_user == null){
+
+                //USER NOT LOGGED IN - HEAD TO LOGIN PAGE
                 return LoginPage();
               }else{
+
+                //USER IS LOGGED IN - HEAD TO HOME PAGE
                 return HomePage();
               }
             }
 
+            //CHECKING THE AUTH STATE - LOADING
             return Scaffold(
               body: Center(
                 child: Text("Auth Loading..."),
@@ -51,6 +62,7 @@ class LandingPage extends StatelessWidget {
           );
         }
 
+        //CONNECTING TO FIREBASE - LOADING
         return Scaffold(
           body: Center(
             child: Text("Initialization App..."),
