@@ -19,45 +19,15 @@ class _HomePageState extends State<HomePage> {
         ),
         textTheme: GoogleFonts.poppinsTextTheme(
         ),
+        leading: IconButton(
+          icon: Icon(Icons.menu),
+          onPressed: (){
+            //to do
+          },
+        ),
       ),
       body: Column(
-        children: [
-          Row(
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(
-                  top: 50.0,
-                  bottom: 120.0,
-                  left: 50.0,
-                  right: 30.0
-                ),
-                child: Container(
-                  height: 150.0,
-                  width: 150.0,
-                  color: Colors.black,
-                ),
-              ),
-            ],
-          ),
-          Row(
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(
-                    top: 50.0,
-                    bottom: 120.0,
-                    left: 50.0,
-                    right: 20.0
-                ),
-                child: Container(
-                  height: 150.0,
-                  width: 150.0,
-                  color: Colors.black,
-                ),
 
-              ),
-            ],
-          ),
-        ],
       ),
     );
   }
