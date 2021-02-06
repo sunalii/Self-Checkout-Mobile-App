@@ -20,15 +20,16 @@ class _HomePageState extends State<HomePage> {
         textTheme: GoogleFonts.poppinsTextTheme(
         ),
         leading: IconButton(
-          icon: Icon(Icons.menu),
+          icon: Icon(Icons.logout),
           onPressed: (){
-            //to do
+            FirebaseAuth.instance.signOut();
           },
         ),
       ),
-      body: Column(
-
-      ),
+      body: ListView(
+        children: [
+        ],
+      )
     );
   }
 }
