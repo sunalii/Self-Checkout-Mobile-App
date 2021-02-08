@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:selfcheckoutapp/widgets/bottom_tabs.dart';
 
 class BillHistoryPage extends StatefulWidget {
   @override
@@ -12,8 +13,14 @@ class _BillHistoryPageState extends State<BillHistoryPage> {
       appBar: AppBar(
         title: Text("Bill History"),
       ),
-      body: Center(
-        child: Text("Bill History Page"),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Column(),
+          BottomTabs(
+            selectedTab: 3,
+          ),
+        ],
       ),
     );
   }

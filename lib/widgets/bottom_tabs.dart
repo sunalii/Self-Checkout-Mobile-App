@@ -2,10 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../constants.dart';
-// import 'package:selfcheckoutapp/screens/bill_history.dart';
-// import 'package:selfcheckoutapp/screens/home.dart';
-// import 'package:selfcheckoutapp/screens/shopping_cart.dart';
-// import 'package:selfcheckoutapp/screens/shopping_list.dart';
+import 'package:selfcheckoutapp/screens/bill_history.dart';
+import 'package:selfcheckoutapp/screens/home.dart';
+import 'package:selfcheckoutapp/screens/shopping_cart.dart';
+import 'package:selfcheckoutapp/screens/shopping_list.dart';
 
 /*class BottomTabsPage extends StatefulWidget {
   @override
@@ -127,48 +127,60 @@ class _BottomTabsState extends State<BottomTabs> {
             iconData: Icons.home_rounded,
             selected: _selectedTab == 0 ? true : false,
             onPressed: (){
-              setState(() {
-                _selectedTab = 0;
-              });
+              if(_selectedTab != 0){
+                setState(() {
+                  _selectedTab = 0;
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => HomePage()),
+                  );
+                });
+              }
             },
           ),
           BottomTabBtn(
             iconData: Icons.assignment_turned_in_rounded,
             selected: _selectedTab == 1 ? true : false,
             onPressed: (){
-              setState(() {
-                _selectedTab = 1;
-                // Navigator.push(
-                //   context,
-                //   MaterialPageRoute(builder: (context) => ShoppingListPage()),
-                // );
-              });
+              if(_selectedTab != 1){
+                setState(() {
+                  _selectedTab = 1;
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => ShoppingListPage()),
+                  );
+                });
+              }
             },
           ),
           BottomTabBtn(
             iconData: Icons.shopping_cart_rounded,
             selected: _selectedTab == 2 ? true : false,
             onPressed: (){
-              setState(() {
-                _selectedTab = 2;
-                // Navigator.push(
-                //   context,
-                //   MaterialPageRoute(builder: (context) => ShoppingCartPage()),
-                // );
-              });
+              if(_selectedTab != 2){
+                setState(() {
+                  _selectedTab = 2;
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => ShoppingCartPage()),
+                  );
+                });
+              }
             },
           ),
           BottomTabBtn(
             iconData: Icons.history,
             selected: _selectedTab == 3 ? true : false,
             onPressed: (){
-              setState(() {
-                _selectedTab = 3;
-                // Navigator.push(
-                //   context,
-                //   MaterialPageRoute(builder: (context) => BillHistoryPage()),
-                // );
-              });
+              if(_selectedTab != 3){
+                setState(() {
+                  _selectedTab = 3;
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => BillHistoryPage()),
+                  );
+                });
+              }
             },
           ),
         ],
@@ -177,6 +189,7 @@ class _BottomTabsState extends State<BottomTabs> {
   }
 }
 
+//BOTTOM NAVIGATION BAR BUTTON
 class BottomTabBtn extends StatelessWidget {
 
   final IconData iconData; //CUSTOM ICON
@@ -221,72 +234,76 @@ class HomeNavigateTabs extends StatelessWidget {
 
   final String text;
   final IconData iconData;
+  final Function onPressed;
 
-  const HomeNavigateTabs({Key key, this.text, this.iconData}) : super(key: key);
+  const HomeNavigateTabs({Key key, this.text, this.iconData, this.onPressed}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(
-        vertical: 10.0,
-        horizontal: 20.0,
-      ),
-      child: Container(
-        child: Row(
-          children: [
-            Container(
-              height: 60.0,
-              width: 60.0,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(10.0),
-                  bottomLeft: Radius.circular(10.0),
-                ),
-                color: Colors.white,
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withOpacity(0.08),
-                    spreadRadius: 1.0,
-                    blurRadius: 30.0,
+    return GestureDetector(
+      onTap: onPressed,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(
+          vertical: 10.0,
+          horizontal: 20.0,
+        ),
+        child: Container(
+          child: Row(
+            children: [
+              Container(
+                height: 60.0,
+                width: 60.0,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(10.0),
+                    bottomLeft: Radius.circular(10.0),
                   ),
-                ],
+                  color: Colors.white,
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.08),
+                      spreadRadius: 1.0,
+                      blurRadius: 30.0,
+                    ),
+                  ],
+                ),
+                child: Icon(
+                  iconData ?? Icons.home_rounded,
+                  color: Theme.of(context).accentColor,
+                ),
               ),
-              child: Icon(
-                iconData ?? Icons.home_rounded,
-                color: Theme.of(context).accentColor,
-              ),
-            ),
-            Container(
-              padding: EdgeInsets.only(
-                left: 30.0,
-              ),
-              child: Text(text ?? "Text",
-              textAlign: TextAlign.center,
-              style: Constants.regularHeading,),
-              ),
-          ],
-        ),
-        height: 60.0,
-        width: double.maxFinite,
-        alignment: Alignment.center,
-        decoration: BoxDecoration(
-          border: Border.all(
-            color: Color(0xff1faa00),
-            width: 0.2,
+              Container(
+                padding: EdgeInsets.only(
+                  left: 30.0,
+                ),
+                child: Text(text ?? "Text",
+                textAlign: TextAlign.center,
+                style: Constants.regularHeading,),
+                ),
+            ],
           ),
-          borderRadius: BorderRadius.circular(10.0),
-          color: Colors.white,
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.09),
-              spreadRadius: 1.0,
-              blurRadius: 30.0,
+          height: 60.0,
+          width: double.maxFinite,
+          alignment: Alignment.center,
+          decoration: BoxDecoration(
+            border: Border.all(
+              color: Color(0xff1faa00),
+              width: 0.2,
             ),
-          ]
-        ),
-        margin: EdgeInsets.symmetric(
-          vertical: 16.0,
-          horizontal: 8.0,
+            borderRadius: BorderRadius.circular(10.0),
+            color: Colors.white,
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.09),
+                spreadRadius: 1.0,
+                blurRadius: 30.0,
+              ),
+            ]
+          ),
+          margin: EdgeInsets.symmetric(
+            vertical: 16.0,
+            horizontal: 8.0,
+          ),
         ),
       ),
     );

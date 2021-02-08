@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:selfcheckoutapp/widgets/bottom_tabs.dart';
 
 class ShoppingCartPage extends StatefulWidget {
   @override
@@ -12,8 +13,14 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
       appBar: AppBar(
         title: Text("Shopping Cart"),
       ),
-      body: Center(
-        child: Text("Shopping Cart Page"),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Column(),
+          BottomTabs(
+            selectedTab: 2,
+          ),
+        ],
       ),
     );
   }

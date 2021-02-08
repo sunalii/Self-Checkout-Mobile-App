@@ -17,7 +17,9 @@ class _ShoppingListPageState extends State<ShoppingListPage> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Column(),
-          BottomTabs(),
+          BottomTabs(
+            selectedTab: 1,
+          ),
         ],
       ),
     );

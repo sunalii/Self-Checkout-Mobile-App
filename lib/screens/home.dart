@@ -3,6 +3,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:selfcheckoutapp/constants.dart';
+import 'package:selfcheckoutapp/screens/bill_history.dart';
+import 'package:selfcheckoutapp/screens/shopping_cart.dart';
+import 'package:selfcheckoutapp/screens/shopping_list.dart';
 import 'package:selfcheckoutapp/widgets/bottom_tabs.dart';
 
 
@@ -38,20 +41,20 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  PageController _tabsPageController;
-  int _selectedTab = 0;
-
-  @override
-  void initState() {
-    _tabsPageController = PageController();
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    _tabsPageController.dispose();
-    super.dispose();
-  }
+  // PageController _tabsPageController;
+  // int _selectedTab = 0;
+  //
+  // @override
+  // void initState() {
+  //   _tabsPageController = PageController();
+  //   super.initState();
+  // }
+  //
+  // @override
+  // void dispose() {
+  //   _tabsPageController.dispose();
+  //   super.dispose();
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -125,14 +128,38 @@ class _HomePageState extends State<HomePage> {
             HomeNavigateTabs(
               text: "Create a Shopping List",
               iconData: Icons.assignment_turned_in_rounded,
+              onPressed: (){
+                setState(() {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => ShoppingListPage()),
+                  );
+                });
+              },
             ),
             HomeNavigateTabs(
               text: "Check Bill History",
               iconData: Icons.history,
+              onPressed: (){
+                setState(() {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => BillHistoryPage()),
+                  );
+                });
+              },
             ),
             HomeNavigateTabs(
               text: "Let's Start Shopping!",
               iconData: Icons.shopping_cart_rounded,
+              onPressed: (){
+                setState(() {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => ShoppingCartPage()),
+                  );
+                });
+              },
             ),
           ],
         ),
