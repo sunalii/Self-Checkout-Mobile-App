@@ -5,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:selfcheckoutapp/constants.dart';
 import 'package:selfcheckoutapp/widgets/bottom_tabs.dart';
 
+
 class HomePage extends StatefulWidget {
   @override
   _HomePageState createState() => _HomePageState();
@@ -37,6 +38,21 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
+  PageController _tabsPageController;
+  int _selectedTab = 0;
+
+  @override
+  void initState() {
+    _tabsPageController = PageController();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _tabsPageController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -44,8 +60,58 @@ class _HomePageState extends State<HomePage> {
         preferredSize: (Size(double.infinity, 200.0)),
         child: _homeAppBar(), // AppBar
       ),
-      body: Container(
-        child: BottomTabsPage(),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+        // Container(
+        //   child: Expanded(
+        //     child: PageView(
+        //       controller: _tabsPageController,
+        //       onPageChanged: (num){
+        //         setState(() {
+        //           _selectedTab = num;
+        //           print("Tab: ${_selectedTab}");
+        //         });
+        //       },
+        //       children: [
+        //         Container(
+        //           child: Center(
+        //               child: Text("Home")
+        //           ),
+        //         ),
+        //         Container(
+        //           child: Center(
+        //               child: Text("2")
+        //           ),
+        //         ),
+        //         Container(
+        //           child: Center(
+        //               child: Text("3")
+        //           ),
+        //         ),
+        //         Container(
+        //           child: Center(
+        //               child: Text("4")
+        //           ),
+        //         ),
+        //       ],
+        //     ),
+        //   ),
+        // ),
+        Container(
+          child: Column(
+            children: [
+              Container(),
+              Container(),
+              Container(),
+              Container(),
+            ],
+          ),
+        ),
+        BottomTabs(
+          selectedTab: _selectedTab,
+        ),
+        ],
       ),
     );
   }
