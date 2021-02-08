@@ -60,58 +60,82 @@ class _HomePageState extends State<HomePage> {
         preferredSize: (Size(double.infinity, 200.0)),
         child: _homeAppBar(), // AppBar
       ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-        // Container(
-        //   child: Expanded(
-        //     child: PageView(
-        //       controller: _tabsPageController,
-        //       onPageChanged: (num){
-        //         setState(() {
-        //           _selectedTab = num;
-        //           print("Tab: ${_selectedTab}");
-        //         });
-        //       },
-        //       children: [
-        //         Container(
-        //           child: Center(
-        //               child: Text("Home")
-        //           ),
-        //         ),
-        //         Container(
-        //           child: Center(
-        //               child: Text("2")
-        //           ),
-        //         ),
-        //         Container(
-        //           child: Center(
-        //               child: Text("3")
-        //           ),
-        //         ),
-        //         Container(
-        //           child: Center(
-        //               child: Text("4")
-        //           ),
-        //         ),
-        //       ],
-        //     ),
-        //   ),
-        // ),
-        Container(
-          child: Column(
-            children: [
-              Container(),
-              Container(),
-              Container(),
-              Container(),
-            ],
-          ),
+      // body: Column(
+      //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      //   children: [
+      //   Container(
+      //     child: Expanded(
+      //       child: PageView(
+      //         controller: _tabsPageController,
+      //         onPageChanged: (num){
+      //           setState(() {
+      //             _selectedTab = num;
+      //             print("Tab: ${_selectedTab}");
+      //           });
+      //         },
+      //         children: [
+      //           Container(
+      //             child: Center(
+      //                 child: Text("Home")
+      //             ),
+      //           ),
+      //           Container(
+      //             child: Center(
+      //                 child: Text("2")
+      //             ),
+      //           ),
+      //           Container(
+      //             child: Center(
+      //                 child: Text("3")
+      //             ),
+      //           ),
+      //           Container(
+      //             child: Center(
+      //                 child: Text("4")
+      //             ),
+      //           ),
+      //         ],
+      //       ),
+      //     ),
+      //   ),
+      //
+      //   BottomTabs(
+      //     selectedTab: _selectedTab,
+      //   ),
+      //   ],
+      // ),
+
+      body: Container(
+        padding: EdgeInsets.only(
+          top: 30.0,
         ),
-        BottomTabs(
-          selectedTab: _selectedTab,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(
+                bottom: 20.0
+              ),
+              child: Text(
+                "What do you want to do?",
+                textAlign: TextAlign.left,
+                style: Constants.boldHeading,
+              ),
+            ),
+            HomeNavigateTabs(
+              text: "Create a Shopping List",
+              iconData: Icons.assignment_turned_in_rounded,
+            ),
+            HomeNavigateTabs(
+              text: "Check Bill History",
+              iconData: Icons.history,
+            ),
+            HomeNavigateTabs(
+              text: "Let's Start Shopping!",
+              iconData: Icons.shopping_cart_rounded,
+            ),
+          ],
         ),
-        ],
       ),
     );
   }

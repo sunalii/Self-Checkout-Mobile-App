@@ -1,8 +1,11 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:selfcheckoutapp/screens/bill_history.dart';
-import 'package:selfcheckoutapp/screens/home.dart';
-import 'package:selfcheckoutapp/screens/shopping_cart.dart';
-import 'package:selfcheckoutapp/screens/shopping_list.dart';
+
+import '../constants.dart';
+// import 'package:selfcheckoutapp/screens/bill_history.dart';
+// import 'package:selfcheckoutapp/screens/home.dart';
+// import 'package:selfcheckoutapp/screens/shopping_cart.dart';
+// import 'package:selfcheckoutapp/screens/shopping_list.dart';
 
 /*class BottomTabsPage extends StatefulWidget {
   @override
@@ -113,9 +116,9 @@ class _BottomTabsState extends State<BottomTabs> {
           BoxShadow(
             color: Colors.black.withOpacity(0.05),
             spreadRadius: 1.0,
-            blurRadius: 30.0
-          )
-        ]
+            blurRadius: 30.0,
+          ),
+        ],
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -213,96 +216,82 @@ class BottomTabBtn extends StatelessWidget {
   }
 }
 
-/*class BottomTabBtnList extends StatelessWidget {
+//HOME NAVIGATION TABS
+class HomeNavigateTabs extends StatelessWidget {
 
-  final String icon;
-  final bool selected;
+  final String text;
+  final IconData iconData;
 
-  const BottomTabBtnList({Key key, this.icon, this.selected}) : super(key: key);
+  const HomeNavigateTabs({Key key, this.text, this.iconData}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    bool _selected = selected ?? false;
-    return Container(
-      padding: EdgeInsets.symmetric(
-          vertical: 28.0,
-          horizontal: 16.0
+    return Padding(
+      padding: const EdgeInsets.symmetric(
+        vertical: 10.0,
+        horizontal: 20.0,
       ),
-      decoration: BoxDecoration(
-          border: Border(
-              top: BorderSide(
-                  color: _selected ? Theme.of(context).accentColor : Colors.transparent,
-                  width: 2.0
-              )
-          )
-      ),
-      child: Icon(
-        Icons.assignment_turned_in_rounded,
+      child: Container(
+        child: Row(
+          children: [
+            Container(
+              height: 60.0,
+              width: 60.0,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(10.0),
+                  bottomLeft: Radius.circular(10.0),
+                ),
+                color: Colors.white,
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.08),
+                    spreadRadius: 1.0,
+                    blurRadius: 30.0,
+                  ),
+                ],
+              ),
+              child: Icon(
+                iconData ?? Icons.home_rounded,
+                color: Theme.of(context).accentColor,
+              ),
+            ),
+            Container(
+              padding: EdgeInsets.only(
+                left: 30.0,
+              ),
+              child: Text(text ?? "Text",
+              textAlign: TextAlign.center,
+              style: Constants.regularHeading,),
+              ),
+          ],
+        ),
+        height: 60.0,
+        width: double.maxFinite,
+        alignment: Alignment.center,
+        decoration: BoxDecoration(
+          border: Border.all(
+            color: Color(0xff1faa00),
+            width: 0.2,
+          ),
+          borderRadius: BorderRadius.circular(10.0),
+          color: Colors.white,
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.09),
+              spreadRadius: 1.0,
+              blurRadius: 30.0,
+            ),
+          ]
+        ),
+        margin: EdgeInsets.symmetric(
+          vertical: 16.0,
+          horizontal: 8.0,
+        ),
       ),
     );
   }
 }
-
-class BottomTabBtnCart extends StatelessWidget {
-
-  final String icon;
-  final bool selected;
-
-  const BottomTabBtnCart({Key key, this.icon, this.selected}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    bool _selected = selected ?? false;
-    return Container(
-      padding: EdgeInsets.symmetric(
-          vertical: 28.0,
-          horizontal: 16.0
-      ),
-      decoration: BoxDecoration(
-          border: Border(
-              top: BorderSide(
-                  color: _selected ? Theme.of(context).accentColor : Colors.transparent,
-                  width: 2.0
-              )
-          )
-      ),
-      child: Icon(
-        Icons.shopping_cart_rounded,
-      ),
-    );
-  }
-}
-
-class BottomTabBtnBill extends StatelessWidget {
-
-  final String icon;
-  final bool selected;
-
-  const BottomTabBtnBill({Key key, this.icon, this.selected}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    bool _selected = selected ?? false;
-    return Container(
-      padding: EdgeInsets.symmetric(
-          vertical: 28.0,
-          horizontal: 16.0
-      ),
-      decoration: BoxDecoration(
-          border: Border(
-              top: BorderSide(
-                  color: _selected ? Theme.of(context).accentColor : Colors.transparent,
-                  width: 2.0
-              )
-          )
-      ),
-      child: Icon(
-        Icons.history,
-      ),
-    );
-  }
-}*/
-
 
 
 
