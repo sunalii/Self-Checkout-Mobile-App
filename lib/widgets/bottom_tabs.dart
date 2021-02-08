@@ -154,7 +154,7 @@ class _BottomTabsState extends State<BottomTabs> {
             },
           ),
           BottomTabBtn(
-            iconData: Icons.shopping_cart_rounded,
+            iconData: Icons.history,
             selected: _selectedTab == 2 ? true : false,
             onPressed: (){
               if(_selectedTab != 2){
@@ -162,14 +162,14 @@ class _BottomTabsState extends State<BottomTabs> {
                   _selectedTab = 2;
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => ShoppingCartPage()),
+                    MaterialPageRoute(builder: (context) => BillHistoryPage()),
                   );
                 });
               }
             },
           ),
           BottomTabBtn(
-            iconData: Icons.history,
+            iconData: Icons.shopping_cart_rounded,
             selected: _selectedTab == 3 ? true : false,
             onPressed: (){
               if(_selectedTab != 3){
@@ -177,7 +177,7 @@ class _BottomTabsState extends State<BottomTabs> {
                   _selectedTab = 3;
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => BillHistoryPage()),
+                    MaterialPageRoute(builder: (context) => ShoppingCartPage()),
                   );
                 });
               }

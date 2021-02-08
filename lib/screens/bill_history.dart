@@ -18,7 +18,7 @@ class _BillHistoryPageState extends State<BillHistoryPage> {
         children: [
           Column(),
           BottomTabs(
-            selectedTab: 3,
+            selectedTab: 2,
           ),
         ],
       ),

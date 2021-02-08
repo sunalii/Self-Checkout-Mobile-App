@@ -18,7 +18,7 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
         children: [
           Column(),
           BottomTabs(
-            selectedTab: 2,
+            selectedTab: 3,
           ),
         ],
       ),
