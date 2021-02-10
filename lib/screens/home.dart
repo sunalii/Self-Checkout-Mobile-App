@@ -109,6 +109,7 @@ class _HomePageState extends State<HomePage> {
       // ),
 
       body: Container(
+        width: double.infinity,
         padding: EdgeInsets.only(
           top: 30.0,
         ),
