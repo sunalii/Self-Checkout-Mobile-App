@@ -242,74 +242,74 @@ class HomeNavigateTabs extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: onPressed,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(
-          vertical: 10.0,
-          horizontal: 20.0,
-        ),
-        child: Column(
-          children: [
-            Container(
-              child: Row(
-                children: [
-                  Container(
-                    height: 60.0,
-                    width: 60.0,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(10.0),
-                        bottomLeft: Radius.circular(10.0),
-                      ),
-                      color: Colors.white,
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withOpacity(0.08),
-                          spreadRadius: 1.0,
-                          blurRadius: 30.0,
+        child: Container(
+          child: Row(
+              children: [
+                  Flexible(
+                    fit: FlexFit.tight,
+                    child: Container(
+                      height: 60.0,
+                      width: 60.0,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(10.0),
+                          bottomLeft: Radius.circular(10.0),
                         ),
-                      ],
-                    ),
-                    child: Icon(
-                      iconData ?? Icons.home_rounded,
-                      color: Theme.of(context).accentColor,
+                        color: Colors.white,
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.08),
+                            spreadRadius: 1.0,
+                            blurRadius: 30.0,
+                          ),
+                        ],
+                      ),
+                      child: Icon(
+                        iconData ?? Icons.home_rounded,
+                        color: Theme.of(context).accentColor,
+                      ),
                     ),
                   ),
-                  Container(
+
+                Flexible(
+                  flex: 5,
+                  child: Container(
                     padding: EdgeInsets.only(
                       left: 30.0,
+                      right: 10.0
                     ),
                     child: Text(text ?? "Text",
-                    textAlign: TextAlign.center,
+                    textAlign: TextAlign.left,
                     style: Constants.regularHeading,),
                     ),
-                ],
-              ),
-              height: 60.0,
-              width: double.maxFinite,
-              alignment: Alignment.center,
-              decoration: BoxDecoration(
-                border: Border.all(
-                  color: Color(0xff1faa00),
-                  width: 0.2,
                 ),
-                borderRadius: BorderRadius.circular(10.0),
-                color: Colors.white,
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withOpacity(0.09),
-                    spreadRadius: 1.0,
-                    blurRadius: 30.0,
-                  ),
-                ]
-              ),
-              margin: EdgeInsets.symmetric(
-                vertical: 16.0,
-                horizontal: 8.0,
-              ),
+              ],
             ),
-          ],
+
+          height: 60.0,
+          width: double.maxFinite,
+          alignment: Alignment.center,
+          decoration: BoxDecoration(
+            border: Border.all(
+              color: Color(0xff1faa00),
+              width: 0.2,
+            ),
+            borderRadius: BorderRadius.circular(10.0),
+            color: Colors.white,
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.09),
+                spreadRadius: 1.0,
+                blurRadius: 30.0,
+              ),
+            ]
+          ),
+          margin: EdgeInsets.symmetric(
+            vertical: 10.0,
+            horizontal: 20.0,
+          ),
         ),
-      ),
+
     );
   }
 }

@@ -108,61 +108,132 @@ class _HomePageState extends State<HomePage> {
       //   ],
       // ),
 
-      body: Container(
-        width: double.infinity,
-        padding: EdgeInsets.only(
-          top: 30.0,
+      /*body: SafeArea(
+        child: Container(
+          width: double.infinity,
+          padding: EdgeInsets.only(
+            top: 30.0,
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(
+                  bottom: 20.0
+                ),
+                child: Text(
+                  "What do you want to do?",
+                  textAlign: TextAlign.left,
+                  style: Constants.boldHeading,
+                ),
+              ),
+              HomeNavigateTabs(
+                text: "Create a Shopping List",
+                iconData: Icons.assignment_turned_in_rounded,
+                onPressed: (){
+                  setState(() {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => ShoppingListPage()),
+                    );
+                  });
+                },
+              ),
+              HomeNavigateTabs(
+                text: "Check Bill History",
+                iconData: Icons.history,
+                onPressed: (){
+                  setState(() {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => BillHistoryPage()),
+                    );
+                  });
+                },
+              ),
+              HomeNavigateTabs(
+                text: "Let's Start Shopping!",
+                iconData: Icons.shopping_cart_rounded,
+                onPressed: (){
+                  setState(() {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => ShoppingCartPage()),
+                    );
+                  });
+                },
+              ),
+            ],
+          ),
         ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(
-                bottom: 20.0
+      ),*/
+
+      body: SafeArea(
+        child: Container(
+          width: double.infinity,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Container(
+                  width: double.infinity,
+                  padding: EdgeInsets.only(
+                    top: 30.0,
+                    left: 30.0,
+                  ),
+                  margin: EdgeInsets.only(
+                    bottom: 20.0
+                  ),
+                  child: Text(
+                      "What do you want to do?",
+                      textAlign: TextAlign.left,
+                      style: Constants.boldHeading,
+                    ),
+                ),
+
+              Expanded(
+                child: Column(
+                    children: [
+                      HomeNavigateTabs(
+                        text: "Create a Shopping List",
+                        iconData: Icons.assignment_turned_in_rounded,
+                        onPressed: (){
+                          setState(() {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => ShoppingListPage()),
+                            );
+                          });
+                        },
+                      ),
+                      HomeNavigateTabs(
+                        text: "Check Bill History",
+                        iconData: Icons.history,
+                        onPressed: (){
+                          setState(() {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => BillHistoryPage()),
+                            );
+                          });
+                        },
+                      ),
+                      HomeNavigateTabs(
+                        text: "Let's Start Shopping!",
+                        iconData: Icons.shopping_cart_rounded,
+                        onPressed: (){
+                          setState(() {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => ShoppingCartPage()),
+                            );
+                          });
+                        },
+                      ),
+                    ],
+                ),
               ),
-              child: Text(
-                "What do you want to do?",
-                textAlign: TextAlign.left,
-                style: Constants.boldHeading,
-              ),
-            ),
-            HomeNavigateTabs(
-              text: "Create a Shopping List",
-              iconData: Icons.assignment_turned_in_rounded,
-              onPressed: (){
-                setState(() {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => ShoppingListPage()),
-                  );
-                });
-              },
-            ),
-            HomeNavigateTabs(
-              text: "Check Bill History",
-              iconData: Icons.history,
-              onPressed: (){
-                setState(() {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => BillHistoryPage()),
-                  );
-                });
-              },
-            ),
-            HomeNavigateTabs(
-              text: "Let's Start Shopping!",
-              iconData: Icons.shopping_cart_rounded,
-              onPressed: (){
-                setState(() {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => ShoppingCartPage()),
-                  );
-                });
-              },
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
