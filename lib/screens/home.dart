@@ -189,7 +189,6 @@ class _HomePageState extends State<HomePage> {
                       style: Constants.boldHeading,
                     ),
                 ),
-
               Expanded(
                 child: Column(
                     children: [

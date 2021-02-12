@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
 import '../constants.dart';
 import 'package:selfcheckoutapp/screens/bill_history.dart';
 import 'package:selfcheckoutapp/screens/home.dart';
@@ -189,7 +188,7 @@ class _BottomTabsState extends State<BottomTabs> {
   }
 }
 
-//BOTTOM NAVIGATION BAR BUTTON
+//BOTTOM NAVIGATION BAR BUTTON - INCLUDED IN ButtomTabs CLASS
 class BottomTabBtn extends StatelessWidget {
 
   final IconData iconData; //CUSTOM ICON
@@ -270,22 +269,21 @@ class HomeNavigateTabs extends StatelessWidget {
                       ),
                     ),
                   ),
-
-                Flexible(
-                  flex: 5,
-                  child: Container(
-                    padding: EdgeInsets.only(
-                      left: 30.0,
-                      right: 10.0
+                  Flexible(
+                    flex: 5,
+                    child: Container(
+                      padding: EdgeInsets.only(
+                        left: 30.0,
+                        right: 10.0
+                      ),
+                      child: Text(text ?? "Text",
+                      textAlign: TextAlign.left,
+                      style: Constants.regularHeading,),
                     ),
-                    child: Text(text ?? "Text",
-                    textAlign: TextAlign.left,
-                    style: Constants.regularHeading,),
-                    ),
-                ),
+                  ),
               ],
             ),
-
+          //CONTAINER CONTINUED
           height: 60.0,
           width: double.maxFinite,
           alignment: Alignment.center,
@@ -302,17 +300,117 @@ class HomeNavigateTabs extends StatelessWidget {
                 spreadRadius: 1.0,
                 blurRadius: 30.0,
               ),
-            ]
+            ],
           ),
           margin: EdgeInsets.symmetric(
             vertical: 10.0,
             horizontal: 20.0,
           ),
         ),
-
     );
   }
 }
+
+
+
+//CHECKOUT TAB FOR SHOPPING CART PAGE
+class CartBottomTab extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.white,
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.1),
+            spreadRadius: 1.0,
+            blurRadius: 20.0,
+          ),
+        ],
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          CartBottomTabBtn(),
+          CartBottomTabTotal(),
+        ],
+      ),
+    );
+  }
+}
+
+class CartBottomTabBtn extends StatelessWidget {
+
+  final Function onPressed;
+
+  const CartBottomTabBtn({Key key, this.onPressed}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onPressed,
+      child: Container(
+        height: 60.0,
+        width: 150.0,
+        alignment: Alignment.center,
+        decoration: BoxDecoration(
+          color: Color(0xffD50000),
+          border: Border.all(
+            color: Color(0xffD50000),
+            width: 2.0,
+          ),
+          borderRadius: BorderRadius.circular(12.0),
+        ),
+        margin: EdgeInsets.symmetric(
+          horizontal: 24.0,
+          vertical: 30.0,
+        ),
+        child: Text("Check Out",
+          style: TextStyle(
+            fontSize: 16.0,
+            color: Colors.white,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+
+class CartBottomTabTotal extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: EdgeInsets.symmetric(
+        horizontal: 24.0,
+        vertical: 30.0,
+      ),
+      child: Column(
+        children: [
+          Text("Total",
+            style: TextStyle(
+              fontSize: 16.0,
+              color: Colors.black,
+              fontWeight: FontWeight.w300,
+            ),
+            textAlign: TextAlign.center,
+          ),
+          Text("LKR 300",
+            style: TextStyle(
+              fontSize: 16.0,
+              color: Colors.black,
+              fontWeight: FontWeight.w800,
+            ),
+            textAlign: TextAlign.center,
+          ),
+        ],
+
+      ),
+    );
+  }
+}
+
 
 
 
