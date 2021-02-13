@@ -33,7 +33,7 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
           ItemScanBtn(
             iconData: Icons.qr_code_rounded,
             onPressed: (){
-              //to do
+              print("Camera open");
             },
           ),
           CartBottomTab(),
