@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:selfcheckoutapp/widgets/bottom_tabs.dart';
+import 'package:selfcheckoutapp/widgets/custom_button.dart';
 
 class ShoppingListPage extends StatefulWidget {
   @override
@@ -16,12 +17,12 @@ class _ShoppingListPageState extends State<ShoppingListPage> {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Column(),
-          BottomTabs(
-            selectedTab: 1,
+          Container(
+              child: Text("Top")
           ),
+          ItemScanBtn()
         ],
-      ),
+      )
     );
   }
 }

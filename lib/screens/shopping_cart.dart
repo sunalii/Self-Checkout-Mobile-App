@@ -1,6 +1,8 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:selfcheckoutapp/widgets/bottom_tabs.dart';
+import 'package:selfcheckoutapp/widgets/custom_button.dart';
 import '../constants.dart';
 
 class ShoppingCartPage extends StatefulWidget {
@@ -21,12 +23,23 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Container(
-            child: Text("Top"),
+          Expanded(
+            flex: 3,
+            child: Container(
+              color: Colors.blue,
+              child: Text("Top"),
+            ),
+          ),
+          ItemScanBtn(
+            iconData: Icons.qr_code_rounded,
+            onPressed: (){
+              //to do
+            },
           ),
           CartBottomTab(),
         ],
-      )
+      ),
+
     );
   }
 }
