@@ -87,14 +87,14 @@ class _RegisterPageState extends State<RegisterPage> {
   //FOCUS NODE FOR INPUT FIELDS
   FocusNode _inputFocusNodePassword;
 
-  //FOCUS ON
+  //FOCUS ON TO THE TEXT FIELD
   @override
   void initState() {
     _inputFocusNodePassword = FocusNode();
     super.initState();
   }
 
-  //FOCUS OFF
+  //FOCUS OFF FROM THE TEXT FIELD
   @override
   void dispose() {
     _inputFocusNodePassword.dispose();
