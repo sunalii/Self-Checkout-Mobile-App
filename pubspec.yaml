@@ -34,7 +34,7 @@ dependencies:
   firebase_auth: ^0.20.0+1
   # Google Fonts
   google_fonts: ^1.1.2
-  device_preview: ^0.5.5
+  #device_preview: ^0.5.5
   # Barcode Scanner
   flutter_barcode_scanner: ^1.0.2
 

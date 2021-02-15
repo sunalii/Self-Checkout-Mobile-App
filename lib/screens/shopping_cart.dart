@@ -52,7 +52,7 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
           Expanded(
             flex: 3,
             child: Container(
-              color: Colors.blue,
+              color: Colors.white,
               child: Text(qrCode),
             ),
           ),
