@@ -33,7 +33,16 @@ class _ShoppingListPageState extends State<ShoppingListPage> {
   void goToNewItemAdd() {
     Navigator.of(context).push(MaterialPageRoute(builder: (context) {
       return NewItemView();
-    }));
+    }
+    )).then((title){
+      if(title != null){
+        addToDo(ToDo(title: title));
+      }
+    });
+  }
+
+  void addToDo(ToDo item){
+    list.add(item);
   }
 
   @override
@@ -87,8 +96,8 @@ class _ShoppingListPageState extends State<ShoppingListPage> {
       ),
       child: ListTile(
         title: Text(item.title),
-        leading:
-            Checkbox(value: item.complete, onChanged: null, tristate: true),
+        // leading:
+        //     Checkbox(value: item.complete, onChanged: null,),
         onTap: () => setComplete(item),
       ),
     );

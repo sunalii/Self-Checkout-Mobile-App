@@ -1,12 +1,28 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:selfcheckoutapp/screens/shopping_list.dart';
 
 class NewItemView extends StatefulWidget {
+
+  final String title;
+
+  const NewItemView({Key key, this.title}) : super(key: key);
+
+
   @override
   _NewItemViewState createState() => _NewItemViewState();
 }
 
 class _NewItemViewState extends State<NewItemView> {
+
+  TextEditingController textFieldController;
+
+  @override
+  void initState() {
+    textFieldController = TextEditingController(text: widget.title);
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -37,11 +53,17 @@ class _NewItemViewState extends State<NewItemView> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    TextField(),
+                    Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: TextField(
+                        controller: textFieldController,
+                        onEditingComplete: () => saveData(),
+                      ),
+                    ),
                     FlatButton(
-                      onPressed: () => _saveData(),
+                      onPressed: () => saveData(),
                       child: Text(
-                        "CREATE",
+                        "ADD",
                         style: TextStyle(
                             color: Theme.of(context).accentColor,
                             fontSize: 16.0),
@@ -57,7 +79,12 @@ class _NewItemViewState extends State<NewItemView> {
     );
   }
 
-  void _saveData() {
-    print("save");
+  void saveData() {
+    if(textFieldController.text.isNotEmpty){
+      setState(() {
+        Navigator.of(context).pop(textFieldController.text);
+      });
+
+    }
   }
 }
