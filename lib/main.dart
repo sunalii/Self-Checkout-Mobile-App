@@ -26,7 +26,7 @@ class MyApp extends StatelessWidget {
       title: "App",
       theme: ThemeData(
         primaryColor: Color(0xff1faa00),
-        accentColor: Color(0xff1faa00),
+        accentColor: Colors.blue,
         textTheme: GoogleFonts.poppinsTextTheme(
           Theme.of(context).textTheme,
         ),

@@ -265,7 +265,7 @@ class HomeNavigateTabs extends StatelessWidget {
                       ),
                       child: Icon(
                         iconData ?? Icons.home_rounded,
-                        color: Theme.of(context).accentColor,
+                        color: Theme.of(context).primaryColor,
                       ),
                     ),
                   ),
