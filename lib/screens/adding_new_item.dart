@@ -1,13 +1,12 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:selfcheckoutapp/screens/shopping_list.dart';
 
 class NewItemView extends StatefulWidget {
 
   final String title;
 
   const NewItemView({Key key, this.title}) : super(key: key);
-
 
   @override
   _NewItemViewState createState() => _NewItemViewState();
@@ -58,10 +57,16 @@ class _NewItemViewState extends State<NewItemView> {
                       child: TextField(
                         controller: textFieldController,
                         onEditingComplete: () => saveData(),
+                        autofocus: true,
+                        textCapitalization: TextCapitalization.sentences,
                       ),
                     ),
                     FlatButton(
-                      onPressed: () => saveData(),
+                      onPressed: (){
+                        setState(() {
+                          saveData();
+                        });
+                      },
                       child: Text(
                         "ADD",
                         style: TextStyle(
@@ -79,7 +84,7 @@ class _NewItemViewState extends State<NewItemView> {
     );
   }
 
-  void saveData() {
+  void saveData(){
     if(textFieldController.text.isNotEmpty){
       setState(() {
         Navigator.of(context).pop(textFieldController.text);
