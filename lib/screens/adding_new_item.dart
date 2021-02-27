@@ -43,7 +43,10 @@ class _NewItemViewState extends State<NewItemView> {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.only(top: 130.0, bottom: 150.0),
+              padding: const EdgeInsets.only(
+                  top: 130.0,
+                  bottom: 150.0,
+              ),
               child: Container(
                 margin: EdgeInsets.symmetric(horizontal: 25.0),
                 height: 150.0,
@@ -53,8 +56,22 @@ class _NewItemViewState extends State<NewItemView> {
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                     Padding(
-                      padding: const EdgeInsets.all(10.0),
+                      padding: const EdgeInsets.only(
+                          top: 20.0,
+                          left: 10.0,
+                          right: 10.0,
+                      ),
                       child: TextField(
+                        style: TextStyle(fontSize: 18.0,),
+                        decoration: InputDecoration(
+                          hintText: "New Item",
+                          focusedBorder: UnderlineInputBorder(
+                            borderSide: BorderSide(
+                                color: Colors.blue,
+                                width: 2.0),
+                          ),
+                          contentPadding: EdgeInsets.only(top: 18.0),
+                        ),
                         controller: textFieldController,
                         onEditingComplete: () => saveData(),
                         autofocus: true,

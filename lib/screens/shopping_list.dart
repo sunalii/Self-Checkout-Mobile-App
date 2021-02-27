@@ -73,6 +73,7 @@ class _ShoppingListPageState extends State<ShoppingListPage> {
         child: ListTile(
           title: Text(item.title),
           //leading: Checkbox(tristate: true, value: item.complete, onChanged: null),
+          leading: Icon(Icons.assignment_turned_in_rounded),
           onTap: () => setComplete(item),
           onLongPress: () => goToEditItemView(item),
         ),
@@ -116,9 +117,8 @@ class _ShoppingListPageState extends State<ShoppingListPage> {
   void addToDo(ToDo item) {
     setState(() {
       list.add(item);
-
+      saveDataList();
     });
-    saveDataList();
   }
 
   void goToEditItemView(ToDo item) {
