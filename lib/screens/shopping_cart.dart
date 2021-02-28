@@ -68,10 +68,14 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
           bottom: 130.0,
           right: 8.0,
         ),
-        child: FloatingActionButton(
-          backgroundColor: Theme.of(context).primaryColor,
-          child: Icon(Icons.qr_code_rounded),
-          //onPressed: _scanQR,
+        child: Container(
+          height: 60.0,
+          width: 60.0,
+          child: FloatingActionButton(
+            backgroundColor: Theme.of(context).primaryColor,
+            child: Icon(Icons.qr_code_rounded),
+            onPressed: _scanQR,
+          ),
         ),
       ),
     );

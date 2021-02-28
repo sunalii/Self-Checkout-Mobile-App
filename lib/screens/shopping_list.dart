@@ -44,10 +44,14 @@ class _ShoppingListPageState extends State<ShoppingListPage> {
           bottom: 130.0,
           right: 8.0,
         ),
-        child: FloatingActionButton(
-          backgroundColor: Theme.of(context).primaryColor,
-          child: Icon(Icons.add_rounded),
-          onPressed: () => goToNewItemAdd(),
+        child: Container(
+          height: 60.0,
+          width: 60.0,
+          child: FloatingActionButton(
+            backgroundColor: Theme.of(context).primaryColor,
+            child: Icon(Icons.add_rounded),
+            onPressed: () => goToNewItemAdd(),
+          ),
         ),
       ),
     );
