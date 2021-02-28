@@ -39,10 +39,16 @@ class _ShoppingListPageState extends State<ShoppingListPage> {
       body: SafeArea(
         child: list.isNotEmpty ? buildBody() : buildEmptyBody(),
       ),
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: Theme.of(context).primaryColor,
-        child: Icon(Icons.add_rounded),
-        onPressed: () => goToNewItemAdd(),
+      floatingActionButton: Padding(
+        padding: const EdgeInsets.only(
+          bottom: 130.0,
+          right: 8.0,
+        ),
+        child: FloatingActionButton(
+          backgroundColor: Theme.of(context).primaryColor,
+          child: Icon(Icons.add_rounded),
+          onPressed: () => goToNewItemAdd(),
+        ),
       ),
     );
   }
@@ -60,8 +66,7 @@ class _ShoppingListPageState extends State<ShoppingListPage> {
     return Card(
       shadowColor: Colors.black,
       child: Dismissible(
-        key: Key(item.hashCode.toString()),
-        //HAS TO GIVE A UNIQUE KEY TO IDENTIFY THE DISMISS TILE
+        key: Key(item.hashCode.toString()), //HAS TO GIVE A UNIQUE KEY TO IDENTIFY THE DISMISS TILE
         onDismissed: (direction) => removeItem(item),
         direction: DismissDirection.startToEnd,
         background: Container(
@@ -70,12 +75,14 @@ class _ShoppingListPageState extends State<ShoppingListPage> {
           alignment: Alignment.centerLeft,
           padding: EdgeInsets.only(left: 15.0),
         ),
-        child: ListTile(
-          title: Text(item.title),
-          //leading: Checkbox(tristate: true, value: item.complete, onChanged: null),
-          leading: Icon(Icons.assignment_turned_in_rounded),
-          onTap: () => setComplete(item),
-          onLongPress: () => goToEditItemView(item),
+        child: GestureDetector(
+          child: ListTile(
+            title: Text(item.title),
+            //leading: Checkbox(tristate: true, value: item.complete, onChanged: null),
+            leading: Icon(Icons.assignment_turned_in_rounded),
+            onTap: () => setComplete(item),
+            onLongPress: () => goToEditItemView(item),
+          ),
         ),
       ),
     );

@@ -68,42 +68,42 @@ class CustomBtn extends StatelessWidget {
 }
 
 //CUSTOM BUTTON TO SCAN ITEMS
-class ItemScanBtn extends StatelessWidget {
-
-  final IconData iconData;
-  final Function onPressed;
-
-  const ItemScanBtn({Key key, this.onPressed, this.iconData}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onPressed,
-        child: Align(
-          alignment: Alignment.bottomRight,
-          child: Container(
-            child: Icon(
-              iconData ?? Icons.add,
-              color: Colors.white,
-             size: 30.0,
-            ),
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              color: Color(0xff1faa00),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withOpacity(0.09),
-                  spreadRadius: 1.0,
-                  blurRadius: 30.0,
-                ),
-              ],
-            ),
-
-            margin: EdgeInsets.all(25.0),
-            padding: EdgeInsets.all(15.0),
-          ),
-        ),
-    );
-  }
-}
+// class ItemScanBtn extends StatelessWidget {
+//
+//   final IconData iconData;
+//   final Function onPressed;
+//
+//   const ItemScanBtn({Key key, this.onPressed, this.iconData}) : super(key: key);
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return GestureDetector(
+//       onTap: onPressed,
+//         child: Align(
+//           alignment: Alignment.bottomRight,
+//           child: Container(
+//             child: Icon(
+//               iconData ?? Icons.add,
+//               color: Colors.white,
+//              size: 30.0,
+//             ),
+//             decoration: BoxDecoration(
+//               shape: BoxShape.circle,
+//               color: Color(0xff1faa00),
+//               boxShadow: [
+//                 BoxShadow(
+//                   color: Colors.black.withOpacity(0.09),
+//                   spreadRadius: 1.0,
+//                   blurRadius: 30.0,
+//                 ),
+//               ],
+//             ),
+//
+//             margin: EdgeInsets.all(25.0),
+//             padding: EdgeInsets.all(15.0),
+//           ),
+//         ),
+//     );
+//   }
+// }
 

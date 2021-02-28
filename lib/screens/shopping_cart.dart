@@ -56,12 +56,23 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
               child: Text(qrCode),
             ),
           ),
-          ItemScanBtn(
-            iconData: Icons.qr_code_rounded,
-            onPressed: _scanQR,
-          ),
+          // ItemScanBtn(
+          //   iconData: Icons.qr_code_rounded,
+          //   onPressed: _scanQR,
+          // ),
           CartBottomTab(),
         ],
+      ),
+      floatingActionButton: Padding(
+        padding: const EdgeInsets.only(
+          bottom: 130.0,
+          right: 8.0,
+        ),
+        child: FloatingActionButton(
+          backgroundColor: Theme.of(context).primaryColor,
+          child: Icon(Icons.qr_code_rounded),
+          onPressed: _scanQR,
+        ),
       ),
     );
   }
