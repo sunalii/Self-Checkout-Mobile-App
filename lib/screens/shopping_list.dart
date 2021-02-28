@@ -82,7 +82,7 @@ class _ShoppingListPageState extends State<ShoppingListPage> {
         child: GestureDetector(
           child: ListTile(
             title: Text(item.title),
-            //leading: Checkbox(tristate: true, value: item.complete, onChanged: null),
+            //leading: Checkbox(value: item.complete, onChanged: (value){item.complete = value;}),
             leading: Icon(Icons.assignment_turned_in_rounded),
             onTap: () => setComplete(item),
             onLongPress: () => goToEditItemView(item),
