@@ -71,7 +71,7 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
         child: FloatingActionButton(
           backgroundColor: Theme.of(context).primaryColor,
           child: Icon(Icons.qr_code_rounded),
-          onPressed: _scanQR,
+          //onPressed: _scanQR,
         ),
       ),
     );
