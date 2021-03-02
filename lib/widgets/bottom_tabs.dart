@@ -405,12 +405,10 @@ class CartBottomTabTotal extends StatelessWidget {
             textAlign: TextAlign.center,
           ),
         ],
-
       ),
     );
   }
 }
-
 
 
 
