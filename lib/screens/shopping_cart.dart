@@ -12,7 +12,7 @@ class ShoppingCartPage extends StatefulWidget {
 }
 
 class _ShoppingCartPageState extends State<ShoppingCartPage> {
-  String qrCode = 'unknown';
+  String qrCode = '';
 
   Future _scanQR() async {
     try {
@@ -35,7 +35,7 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
     }
   }
 
-  List<CartList> cartItem = List<CartList>();
+  List<CartList> cartItem = <CartList>[];
 
   @override
   Widget build(BuildContext context) {
@@ -47,29 +47,12 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
         ),
         textTheme: GoogleFonts.poppinsTextTheme(),
       ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          // ListView.builder(
-          //   itemCount: cartItem.length,
-          //   itemBuilder: (context, index) {
-          //     return Card(
-          //         color: Colors.red,
-          //         child: ListTile(
-          //           contentPadding: EdgeInsets.symmetric(vertical: 20.0),
-          //           title: Text(qrCode),
-          //           subtitle: Text("Quantity: 2"),
-          //           leading: Icon(Icons.home_rounded),
-          //         )
-          //     );
-          //   },
-          // ),
-          CartBottomTab(),
-        ],
+      body: SafeArea(
+          child: cartItem.isNotEmpty ? buildBodyList() : buildEmptyBody(),
       ),
       floatingActionButton: Padding(
         padding: const EdgeInsets.only(
-          bottom: 130.0,
+          bottom: 20.0,
           right: 8.0,
         ),
         child: Container(
@@ -82,10 +65,49 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
           ),
         ),
       ),
-      //bottomNavigationBar: BottomNavigationBar(),
+      bottomNavigationBar: Container(
+          child: CartBottomTab()
+      ),
     );
   }
+
+  Widget buildBodyList() {
+    return ListView.builder(
+      itemCount: cartItem.length,
+      itemBuilder: (context, index) {
+        return buildCartListItem(cartItem[index]);
+      },
+    );
+  }
+
+  Widget buildCartListItem(CartList items){
+    return Container(
+      height: 80.0,
+      width: double.infinity,
+      child: Card(
+        child: ListTile(
+          leading: Icon(Icons.home),
+          trailing: Text("Price"),
+          title: Text(qrCode),
+          subtitle: Text("Quantity"),
+        ),
+      ),
+    );
+  }
+
+  Widget buildEmptyBody() {
+    return Center(
+      child: Text("No items added"),
+    );
+  }
+
 }
 
 class CartList {
+  final String qrCode;
+
+  CartList({this.qrCode});
+
 }
+
+

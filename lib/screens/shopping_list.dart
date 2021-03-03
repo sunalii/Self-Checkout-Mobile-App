@@ -12,7 +12,7 @@ class ShoppingListPage extends StatefulWidget {
 }
 
 class _ShoppingListPageState extends State<ShoppingListPage> {
-  List<ToDo> list = List<ToDo>();
+  List<ToDo> list = <ToDo>[];
   SharedPreferences sharedPreferences;
 
   @override
@@ -50,7 +50,7 @@ class _ShoppingListPageState extends State<ShoppingListPage> {
           child: FloatingActionButton(
             backgroundColor: Theme.of(context).primaryColor,
             child: Icon(Icons.add_rounded),
-            onPressed: () => goToNewItemAdd(),
+            onPressed: goToNewItemAdd,
           ),
         ),
       ),
@@ -68,7 +68,6 @@ class _ShoppingListPageState extends State<ShoppingListPage> {
 
   Widget buildItem(ToDo item) {
     return Card(
-      shadowColor: Colors.black,
       child: Dismissible(
         key: Key(item.hashCode.toString()), //HAS TO GIVE A UNIQUE KEY TO IDENTIFY THE DISMISS TILE
         onDismissed: (direction) => removeItem(item),
@@ -159,8 +158,9 @@ class _ShoppingListPageState extends State<ShoppingListPage> {
   }
 
   void loadData() {
-    List<String> spList = sharedPreferences.getStringList('list');
-    list = spList.map((item) => ToDo.fromMap(json.decode(item))).toList();
-    setState(() {});
+    setState(() {
+      List<String> spList = sharedPreferences.getStringList('list');
+      list = spList.map((item) => ToDo.fromMap(json.decode(item))).toList();
+    });
   }
 }

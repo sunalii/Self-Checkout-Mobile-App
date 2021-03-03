@@ -318,6 +318,8 @@ class CartBottomTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      height: 120.0,
+      width: double.infinity,
       decoration: BoxDecoration(
         color: Colors.white,
         boxShadow: [

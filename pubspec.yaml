@@ -29,9 +29,10 @@ dependencies:
   cupertino_icons: ^1.0.0
   # Google Auth
   google_sign_in: ^4.5.9
-  # Flutter Auth
+  # Firebase
   firebase_core: ^0.7.0
   firebase_auth: ^0.20.0+1
+  cloud_firestore: ^0.16.0+1
   # Google Fonts
   google_fonts: ^1.1.2
   #device_preview: ^0.5.5
