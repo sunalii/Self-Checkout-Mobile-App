@@ -5,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:selfcheckoutapp/widgets/bottom_tabs.dart';
 import '../constants.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class ShoppingCartPage extends StatefulWidget {
   @override
@@ -35,7 +36,12 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
     }
   }
 
-  List<CartList> cartItem = <CartList>[];
+  List<Products> cartItem = <Products>[];
+
+  final CollectionReference _productsRef =
+      FirebaseFirestore.instance.collection("Products");
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -48,7 +54,47 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
         textTheme: GoogleFonts.poppinsTextTheme(),
       ),
       body: SafeArea(
-          child: cartItem.isNotEmpty ? buildBodyList() : buildEmptyBody(),
+        child: Container(
+            child: FutureBuilder<QuerySnapshot>(
+              future: _productsRef.get(),
+              builder: (context, snapshot){
+                if (snapshot.hasError){
+                  return Scaffold(
+                    body: Center(
+                      child: Text("Error: ${snapshot.error}"),
+                    ),
+                  );
+                }
+
+                if(snapshot.connectionState == ConnectionState.done){
+                   if(qrCode == "4792240001010"){
+                    return ListView(
+                      children: snapshot.data.docs.map((document){
+                        return Container(
+                          height: 80.0,
+                          width: double.infinity,
+                          child: Card(
+                            child: ListTile(
+                              leading: Image.network("${document.data()['image']}"),
+                              trailing: Text("LKR ${document.data()['price']}"),
+                              title: Text("${document.data()['name']}"),
+                              subtitle: Text("Quantity"),
+                            ),
+                          ),
+                        );
+                      }).toList(),
+                    );
+                  }
+                }
+
+                return Scaffold(
+                  body: Center(
+                    child: CircularProgressIndicator(),
+                  ),
+                );
+              },
+            ),
+        ),
       ),
       floatingActionButton: Padding(
         padding: const EdgeInsets.only(
@@ -65,9 +111,7 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
           ),
         ),
       ),
-      bottomNavigationBar: Container(
-          child: CartBottomTab()
-      ),
+      bottomNavigationBar: Container(child: CartBottomTab()),
     );
   }
 
@@ -80,7 +124,7 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
     );
   }
 
-  Widget buildCartListItem(CartList items){
+  Widget buildCartListItem(Products items) {
     return Container(
       height: 80.0,
       width: double.infinity,
@@ -100,14 +144,19 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
       child: Text("No items added"),
     );
   }
-
 }
 
-class CartList {
-  final String qrCode;
+class Products {
+  final String name;
+  final String image;
+  final int price;
+  final String weight;
 
-  CartList({this.qrCode});
-
+  Products(this.name, this.image, this.price, this.weight);
 }
 
+class DatabaseServices {
+  final String uid;
 
+  DatabaseServices({this.uid});
+}
