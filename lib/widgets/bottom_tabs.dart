@@ -314,32 +314,32 @@ class HomeNavigateTabs extends StatelessWidget {
 
 
 //CHECKOUT TAB FOR SHOPPING CART PAGE
-class CartBottomTab extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: 120.0,
-      width: double.infinity,
-      decoration: BoxDecoration(
-        color: Colors.white,
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.1),
-            spreadRadius: 1.0,
-            blurRadius: 20.0,
-          ),
-        ],
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          CartBottomTabBtn(),
-          CartBottomTabTotal(),
-        ],
-      ),
-    );
-  }
-}
+// class CartBottomTab extends StatelessWidget {
+//   @override
+//   Widget build(BuildContext context) {
+//     return Container(
+//       height: 120.0,
+//       width: double.infinity,
+//       decoration: BoxDecoration(
+//         color: Colors.white,
+//         boxShadow: [
+//           BoxShadow(
+//             color: Colors.black.withOpacity(0.1),
+//             spreadRadius: 1.0,
+//             blurRadius: 20.0,
+//           ),
+//         ],
+//       ),
+//       child: Row(
+//         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//         children: [
+//           CartBottomTabBtn(),
+//           CartBottomTabTotal(),
+//         ],
+//       ),
+//     );
+//   }
+// }
 
 class CartBottomTabBtn extends StatelessWidget {
 
