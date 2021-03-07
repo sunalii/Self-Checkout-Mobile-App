@@ -19,6 +19,15 @@ class ShoppingCartPage extends StatefulWidget {
 
 class _ShoppingCartPageState extends State<ShoppingCartPage> {
   String qrCode = '';
+  bool getDataQr = false;
+
+  List scanProducts = [];
+
+  @override
+  void initState() {
+    super.initState();
+    //this.getData();
+  }
 
   Future _scanQR() async {
     try {
@@ -33,6 +42,8 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
 
       setState(() {
         this.qrCode = qrCode;
+        this.getDataQr = true;
+        //_getData();
         //_addToCart();
       });
     } on PlatformException catch (e) {
@@ -42,10 +53,8 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
     }
   }
 
-  //List<Products> cartItem = <Products>[];
-
-  final CollectionReference _productsRef = FirebaseFirestore.instance
-      .collection("Products");
+  // final CollectionReference _productsRef = FirebaseFirestore.instance
+  //     .collection("Products");
 
   // final CollectionReference _usersRef = FirebaseFirestore.instance.collection(
   //     "Users"); // TO STORE USERS CART | User-->userId->Cart-->productId
@@ -73,6 +82,36 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
   //
   // final SnackBar _snackBar = SnackBar(content: Text("Item added to cart"));
 
+  Future<List> _getData() async {
+
+    print(this.qrCode.runtimeType);
+
+    // CollectionReference _productsRef =
+    //     FirebaseFirestore.instance.collection("Products");
+
+    //print('grower ${_productsRef.get()}');
+
+    if(this.getDataQr){
+      await FirebaseFirestore.instance
+          .collection('Products')
+          .where('barcode', isEqualTo: int.parse(this.qrCode))
+          .snapshots()
+          .listen((data) {
+        data.docs.forEach((element) {
+          print(element.data());
+
+          setState(() {
+            scanProducts.add(element.data());
+            this.getDataQr = false;
+          });
+
+          //return scanProducts;
+        });
+      });
+    }
+    return scanProducts;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -85,9 +124,10 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
         ),
         body: SafeArea(
           child: Container(
-            child: FutureBuilder<QuerySnapshot>(
-              future: _productsRef.get(),
-              builder: (context, snapshot) {
+            child: FutureBuilder(
+              future: _getData(),
+              builder: (context, AsyncSnapshot snapshot) {
+                print("hello ${snapshot.data}");
                 if (snapshot.hasError) {
                   return Scaffold(
                     body: Center(
@@ -96,26 +136,35 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
                   );
                 }
 
-                if (snapshot.connectionState == ConnectionState.active) {
-                  //if (qrCode == "4792240001010") {
-                    return ListView(
-                      children: snapshot.data.docs.map((document) {
-                        return Container(
-                          height: 80.0,
-                          width: double.infinity,
-                          child: Card(
-                            child: ListTile(
-                              leading:
-                                  Image.network("${document.data()['image']}"),
-                              trailing: Text("LKR ${document.data()['price']}"),
-                              title: Text("${document.data()['name']}"),
-                              subtitle: Text("Quantity"),
-                            ),
+                if (snapshot.hasData) {
+                  if(snapshot.data.length > 0){
+                  //if (qrCode == 'barcode') {
+                  return ListView.builder(
+                    itemCount: snapshot.data.length,
+                      itemBuilder: (BuildContext context, int index) {
+                      //print("document ${document}");
+                      return Container(
+                        height: 80.0,
+                        width: double.infinity,
+                        child: Card(
+                          child: ListTile(
+                            leading:
+                                Image.network("${snapshot.data[index]['image']}"),
+                            trailing: Text("LKR ${snapshot.data[index]['price']}"),
+                            title: Text("${snapshot.data[index]['name']}"),
+                            subtitle: Text("Quantity"),
                           ),
-                        );
-                      }).toList(),
+                        ),
+                      );
+                    });
+                  }
+                  else{
+                    return Scaffold(
+                      body: Center(
+                        child: CircularProgressIndicator(),
+                      ),
                     );
-                  //}
+                  }
                 }
 
                 return Scaffold(
@@ -159,44 +208,13 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               CartBottomTabBtn(
-                //onPressed: _addToCart,
-              ),
+                  //onPressed: _addToCart,
+                  ),
               CartBottomTabTotal(),
             ],
           ),
         ));
   }
-
-
-// Widget buildBodyList() {
-//   return ListView.builder(
-//     itemCount: cartItem.length,
-//     itemBuilder: (context, index) {
-//       return buildCartListItem(cartItem[index]);
-//     },
-//   );
-// }
-//
-// Widget buildCartListItem(Products items) {
-//   return Container(
-//     height: 80.0,
-//     width: double.infinity,
-//     child: Card(
-//       child: ListTile(
-//         leading: Icon(Icons.home),
-//         trailing: Text("Price"),
-//         title: Text(qrCode),
-//         subtitle: Text("Quantity"),
-//       ),
-//     ),
-//   );
-// }
-//
-// Widget buildEmptyBody() {
-//   return Center(
-//     child: Text("No items added"),
-//   );
-// }
 }
 
 class Products {
