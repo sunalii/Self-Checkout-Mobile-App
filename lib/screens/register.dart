@@ -24,7 +24,7 @@ class _RegisterPageState extends State<RegisterPage> {
               child: Text(error),
             ),
             actions: [
-              FlatButton(
+              TextButton(
                 child: Text("Close"),
                 onPressed: () {
                   Navigator.pop(context);

@@ -78,7 +78,7 @@ class _NewItemViewState extends State<NewItemView> {
                         textCapitalization: TextCapitalization.sentences,
                       ),
                     ),
-                    FlatButton(
+                    TextButton(
                       onPressed: (){
                         setState(() {
                           saveData();
