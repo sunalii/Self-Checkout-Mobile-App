@@ -23,6 +23,8 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
 
   List scanProducts = [];
 
+  final SnackBar _snackBar = SnackBar(content: Text("Item added to cart"));
+
   @override
   void initState() {
     super.initState();
@@ -44,7 +46,7 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
         this.qrCode = qrCode;
         this.getDataQr = true;
         //_getData();
-        //_addToCart();
+        _addToCart();
       });
     } on PlatformException catch (e) {
       setState(() {
@@ -56,31 +58,30 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
   // final CollectionReference _productsRef = FirebaseFirestore.instance
   //     .collection("Products");
 
-  // final CollectionReference _usersRef = FirebaseFirestore.instance.collection(
-  //     "Users"); // TO STORE USERS CART | User-->userId->Cart-->productId
-  //
-  // User _user = FirebaseAuth.instance.currentUser;
-  //
-  // Future _addToCart() async {
-  //   setState(() {
-  //     // Navigator.push(
-  //     //   context,
-  //     //   MaterialPageRoute(builder: (context) => BillHistoryPage()),
-  //     // );
-  //     ScaffoldMessenger.of(context).showSnackBar(_snackBar);
-  //   });
-  //   return await _usersRef
-  //       .doc(_user.uid)
-  //       .collection("Cart")
-  //       .doc(widget.productId)
-  //       .set({
-  //     'productQuality': 1,
-  //     'productWeight': 1,
-  //     'productPrice': 1,
-  //   });
-  // }
-  //
-  // final SnackBar _snackBar = SnackBar(content: Text("Item added to cart"));
+
+
+  Future _addToCart() async {
+    final CollectionReference _usersRef = FirebaseFirestore.instance
+        .collection("Users"); // TO STORE USERS CART | User-->userId->Cart-->productId
+
+    User _user = FirebaseAuth.instance.currentUser;
+
+    setState(() {
+      // Navigator.push(
+      //   context,
+      //   MaterialPageRoute(builder: (context) => BillHistoryPage()),
+      // );
+    });
+    return await _usersRef
+        .doc(_user.uid)
+        .collection("Cart")
+        .doc(widget.productId)
+        .set({
+      'productQuality': 1,
+      'productWeight': 1,
+      'productPrice': 1,
+    });
+  }
 
   Future<List> _getData() async {
 
@@ -92,9 +93,9 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
     //print('grower ${_productsRef.get()}');
 
     if(this.getDataQr){
-      await FirebaseFirestore.instance
+       FirebaseFirestore.instance
           .collection('Products')
-          .where('barcode', isEqualTo: int.parse(this.qrCode))
+          .where('barcode', isEqualTo: this.qrCode)
           .snapshots()
           .listen((data) {
         data.docs.forEach((element) {
@@ -103,8 +104,8 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
           setState(() {
             scanProducts.add(element.data());
             this.getDataQr = false;
+            ScaffoldMessenger.of(context).showSnackBar(_snackBar);
           });
-
           //return scanProducts;
         });
       });
@@ -161,7 +162,7 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
                   else{
                     return Scaffold(
                       body: Center(
-                        child: CircularProgressIndicator(),
+                        child: Text("No items added to cart"),
                       ),
                     );
                   }
