@@ -25,7 +25,7 @@ class _LoginPageState extends State<LoginPage> {
               child: Text(error),
             ),
             actions: [
-              FlatButton(
+              TextButton(
                 child: Text("Close"),
                 onPressed: () {
                   Navigator.pop(context);
