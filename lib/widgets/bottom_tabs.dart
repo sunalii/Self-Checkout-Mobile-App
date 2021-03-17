@@ -398,7 +398,7 @@ class CartBottomTabTotal extends StatelessWidget {
             ),
             textAlign: TextAlign.center,
           ),
-          Text("LKR 300",
+          Text("LKR 000",
             style: TextStyle(
               fontSize: 16.0,
               color: Colors.black,
