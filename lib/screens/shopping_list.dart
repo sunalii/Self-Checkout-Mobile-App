@@ -97,12 +97,12 @@ class _ShoppingListPageState extends State<ShoppingListPage> {
     );
   }
 
-  void setComplete(ToDo item) {
-    setState(() {
-      item.complete = !item.complete;
-      saveDataList();
-    });
-  }
+  // void setComplete(ToDo item) {
+  //   setState(() {
+  //     item.complete = !item.complete;
+  //     saveDataList();
+  //   });
+  // }
 
   //FUNCTION TO REMOVE ITEMS FROM THE LIST
   void removeItem(ToDo item) {
