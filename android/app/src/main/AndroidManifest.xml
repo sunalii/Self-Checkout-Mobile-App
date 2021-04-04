@@ -13,6 +13,7 @@
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"
+            android:screenOrientation="portrait"
             android:launchMode="singleTop"
             android:theme="@style/LaunchTheme"
             android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"
@@ -45,6 +46,5 @@
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
-        <!--<activity android:name="com.apptreesoftware.barcodescan.BarcodeScannerActivity"/>-->
     </application>
 </manifest>
