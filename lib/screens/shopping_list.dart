@@ -83,7 +83,7 @@ class _ShoppingListPageState extends State<ShoppingListPage> {
             title: Text(item.title),
             //leading: Checkbox(value: item.complete, onChanged: (value){item.complete = value;}),
             leading: Icon(Icons.assignment_turned_in_rounded),
-            onTap: () => setComplete(item),
+            //onTap: () => setComplete(item),
             onLongPress: () => goToEditItemView(item),
           ),
         ),
@@ -97,12 +97,12 @@ class _ShoppingListPageState extends State<ShoppingListPage> {
     );
   }
 
-  void setComplete(ToDo item) {
-    setState(() {
-      item.complete = !item.complete;
-      saveDataList();
-    });
-  }
+  // void setComplete(ToDo item) {
+  //   setState(() {
+  //     item.complete = !item.complete;
+  //     saveDataList();
+  //   });
+  // }
 
   //FUNCTION TO REMOVE ITEMS FROM THE LIST
   void removeItem(ToDo item) {
