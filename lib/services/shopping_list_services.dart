@@ -1,3 +1,4 @@
+//EXTENDED FROM shopping_list.dart
 class ToDo {
   String title;
   bool complete;
