@@ -7,6 +7,7 @@ import 'package:selfcheckoutapp/screens/bill_history.dart';
 import 'package:selfcheckoutapp/screens/shopping_cart.dart';
 import 'package:selfcheckoutapp/screens/shopping_list.dart';
 import 'package:selfcheckoutapp/widgets/bottom_tabs.dart';
+import 'package:selfcheckoutapp/widgets/custom_button.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -15,40 +16,40 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   //CUSTOM HOME APP BAR
-  Widget _homeAppBar() {
-    return Scaffold(
-        // appBar: AppBar(
-        //     title: Text(
-        //       'Home',
-        //       style: Constants.boldHeadingAppBar,
-        //     ),
-        //     textTheme: GoogleFonts.poppinsTextTheme(),
-        //     // leading: IconButton(
-        //     //   icon: Icon(Icons.logout),
-        //     //   onPressed: () {
-        //     //     FirebaseAuth.instance.signOut();
-        //     //   },
-        //     // ),
-        //     flexibleSpace: Container(
-        //       decoration: BoxDecoration(
-        //         image: DecorationImage(
-        //           image: AssetImage("assets/image2.png"),
-        //           fit: BoxFit.cover,
-        //         ),
-        //       ),
-        //     ),
-        //   ),
-        //   //preferredSize: Size.fromHeight(200.0),
-        //
-        // drawer: Drawer(
-        //   child: ListView(
-        //     children: [
-        //       DrawerHeader(child: Text("ScanGo")),
-        //     ],
-        //   ),
-        // ),
-        );
-  }
+  // Widget _homeAppBar() {
+  //   return Scaffold(
+  //     appBar: AppBar(
+  //       title: Text(
+  //         'Home',
+  //         style: Constants.boldHeadingAppBar,
+  //       ),
+  //       textTheme: GoogleFonts.poppinsTextTheme(),
+  //       leading: IconButton(
+  //         icon: Icon(Icons.logout),
+  //         onPressed: () {
+  //           FirebaseAuth.instance.signOut();
+  //         },
+  //       ),
+  //       flexibleSpace: Container(
+  //         decoration: BoxDecoration(
+  //           image: DecorationImage(
+  //             image: AssetImage("assets/image2.png"),
+  //             fit: BoxFit.cover,
+  //           ),
+  //         ),
+  //       ),
+  //     ),
+  //     //preferredSize: Size.fromHeight(200.0),
+  //
+  //     drawer: Drawer(
+  //       child: ListView(
+  //         children: [
+  //           DrawerHeader(child: Text("ScanGo")),
+  //         ],
+  //       ),
+  //     ),
+  //   );
+  // }
 
   // PageController _tabsPageController;
   // int _selectedTab = 0;
@@ -153,19 +154,12 @@ class _HomePageState extends State<HomePage> {
             Divider(),
             Padding(
               padding: const EdgeInsets.only(bottom: 20.0),
-              child: ListTile(
-                dense: true,
-                title: Text("Logout", style: Constants.regularDarkText),
-                trailing: Text(
-                  "Version 1.0",
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
-                ),
-                leading: IconButton(
-                  icon: Icon(Icons.logout),
-                  onPressed: () {
-                    FirebaseAuth.instance.signOut();
-                  },
-                ),
+              child: CustomBtn(
+                text: "Logout",
+                onPressed: () {
+                  FirebaseAuth.instance.signOut();
+                },
+                outlineBtn: true,
               ),
             ),
           ],

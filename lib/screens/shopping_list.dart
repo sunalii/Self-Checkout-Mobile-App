@@ -37,7 +37,7 @@ class _ShoppingListPageState extends State<ShoppingListPage> {
         textTheme: GoogleFonts.poppinsTextTheme(),
       ),
       body: SafeArea(
-        child: list.isNotEmpty ? buildBody() : buildEmptyBody(),
+        child: list.isNotEmpty ? buildBody() : noContentScreen(),
       ),
       floatingActionButton: Padding(
         padding: const EdgeInsets.only(
@@ -91,9 +91,26 @@ class _ShoppingListPageState extends State<ShoppingListPage> {
     );
   }
 
-  Widget buildEmptyBody() {
-    return Center(
-      child: Text("No items added"),
+  // Widget buildEmptyBody() {
+  //   return Center(
+  //     child: Text("No items added"),
+  //   );
+  // }
+
+  Container noContentScreen(){
+    final Orientation orientation = MediaQuery.of(context).orientation;
+    return Container(
+      child: Center(
+        child: ListView(
+          shrinkWrap: true,
+          children: [
+            Icon(Icons.close, size: 50.0,),
+            Text("No items added",
+            textAlign: TextAlign.center,
+            style: TextStyle(color: Colors.black),)
+          ],
+        ),
+      ),
     );
   }
 
