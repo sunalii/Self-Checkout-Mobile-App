@@ -83,6 +83,7 @@ class _HomePageState extends State<HomePage> {
           children: [
             Flexible(
               child: ListView(
+                padding: EdgeInsets.zero,
                 children: [
                   UserAccountsDrawerHeader(
                     decoration: BoxDecoration(
@@ -121,7 +122,8 @@ class _HomePageState extends State<HomePage> {
                       );
                     },
                     dense: true,
-                    title: Text("Account Settings"),
+                    title: Text("Account Settings",
+                        style: Constants.regularDarkText),
                     leading: Icon(Icons.account_circle),
                   ),
                   ListTile(
@@ -134,20 +136,15 @@ class _HomePageState extends State<HomePage> {
                       );
                     },
                     dense: true,
-                    title: Text("About App"),
+                    title: Text("About App", style: Constants.regularDarkText),
                     leading: Icon(Icons.info),
                   ),
                   ListTile(
                     onTap: () {
                       Navigator.pop(context);
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => ShoppingListPage()),
-                      );
                     },
                     dense: true,
-                    title: Text("Close"),
+                    title: Text("Close", style: Constants.regularDarkText),
                     leading: Icon(Icons.close_rounded),
                   ),
                 ],
@@ -158,7 +155,7 @@ class _HomePageState extends State<HomePage> {
               padding: const EdgeInsets.only(bottom: 20.0),
               child: ListTile(
                 dense: true,
-                title: Text("Logout"),
+                title: Text("Logout", style: Constants.regularDarkText),
                 trailing: Text(
                   "Version 1.0",
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
@@ -351,5 +348,3 @@ class _HomePageState extends State<HomePage> {
     );
   }
 }
-
-
