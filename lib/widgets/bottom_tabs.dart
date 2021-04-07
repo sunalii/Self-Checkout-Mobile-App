@@ -255,13 +255,13 @@ class HomeNavigateTabs extends StatelessWidget {
                           bottomLeft: Radius.circular(10.0),
                         ),
                         color: Colors.white,
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black.withOpacity(0.08),
-                            spreadRadius: 1.0,
-                            blurRadius: 30.0,
-                          ),
-                        ],
+                        // boxShadow: [
+                        //   BoxShadow(
+                        //     color: Colors.black.withOpacity(0.08),
+                        //     spreadRadius: 1.0,
+                        //     blurRadius: 30.0,
+                        //   ),
+                        // ],
                       ),
                       child: Icon(
                         iconData ?? Icons.home_rounded,
@@ -289,7 +289,7 @@ class HomeNavigateTabs extends StatelessWidget {
           alignment: Alignment.center,
           decoration: BoxDecoration(
             border: Border.all(
-              color: Color(0xff1faa00),
+              color: Colors.white,
               width: 0.2,
             ),
             borderRadius: BorderRadius.circular(10.0),
@@ -298,7 +298,7 @@ class HomeNavigateTabs extends StatelessWidget {
               BoxShadow(
                 color: Colors.black.withOpacity(0.09),
                 spreadRadius: 1.0,
-                blurRadius: 30.0,
+                blurRadius: 20.0,
               ),
             ],
           ),

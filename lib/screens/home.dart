@@ -8,37 +8,46 @@ import 'package:selfcheckoutapp/screens/shopping_cart.dart';
 import 'package:selfcheckoutapp/screens/shopping_list.dart';
 import 'package:selfcheckoutapp/widgets/bottom_tabs.dart';
 
-
 class HomePage extends StatefulWidget {
   @override
   _HomePageState createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
-
   //CUSTOM HOME APP BAR
   Widget _homeAppBar() {
-    return AppBar(
-      title: Text(
-        'Home',
-        style: Constants.boldHeadingAppBar,
-      ),
-      textTheme: GoogleFonts.poppinsTextTheme(),
-      leading: IconButton(
-        icon: Icon(Icons.logout),
-        onPressed: () {
-          FirebaseAuth.instance.signOut();
-        },
-      ),
-      flexibleSpace: Container(
-        decoration: BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage("assets/image2.png"),
-            fit: BoxFit.cover,
-          ),
-        ),
-      ),
-    );
+    return Scaffold(
+        // appBar: AppBar(
+        //     title: Text(
+        //       'Home',
+        //       style: Constants.boldHeadingAppBar,
+        //     ),
+        //     textTheme: GoogleFonts.poppinsTextTheme(),
+        //     // leading: IconButton(
+        //     //   icon: Icon(Icons.logout),
+        //     //   onPressed: () {
+        //     //     FirebaseAuth.instance.signOut();
+        //     //   },
+        //     // ),
+        //     flexibleSpace: Container(
+        //       decoration: BoxDecoration(
+        //         image: DecorationImage(
+        //           image: AssetImage("assets/image2.png"),
+        //           fit: BoxFit.cover,
+        //         ),
+        //       ),
+        //     ),
+        //   ),
+        //   //preferredSize: Size.fromHeight(200.0),
+        //
+        // drawer: Drawer(
+        //   child: ListView(
+        //     children: [
+        //       DrawerHeader(child: Text("ScanGo")),
+        //     ],
+        //   ),
+        // ),
+        );
   }
 
   // PageController _tabsPageController;
@@ -59,10 +68,113 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: PreferredSize(
-        preferredSize: (Size(double.infinity, 200.0)),
-        child: _homeAppBar(), // AppBar
+      appBar: AppBar(
+        title: Text(
+          'Home',
+          style: Constants.boldHeadingAppBar,
+        ),
+        textTheme: GoogleFonts.poppinsTextTheme(),
       ),
+      //preferredSize: Size.fromHeight(200.0),
+
+      drawer: Drawer(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Flexible(
+              child: ListView(
+                children: [
+                  UserAccountsDrawerHeader(
+                    decoration: BoxDecoration(
+                      color: new Color(0xFF0062ac),
+                      image: DecorationImage(
+                          image: AssetImage("assets/image2.png"),
+                          fit: BoxFit.cover),
+                    ),
+                    accountName: Text(
+                      "User Name",
+                      style: TextStyle(fontSize: 20.0),
+                    ),
+                    accountEmail: Text("user@email.com"),
+                    currentAccountPicture: CircleAvatar(
+                      backgroundColor: Colors.white,
+                      child: Icon(
+                        Icons.person,
+                        size: 50,
+                        color: Colors.grey,
+                      ),
+                    ),
+                  ),
+                  ListTile(
+                    dense: true,
+                    title: Text("Welcome to ScanGo",
+                        style: TextStyle(fontSize: 20.0)),
+                  ),
+                  Divider(),
+                  ListTile(
+                    onTap: () {
+                      Navigator.pop(context);
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => ShoppingListPage()),
+                      );
+                    },
+                    dense: true,
+                    title: Text("Account Settings"),
+                    leading: Icon(Icons.account_circle),
+                  ),
+                  ListTile(
+                    onTap: () {
+                      Navigator.pop(context);
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => ShoppingListPage()),
+                      );
+                    },
+                    dense: true,
+                    title: Text("About App"),
+                    leading: Icon(Icons.info),
+                  ),
+                  ListTile(
+                    onTap: () {
+                      Navigator.pop(context);
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => ShoppingListPage()),
+                      );
+                    },
+                    dense: true,
+                    title: Text("Close"),
+                    leading: Icon(Icons.close_rounded),
+                  ),
+                ],
+              ),
+            ),
+            Divider(),
+            Padding(
+              padding: const EdgeInsets.only(bottom: 20.0),
+              child: ListTile(
+                dense: true,
+                title: Text("Logout"),
+                trailing: Text(
+                  "Version 1.0",
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12),
+                ),
+                leading: IconButton(
+                  icon: Icon(Icons.logout),
+                  onPressed: () {
+                    FirebaseAuth.instance.signOut();
+                  },
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+
       // body: Column(
       //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
       //   children: [
@@ -175,60 +287,61 @@ class _HomePageState extends State<HomePage> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Container(
-                  width: double.infinity,
-                  padding: EdgeInsets.only(
-                    top: 30.0,
-                    left: 30.0,
-                  ),
-                  margin: EdgeInsets.only(
-                    bottom: 20.0
-                  ),
-                  child: Text(
-                      "What do you want to do?",
-                      textAlign: TextAlign.left,
-                      style: Constants.boldHeading,
-                    ),
+                width: double.infinity,
+                padding: EdgeInsets.only(
+                  top: 30.0,
+                  left: 30.0,
                 ),
+                margin: EdgeInsets.only(bottom: 20.0),
+                child: Text(
+                  "What do you want to do?",
+                  textAlign: TextAlign.left,
+                  style: Constants.boldHeading,
+                ),
+              ),
               Expanded(
                 child: Column(
-                    children: [
-                      HomeNavigateTabs(
-                        text: "Create a Shopping List",
-                        iconData: Icons.assignment_turned_in_rounded,
-                        onPressed: (){
-                          setState(() {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(builder: (context) => ShoppingListPage()),
-                            );
-                          });
-                        },
-                      ),
-                      HomeNavigateTabs(
-                        text: "Check Bill History",
-                        iconData: Icons.history,
-                        onPressed: (){
-                          setState(() {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(builder: (context) => BillHistoryPage()),
-                            );
-                          });
-                        },
-                      ),
-                      HomeNavigateTabs(
-                        text: "Let's Start Shopping!",
-                        iconData: Icons.shopping_cart_rounded,
-                        onPressed: (){
-                          setState(() {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(builder: (context) => ShoppingCartPage()),
-                            );
-                          });
-                        },
-                      ),
-                    ],
+                  children: [
+                    HomeNavigateTabs(
+                      text: "Create a Shopping List",
+                      iconData: Icons.assignment_turned_in_rounded,
+                      onPressed: () {
+                        setState(() {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => ShoppingListPage()),
+                          );
+                        });
+                      },
+                    ),
+                    HomeNavigateTabs(
+                      text: "Check Bill History",
+                      iconData: Icons.history,
+                      onPressed: () {
+                        setState(() {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => BillHistoryPage()),
+                          );
+                        });
+                      },
+                    ),
+                    HomeNavigateTabs(
+                      text: "Let's Start Shopping!",
+                      iconData: Icons.shopping_cart_rounded,
+                      onPressed: () {
+                        setState(() {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => ShoppingCartPage()),
+                          );
+                        });
+                      },
+                    ),
+                  ],
                 ),
               ),
             ],
@@ -238,3 +351,5 @@ class _HomePageState extends State<HomePage> {
     );
   }
 }
+
+
