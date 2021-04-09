@@ -16,12 +16,12 @@ import 'package:firebase_auth/firebase_auth.dart';
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
+  // This widget is the root of the application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      // locale: DevicePreview.locale(context), // Add the locale here
-      // builder: DevicePreview.appBuilder,
+       //locale: DevicePreview.locale(context), // Add the locale here
+       //builder: DevicePreview.appBuilder,
       debugShowCheckedModeBanner: false,
       title: "App",
       theme: ThemeData(
