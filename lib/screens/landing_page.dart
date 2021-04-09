@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:selfcheckoutapp/constants.dart';
+import 'package:selfcheckoutapp/screens/loading.dart';
 import 'package:selfcheckoutapp/screens/home.dart';
 import 'package:selfcheckoutapp/screens/login.dart';
 
@@ -55,7 +55,7 @@ class LandingPage extends StatelessWidget {
             //CHECKING THE AUTH STATE - LOADING
             return Scaffold(
               body: Center(
-                child: Text("Auth Loading..."),
+                child: Loading(),
               ),
             );
           },
