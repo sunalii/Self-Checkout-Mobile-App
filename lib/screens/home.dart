@@ -56,6 +56,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.transparent,
         title: Text(
           'Home',
           style: Constants.boldHeadingAppBar,
@@ -64,6 +65,7 @@ class _HomePageState extends State<HomePage> {
         toolbarHeight: 200.0,
         flexibleSpace: Container(
           decoration: BoxDecoration(
+            borderRadius: BorderRadius.only(bottomLeft: Radius.circular(20), bottomRight: Radius.circular(20)),
               image: DecorationImage(
                   image: AssetImage("assets/image2.png"),
                   fit: BoxFit.cover
@@ -129,7 +131,7 @@ class _HomePageState extends State<HomePage> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => ShoppingListPage()),
+                            builder: (context) => HomePage()),
                       );
                     },
                     dense: true,
