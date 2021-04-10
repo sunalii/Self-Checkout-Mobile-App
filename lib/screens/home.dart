@@ -9,6 +9,7 @@ import 'package:selfcheckoutapp/screens/shopping_cart.dart';
 import 'package:selfcheckoutapp/screens/shopping_list.dart';
 import 'package:selfcheckoutapp/widgets/bottom_tabs.dart';
 import 'package:selfcheckoutapp/widgets/custom_button.dart';
+import 'package:selfcheckoutapp/widgets/profile_avatar.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -93,14 +94,7 @@ class _HomePageState extends State<HomePage> {
                       style: TextStyle(fontSize: 20.0),
                     ),
                     accountEmail: Text("user@email.com"),
-                    currentAccountPicture: CircleAvatar(
-                      backgroundColor: Colors.white,
-                      child: Icon(
-                        Icons.person,
-                        size: 50,
-                        color: Colors.grey,
-                      ),
-                    ),
+                    currentAccountPicture: Avatar(),
                   ),
                   ListTile(
                     dense: true,
