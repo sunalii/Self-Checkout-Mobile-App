@@ -1,11 +1,17 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:selfcheckoutapp/screens/home.dart';
 import 'package:selfcheckoutapp/widgets/custom_button.dart';
 import 'package:selfcheckoutapp/widgets/custom_input.dart';
+import 'package:selfcheckoutapp/widgets/profile_avatar.dart';
 import '../constants.dart';
 
-class EditUserProfile extends StatelessWidget {
+class EditUserProfile extends StatefulWidget {
+  @override
+  _EditUserProfileState createState() => _EditUserProfileState();
+}
+
+class _EditUserProfileState extends State<EditUserProfile> {
 
   @override
   Widget build(BuildContext context) {
@@ -25,78 +31,85 @@ class EditUserProfile extends StatelessWidget {
         height: double.infinity,
         width: double.infinity,
         color: Colors.blue,
-        child: ListView(
-          children: [
-            Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(top: 10.0, bottom: 8.0),
-                  child: SizedBox(
-                    height: 115,
-                    width: 115,
-                    child: Stack(
-                      clipBehavior: Clip.none,
-                      fit: StackFit.expand,
-                      children: [
-                        CircleAvatar(
-                          backgroundImage: AssetImage("assets/image2.png"),
-                        ),
-                        Positioned(
-                          right: -10,
-                          bottom: 0,
-                          child: SizedBox(
-                            height: 40,
-                            width: 40,
-                            child: DecoratedBox(
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(50.0),
-                                  color: Color(0xfff5f6f9)),
-                              child: IconButton(
-                                padding: EdgeInsets.zero,
-                                onPressed: () {},
-                                icon: Icon(
-                                  Icons.camera_alt_rounded,
-                                  color: Color(0xff9a9a9c),
-                                ),
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(top: 10.0, bottom: 8.0),
+                child: SizedBox(
+                  height: 115,
+                  width: 115,
+                  child: Stack(
+                    clipBehavior: Clip.none,
+                    fit: StackFit.expand,
+                    children: [
+                      Avatar(),
+                      Positioned(
+                        right: -10,
+                        bottom: 0,
+                        child: SizedBox(
+                          height: 40,
+                          width: 40,
+                          child: DecoratedBox(
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(50.0),
+                                color: Color(0xfff5f6f9)),
+                            child: IconButton(
+                              padding: EdgeInsets.zero,
+                              onPressed: () {},
+                              icon: Icon(
+                                Icons.camera_alt_rounded,
+                                color: Color(0xff9a9a9c),
                               ),
-                            ),
+                            )
                           ),
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ),
-                SizedBox(
-                  height: 10.0,
-                ),
-                Divider(),
-                SizedBox(
-                  height: 10.0,
-                ),
-                CustomInput(
-                  hintText: "Edit Display Name...",
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    CustomEditBtn(
-                      text: "Cancel",
-                      onPressed: () {
-                        FocusScope.of(context).requestFocus(FocusNode());
-                        Navigator.pop(context);
-                      },
-                      outlineBtn: true,
-                    ),
-                    CustomEditBtn(
-                      text: "Save",
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ],
+              ),
+              SizedBox(
+                height: 10.0,
+              ),
+              Column(
+                children: [
+                  Text(
+                    "Display Name Here",
+                    style: Constants.regularWhiteText,
+                  )
+                ],
+              ),
+              Divider(),
+              SizedBox(
+                height: 10.0,
+              ),
+              CustomInput(
+                hintText: "Edit Display Name...",
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  CustomEditBtn(
+                    text: "Cancel",
+                    onPressed: () {
+                      FocusScope.of(context).requestFocus(FocusNode());
+                      Navigator.pop(context);
+                    },
+                    outlineBtn: true,
+                  ),
+                  CustomEditBtn(
+                    text: "Save",
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );
   }
 }
+
+
+
