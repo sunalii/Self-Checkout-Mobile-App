@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:selfcheckoutapp/services/auth.dart';
 import 'package:selfcheckoutapp/widgets/custom_button.dart';
 import 'package:selfcheckoutapp/widgets/custom_input.dart';
 import 'package:selfcheckoutapp/widgets/profile_avatar.dart';
@@ -12,6 +13,25 @@ class EditUserProfile extends StatefulWidget {
 }
 
 class _EditUserProfileState extends State<EditUserProfile> {
+
+  TextEditingController _usernameController = TextEditingController();
+
+  Future<void> _addDisplayName() async {
+    setState(() {
+      User updateUser = FirebaseAuth.instance.currentUser;
+      updateUser.updateProfile(displayName: _usernameController.text);
+      userSetup(_usernameController.text);
+    });
+  }
+
+
+  @override
+  void initState() {
+    super.initState();
+    setState(() {
+      //String _usernameController = FirebaseAuth.instance.currentUser.displayName;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -75,7 +95,7 @@ class _EditUserProfileState extends State<EditUserProfile> {
               Column(
                 children: [
                   Text(
-                    "Display Name Here",
+                    "${FirebaseAuth.instance.currentUser.displayName}" ?? "Display Name Here",
                     style: Constants.regularWhiteText,
                   )
                 ],
@@ -85,6 +105,7 @@ class _EditUserProfileState extends State<EditUserProfile> {
                 height: 10.0,
               ),
               CustomInput(
+                controller: _usernameController,
                 hintText: "Edit Display Name...",
               ),
               Row(
@@ -100,6 +121,11 @@ class _EditUserProfileState extends State<EditUserProfile> {
                   ),
                   CustomEditBtn(
                     text: "Save",
+                    onPressed: () async {
+                      FocusScope.of(context).requestFocus(FocusNode());
+                      _addDisplayName();
+                      Navigator.pop(context);
+                    },
                   ),
                 ],
               ),
@@ -110,6 +136,8 @@ class _EditUserProfileState extends State<EditUserProfile> {
     );
   }
 }
+
+
 
 
 
