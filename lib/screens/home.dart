@@ -17,41 +17,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  //CUSTOM HOME APP BAR
-  // Widget _homeAppBar() {
-  //   return Scaffold(
-  //     appBar: AppBar(
-  //       title: Text(
-  //         'Home',
-  //         style: Constants.boldHeadingAppBar,
-  //       ),
-  //       textTheme: GoogleFonts.poppinsTextTheme(),
-  //       leading: IconButton(
-  //         icon: Icon(Icons.logout),
-  //         onPressed: () {
-  //           FirebaseAuth.instance.signOut();
-  //         },
-  //       ),
-  //       flexibleSpace: Container(
-  //         decoration: BoxDecoration(
-  //           image: DecorationImage(
-  //             image: AssetImage("assets/image2.png"),
-  //             fit: BoxFit.cover,
-  //           ),
-  //         ),
-  //       ),
-  //     ),
-  //     //preferredSize: Size.fromHeight(200.0),
-  //
-  //     drawer: Drawer(
-  //       child: ListView(
-  //         children: [
-  //           DrawerHeader(child: Text("ScanGo")),
-  //         ],
-  //       ),
-  //     ),
-  //   );
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -90,10 +55,10 @@ class _HomePageState extends State<HomePage> {
                           fit: BoxFit.cover),
                     ),
                     accountName: Text(
-                      "User Name",
+                      "${FirebaseAuth.instance.currentUser.displayName}",
                       style: TextStyle(fontSize: 20.0),
                     ),
-                    accountEmail: Text("user@email.com"),
+                    accountEmail: Text('${FirebaseAuth.instance.currentUser.email}'),
                     currentAccountPicture: Avatar(),
                   ),
                   ListTile(
