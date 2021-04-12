@@ -3,8 +3,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:selfcheckoutapp/screens/payment.dart';
 import 'package:selfcheckoutapp/widgets/bottom_tabs.dart';
-import '../constants.dart';
+import 'package:selfcheckoutapp/constants.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -58,11 +59,9 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
   // final CollectionReference _productsRef = FirebaseFirestore.instance
   //     .collection("Products");
 
-
-
   Future _addToCart() async {
-    final CollectionReference _usersRef = FirebaseFirestore.instance
-        .collection("Users"); // TO STORE USERS CART | User-->userId->Cart-->productId
+    final CollectionReference _usersRef = FirebaseFirestore.instance.collection(
+        "Users"); // TO STORE USERS CART | User-->userId->Cart-->productId
 
     User _user = FirebaseAuth.instance.currentUser;
 
@@ -84,7 +83,6 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
   }
 
   Future<List> _getData() async {
-
     print(this.qrCode.runtimeType);
 
     // CollectionReference _productsRef =
@@ -92,8 +90,8 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
 
     //print('grower ${_productsRef.get()}');
 
-    if(this.getDataQr){
-       FirebaseFirestore.instance
+    if (this.getDataQr) {
+      FirebaseFirestore.instance
           .collection('Products')
           .where('barcode', isEqualTo: this.qrCode)
           .snapshots()
@@ -138,28 +136,28 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
                 }
 
                 if (snapshot.hasData) {
-                  if(snapshot.data.length > 0){
-                  //if (qrCode == 'barcode') {
-                  return ListView.builder(
-                    itemCount: snapshot.data.length,
-                      itemBuilder: (BuildContext context, int index) {
-                      //print("document ${document}");
-                      return Container(
-                        height: 80.0,
-                        width: double.infinity,
-                        child: Card(
-                          child: ListTile(
-                            leading:
-                                Image.network("${snapshot.data[index]['image']}"),
-                            trailing: Text("LKR ${snapshot.data[index]['price']}"),
-                            title: Text("${snapshot.data[index]['name']}"),
-                            subtitle: Text("Quantity"),
-                          ),
-                        ),
-                      );
-                    });
-                  }
-                  else{
+                  if (snapshot.data.length > 0) {
+                    //if (qrCode == 'barcode') {
+                    return ListView.builder(
+                        itemCount: snapshot.data.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          //print("document ${document}");
+                          return Container(
+                            height: 80.0,
+                            width: double.infinity,
+                            child: Card(
+                              child: ListTile(
+                                leading: Image.network(
+                                    "${snapshot.data[index]['image']}"),
+                                trailing: Text(
+                                    "LKR ${snapshot.data[index]['price']}"),
+                                title: Text("${snapshot.data[index]['name']}"),
+                                subtitle: Text("Quantity"),
+                              ),
+                            ),
+                          );
+                        });
+                  } else {
                     return Scaffold(
                       body: Center(
                         child: Text("No items added to cart"),
@@ -209,8 +207,14 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               CartBottomTabBtn(
-                  //onPressed: _addToCart,
-                  ),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => PaymentPage()),
+                  );
+                },
+              ),
               CartBottomTabTotal(),
             ],
           ),
