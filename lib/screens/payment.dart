@@ -15,7 +15,7 @@ class _ExistingCardsPageState extends State<PaymentPage> {
     switch (index) {
       case 0:
         var response = await StripeService.payWithNewCard(
-            amount: '300',
+            amount: '3000',
             currency: 'LKR'
         );
         if (response.success == true) {

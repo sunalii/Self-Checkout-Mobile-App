@@ -32,7 +32,7 @@ class _ExistingCardPageState extends State<ExistingCardPage> {
   //FUNCTION TO PAY
   payViaExistingCard(BuildContext context, card) {
     var response = StripeService.payViaExistingCard(
-        amount: '',
+        amount: '3000',
         currency: 'LKR',
         card: card
     );
