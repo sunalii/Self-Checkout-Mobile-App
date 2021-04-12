@@ -38,11 +38,14 @@ dependencies:
   #device_preview: ^0.5.5
   # Barcode Scanner
   flutter_barcode_scanner: ^1.0.2
-  #In app Saving
+  # In app Saving
   shared_preferences: ^0.5.12+4
+  # Loading
   flutter_spinkit: ^4.1.2
+  # Payment
   flutter_credit_card: ^2.0.0
-
+  stripe_payment: ^1.0.11
+  http:
 
 dev_dependencies:
   flutter_test:

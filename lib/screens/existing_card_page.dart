@@ -11,6 +11,7 @@ class ExistingCardPage extends StatefulWidget {
 }
 
 class _ExistingCardPageState extends State<ExistingCardPage> {
+  //TYPE FROM THE STRIPE PAYMENT SDK WAS BEING USED
   List cards = [
     {
       'cardNumber': '4242424242424242',
@@ -26,7 +27,7 @@ class _ExistingCardPageState extends State<ExistingCardPage> {
       'cvvCode': '123',
       'showBackView': false,
     }
-  ]; //TYPE FROM THE STRIPE PAYMENT SDK WAS BEING USED
+  ];
 
   //FUNCTION TO PAY
   payViaExistingCard(BuildContext context, card) {

@@ -10,11 +10,12 @@ class PaymentPage extends StatefulWidget {
 }
 
 class _ExistingCardsPageState extends State<PaymentPage> {
-  onItemPress(BuildContext context, int index) {
+  //ON PRESSED ON CARDS
+  onItemPress(BuildContext context, int index) async {
     switch (index) {
       case 0:
-        var response = StripeService.payWithNewCard(
-            amount: '',
+        var response = await StripeService.payWithNewCard(
+            amount: '300',
             currency: 'LKR'
         );
         if (response.success == true) {
@@ -24,7 +25,7 @@ class _ExistingCardsPageState extends State<PaymentPage> {
           ));
         }
         break;
-
+      //DIRECTING TO PAY WITH EXISTING CARD PAGE
       case 1:
         Navigator.push(
           context,
@@ -32,6 +33,13 @@ class _ExistingCardsPageState extends State<PaymentPage> {
         );
         break;
     }
+  }
+
+
+  @override
+  void initState() {
+    super.initState();
+    StripeService.init();
   }
 
   @override
