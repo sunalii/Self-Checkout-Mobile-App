@@ -367,7 +367,7 @@ class CartBottomTabBtn extends StatelessWidget {
           horizontal: 24.0,
           vertical: 30.0,
         ),
-        child: Text("Check Out",
+        child: Text("Proceed",
           style: TextStyle(
             fontSize: 16.0,
             color: Colors.white,
