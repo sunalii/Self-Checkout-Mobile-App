@@ -222,11 +222,11 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
   }
 }
 
-class Products {
-  final String name;
-  final String image;
-  final int price;
-  final String weight;
-
-  Products(this.name, this.image, this.price, this.weight);
-}
+// class Products {
+//   final String name;
+//   final String image;
+//   final int price;
+//   final String weight;
+//
+//   Products(this.name, this.image, this.price, this.weight);
+// }
