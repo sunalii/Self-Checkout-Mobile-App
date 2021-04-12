@@ -10,8 +10,9 @@ class CustomInput extends StatelessWidget {
   final FocusNode focusNode;
   final TextInputAction textInputAction;
   final bool isPasswordField;
+  final dynamic controller;
 
-  const CustomInput({Key key, this.hintText, this.onChanged, this.onSubmitted, this.focusNode, this.textInputAction, this.isPasswordField}) : super(key: key);
+  const CustomInput({Key key, this.hintText, this.onChanged, this.onSubmitted, this.focusNode, this.textInputAction, this.isPasswordField, this.controller}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -28,6 +29,7 @@ class CustomInput extends StatelessWidget {
         borderRadius: BorderRadius.circular(12.0),
       ),
       child: TextField(
+        controller: controller,
         obscureText: _isPasswordField,
         focusNode: focusNode,
         onChanged: onChanged,
