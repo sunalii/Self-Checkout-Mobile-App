@@ -41,13 +41,28 @@ class StripeService {
           amount,
           currency
       );
-      return StripeTransactionResponse(
-          message: 'Transaction successful',
-          success: true);
+      var response = await StripePayment.confirmPaymentIntent(
+        PaymentIntent(
+            clientSecret: paymentIntent['client_secret'],
+            paymentMethodId: paymentMethod.id
+        )
+      ); //CONFIRM PAYMENT
+      if(response.status == 'succeeded') {
+        return StripeTransactionResponse(
+            message: 'Transaction successful',
+            success: true
+        );
+      } else {
+        return StripeTransactionResponse(
+            message: 'Transaction failed',
+            success: false
+        );
+      }
     } catch (e) {
       return StripeTransactionResponse(
           message: 'Transaction failed: ${e.toString()}',
-          success: true);
+          success: false
+      );
     }
   }
 

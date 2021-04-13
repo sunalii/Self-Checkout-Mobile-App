@@ -15,15 +15,12 @@ class _ExistingCardsPageState extends State<PaymentPage> {
     switch (index) {
       case 0:
         var response = await StripeService.payWithNewCard(
-            amount: '3000',
-            currency: 'LKR'
-        );
-        if (response.success == true) {
-          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-            content: Text(response.message),
-            duration: Duration(milliseconds: 1200),
-          ));
-        }
+            amount: '300000', currency: 'LKR');
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text(response.message),
+          duration:
+              Duration(milliseconds: response.success == true ? 1200 : 3000),
+        ));
         break;
       //DIRECTING TO PAY WITH EXISTING CARD PAGE
       case 1:
@@ -34,7 +31,6 @@ class _ExistingCardsPageState extends State<PaymentPage> {
         break;
     }
   }
-
 
   @override
   void initState() {
