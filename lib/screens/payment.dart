@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:progress_dialog/progress_dialog.dart';
 import 'package:selfcheckoutapp/constants.dart';
 import 'package:selfcheckoutapp/screens/existing_card_page.dart';
 import 'package:selfcheckoutapp/services/payment_services.dart';
@@ -14,13 +15,7 @@ class _ExistingCardsPageState extends State<PaymentPage> {
   onItemPress(BuildContext context, int index) async {
     switch (index) {
       case 0:
-        var response = await StripeService.payWithNewCard(
-            amount: '300000', currency: 'LKR');
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text(response.message),
-          duration:
-              Duration(milliseconds: response.success == true ? 1200 : 3000),
-        ));
+        payViaNewCard(context);
         break;
       //DIRECTING TO PAY WITH EXISTING CARD PAGE
       case 1:
@@ -30,6 +25,22 @@ class _ExistingCardsPageState extends State<PaymentPage> {
         );
         break;
     }
+  }
+
+  payViaNewCard(BuildContext context) async {
+    ProgressDialog dialog = new ProgressDialog(context);
+    dialog.style(
+        message: 'Please wait...'
+    );
+    await dialog.show();
+    var response = await StripeService.payWithNewCard(
+        amount: '300000', currency: 'LKR');
+    await dialog.hide();
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      content: Text(response.message),
+      duration:
+      Duration(milliseconds: response.success == true ? 1200 : 3000),
+    ));
   }
 
   @override
