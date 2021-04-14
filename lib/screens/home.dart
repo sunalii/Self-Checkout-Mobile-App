@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -47,19 +48,34 @@ class _HomePageState extends State<HomePage> {
               child: ListView(
                 padding: EdgeInsets.zero,
                 children: [
-                  UserAccountsDrawerHeader(
-                    decoration: BoxDecoration(
-                      color: Color(0xffD50000),
-                      image: DecorationImage(
-                          image: AssetImage("assets/image2.png"),
-                          fit: BoxFit.cover),
-                    ),
-                    accountName: Text(
-                      "${FirebaseAuth.instance.currentUser.displayName}",
-                      style: TextStyle(fontSize: 20.0),
-                    ),
-                    accountEmail: Text('${FirebaseAuth.instance.currentUser.email}'),
-                    currentAccountPicture: Avatar(),
+                  StreamBuilder (
+                    stream: FirebaseFirestore.instance.collection('Users').doc('displayName').snapshots(),
+                    builder: (context, snapshot) {
+                      if(!snapshot.hasData) {
+                        return Text("Display Name");
+                      } else {
+                        return UserAccountsDrawerHeader(
+                          decoration: BoxDecoration(
+                            color: Color(0xffD50000),
+                            image: DecorationImage(
+                                image: AssetImage("assets/image2.png"),
+                                fit: BoxFit.cover),
+                          ),
+                          accountName: StreamBuilder<Object>(
+                            stream: null,
+                            builder: (context, snapshot) {
+                              return Text(
+                                "${FirebaseAuth.instance.currentUser.displayName}",
+                                style: TextStyle(fontSize: 20.0),
+                              );
+                            }
+                          ),
+                          accountEmail: Text('${FirebaseAuth.instance.currentUser.email}'),
+                          currentAccountPicture: Avatar(),
+                        );
+                      }
+
+                    }
                   ),
                   ListTile(
                     dense: true,
