@@ -3,7 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:selfcheckoutapp/screens/payment.dart';
+import 'package:selfcheckoutapp/screens/checking_page.dart';
 import 'package:selfcheckoutapp/widgets/bottom_tabs.dart';
 import 'package:selfcheckoutapp/constants.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
@@ -211,7 +211,7 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => PaymentPage()),
+                        builder: (context) => CheckingPage()),
                   );
                 },
               ),
