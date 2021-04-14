@@ -4,6 +4,8 @@ import 'package:flutter_credit_card/credit_card_widget.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:selfcheckoutapp/constants.dart';
 import 'package:selfcheckoutapp/services/payment_services.dart';
+import 'package:stripe_payment/stripe_payment.dart';
+import 'package:progress_dialog/progress_dialog.dart';
 
 class ExistingCardPage extends StatefulWidget {
   @override
@@ -21,7 +23,7 @@ class _ExistingCardPageState extends State<ExistingCardPage> {
       'showBackView': false,
     },
     {
-      'cardNumber': '5555555566554444',
+      'cardNumber': '5555555555554444',
       'expiryDate': '04/23',
       'cardHolderName': 'Tracer',
       'cvvCode': '123',
@@ -30,20 +32,31 @@ class _ExistingCardPageState extends State<ExistingCardPage> {
   ];
 
   //FUNCTION TO PAY
-  payViaExistingCard(BuildContext context, card) {
-    var response = StripeService.payViaExistingCard(
-        amount: '3000',
-        currency: 'LKR',
-        card: card
+  payViaExistingCard(BuildContext context, card) async {
+    ProgressDialog dialog = new ProgressDialog(context);
+    dialog.style(
+        message: 'Please wait...'
     );
-    if (response.success == true) {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text(response.message),
-        duration: Duration(milliseconds: 1200),
-      )).closed.then((_) {
-        Navigator.pop(context);
-      });
-    }
+    await dialog.show();
+    var expiryArr = card['expiryDate'].split('/');
+    CreditCard stripeCard = CreditCard(
+      number: card['cardNumber'],
+      expMonth: int.parse(expiryArr[0]),
+      expYear: int.parse(expiryArr[1]),
+    );
+    var response = await StripeService.payViaExistingCard(
+        amount: '25000',
+        currency: 'LKR',
+        card: stripeCard
+    );
+    await dialog.hide();
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text(response.message),
+          duration: new Duration(milliseconds: 1200),
+        )
+    ).closed.then((_) {
+      Navigator.pop(context);
+    });
   }
 
   @override
