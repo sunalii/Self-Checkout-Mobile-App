@@ -49,7 +49,7 @@ class _HomePageState extends State<HomePage> {
                 padding: EdgeInsets.zero,
                 children: [
                   StreamBuilder (
-                    stream: FirebaseFirestore.instance.collection('Users').doc('displayName').snapshots(),
+                    stream: FirebaseFirestore.instance.collection('UserDetails').doc('displayName').snapshots(),
                     builder: (context, snapshot) {
                       if(!snapshot.hasData) {
                         return Text("Display Name");
