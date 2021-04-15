@@ -36,7 +36,7 @@ class _AppDrawerState extends State<AppDrawer> {
                           decoration: BoxDecoration(
                             color: Color(0xffD50000),
                             image: DecorationImage(
-                                image: AssetImage("assets/image2.png"),
+                                image: AssetImage("assets/image2-dark.png"),
                                 fit: BoxFit.cover),
                           ),
                           accountName: StreamBuilder<Object>(
@@ -57,7 +57,7 @@ class _AppDrawerState extends State<AppDrawer> {
                   dense: true,
                   title: Text(
                     "Welcome to ScanGo",
-                    style: TextStyle(fontSize: 20.0, color: Color(0xff110000)),
+                    style: TextStyle(fontSize: 20.0, color: Color(0xff062100)),
                   ),
                 ),
                 Divider(),
@@ -73,7 +73,10 @@ class _AppDrawerState extends State<AppDrawer> {
                   dense: true,
                   title: Text("Account Settings",
                       style: Constants.regularDarkText),
-                  leading: Icon(Icons.account_circle),
+                  leading: Icon(
+                    Icons.account_circle,
+                    color: Theme.of(context).primaryColor,
+                  ),
                 ),
                 ListTile(
                   onTap: () {
@@ -85,7 +88,10 @@ class _AppDrawerState extends State<AppDrawer> {
                   },
                   dense: true,
                   title: Text("About App", style: Constants.regularDarkText),
-                  leading: Icon(Icons.info),
+                  leading: Icon(
+                    Icons.info,
+                    color: Theme.of(context).primaryColor,
+                  ),
                 ),
                 ListTile(
                   onTap: () {
@@ -93,7 +99,10 @@ class _AppDrawerState extends State<AppDrawer> {
                   },
                   dense: true,
                   title: Text("Close", style: Constants.regularDarkText),
-                  leading: Icon(Icons.close_rounded),
+                  leading: Icon(
+                    Icons.close_rounded,
+                    color: Theme.of(context).primaryColor,
+                  ),
                 ),
               ],
             ),
