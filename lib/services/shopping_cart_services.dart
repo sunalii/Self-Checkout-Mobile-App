@@ -19,14 +19,14 @@ import 'package:selfcheckoutapp/models/user.dart';
 //   }
 // }
 
-
-
 class DataBaseService {
   final String uid;
+
   DataBaseService({this.uid});
+
   // collection reference
   final CollectionReference itemCollection =
-  FirebaseFirestore.instance.collection('items');
+      FirebaseFirestore.instance.collection('items');
 
   Future updateUserData(String name, String price, int quantity) async {
     return await itemCollection.doc(uid).set({

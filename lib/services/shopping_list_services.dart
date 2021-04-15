@@ -5,11 +5,11 @@ class ToDo {
 
   ToDo({this.title, this.complete});
 
-  ToDo.fromMap(Map map):
-      this.title = map['title'],
-      this.complete = map['complete'];
+  ToDo.fromMap(Map map)
+      : this.title = map['title'],
+        this.complete = map['complete'];
 
-  Map toMap(){
+  Map toMap() {
     return {
       'title': this.title,
       'complete': this.complete,

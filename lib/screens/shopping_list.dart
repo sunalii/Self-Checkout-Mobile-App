@@ -98,7 +98,7 @@ class _ShoppingListPageState extends State<ShoppingListPage> {
   // }
 
   Container noContentScreen(){
-    final Orientation orientation = MediaQuery.of(context).orientation;
+    //final Orientation orientation = MediaQuery.of(context).orientation;
     return Container(
       child: Center(
         child: ListView(

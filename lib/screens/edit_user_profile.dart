@@ -16,7 +16,7 @@ class _EditUserProfileState extends State<EditUserProfile> {
 
   TextEditingController _usernameController = TextEditingController();
 
-  Future<void> _addDisplayName() async {
+  Future _addDisplayName() async {
     setState(() {
       User updateUser = FirebaseAuth.instance.currentUser;
       updateUser.updateProfile(displayName: _usernameController.text);
@@ -24,13 +24,12 @@ class _EditUserProfileState extends State<EditUserProfile> {
     });
   }
 
-
   @override
   void initState() {
     super.initState();
-    setState(() {
-      //String _usernameController = FirebaseAuth.instance.currentUser.displayName;
-    });
+    // setState(() {
+    //   String _usernameController = FirebaseAuth.instance.currentUser.displayName;
+    // });
   }
 
   @override
@@ -107,6 +106,7 @@ class _EditUserProfileState extends State<EditUserProfile> {
               CustomInput(
                 controller: _usernameController,
                 hintText: "Edit Display Name...",
+                textCapitalization: TextCapitalization.words,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,

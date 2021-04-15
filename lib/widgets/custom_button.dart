@@ -3,17 +3,17 @@ import 'package:flutter/material.dart';
 
 //CUSTOM BUTTONS TO LOGIN AND REGISTER PAGES
 class CustomBtn extends StatelessWidget {
-
   final String text;
   final Function onPressed;
   final bool outlineBtn;
   final bool isLoading;
 
-  const CustomBtn({Key key, this.text, this.onPressed, this.outlineBtn, this.isLoading}) : super(key: key);
+  const CustomBtn(
+      {Key key, this.text, this.onPressed, this.outlineBtn, this.isLoading})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-
     bool _outlineBtn = outlineBtn ?? false;
     bool _isLoading = isLoading ?? false;
 
@@ -39,11 +39,12 @@ class CustomBtn extends StatelessWidget {
             Visibility(
               visible: _isLoading ? false : true,
               child: Center(
-                child: Text(text ?? "Text",
-                style: TextStyle(
-                  fontSize: 16.0,
-                  color: _outlineBtn ? Color(0xff1faa00) : Colors.white,
-                  fontWeight: FontWeight.w600,
+                child: Text(
+                  text ?? "Text",
+                  style: TextStyle(
+                    fontSize: 16.0,
+                    color: _outlineBtn ? Color(0xff1faa00) : Colors.white,
+                    fontWeight: FontWeight.w600,
                   ),
                 ),
               ),
@@ -56,8 +57,7 @@ class CustomBtn extends StatelessWidget {
                     height: 30.0,
                     child: CircularProgressIndicator(
                       backgroundColor: Colors.white,
-                    )
-                ),
+                    )),
               ),
             ),
           ],
@@ -68,17 +68,17 @@ class CustomBtn extends StatelessWidget {
 }
 
 class CustomEditBtn extends StatelessWidget {
-
   final String text;
   final Function onPressed;
   final bool outlineBtn;
   final bool isLoading;
 
-  const CustomEditBtn({Key key, this.text, this.onPressed, this.outlineBtn, this.isLoading}) : super(key: key);
+  const CustomEditBtn(
+      {Key key, this.text, this.onPressed, this.outlineBtn, this.isLoading})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-
     bool _outlineBtn = outlineBtn ?? false;
     bool _isLoading = isLoading ?? false;
 
@@ -105,7 +105,8 @@ class CustomEditBtn extends StatelessWidget {
             Visibility(
               visible: _isLoading ? false : true,
               child: Center(
-                child: Text(text ?? "Text",
+                child: Text(
+                  text ?? "Text",
                   style: TextStyle(
                     fontSize: 16.0,
                     color: _outlineBtn ? Colors.white : Colors.blue,
@@ -122,8 +123,7 @@ class CustomEditBtn extends StatelessWidget {
                     height: 30.0,
                     child: CircularProgressIndicator(
                       backgroundColor: Colors.white,
-                    )
-                ),
+                    )),
               ),
             ),
           ],
@@ -172,4 +172,3 @@ class CustomEditBtn extends StatelessWidget {
 //     );
 //   }
 // }
-

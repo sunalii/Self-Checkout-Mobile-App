@@ -23,10 +23,13 @@ class _AppDrawerState extends State<AppDrawer> {
             child: ListView(
               padding: EdgeInsets.zero,
               children: [
-                StreamBuilder (
-                    stream: FirebaseFirestore.instance.collection('UserDetails').doc('displayName').snapshots(),
+                StreamBuilder(
+                    stream: FirebaseFirestore.instance
+                        .collection('UserDetails')
+                        .doc('displayName')
+                        .snapshots(),
                     builder: (context, snapshot) {
-                      if(!snapshot.hasData) {
+                      if (!snapshot.hasData) {
                         return Text("Display Name");
                       } else {
                         return UserAccountsDrawerHeader(
@@ -43,21 +46,18 @@ class _AppDrawerState extends State<AppDrawer> {
                                   "${FirebaseAuth.instance.currentUser.displayName}",
                                   style: TextStyle(fontSize: 20.0),
                                 );
-                              }
-                          ),
-                          accountEmail: Text('${FirebaseAuth.instance.currentUser.email}'),
+                              }),
+                          accountEmail: Text(
+                              '${FirebaseAuth.instance.currentUser.email}'),
                           currentAccountPicture: Avatar(),
                         );
                       }
-
-                    }
-                ),
+                    }),
                 ListTile(
                   dense: true,
                   title: Text(
                     "Welcome to ScanGo",
-                    style:
-                    TextStyle(fontSize: 20.0, color: Color(0xff110000)),
+                    style: TextStyle(fontSize: 20.0, color: Color(0xff110000)),
                   ),
                 ),
                 Divider(),
@@ -80,8 +80,7 @@ class _AppDrawerState extends State<AppDrawer> {
                     Navigator.pop(context);
                     Navigator.push(
                       context,
-                      MaterialPageRoute(
-                          builder: (context) => HomePage()),
+                      MaterialPageRoute(builder: (context) => HomePage()),
                     );
                   },
                   dense: true,

@@ -11,7 +11,6 @@ class RegisterPage extends StatefulWidget {
 }
 
 class _RegisterPageState extends State<RegisterPage> {
-
   //ALERT DIALOG TO DISPLAY ERRORS
   Future<void> _alertDialogBuilder(String error) async {
     return showDialog(
@@ -32,8 +31,7 @@ class _RegisterPageState extends State<RegisterPage> {
               )
             ],
           );
-        }
-    );
+        });
   }
 
   //FORM INPUT VALUES
@@ -46,15 +44,14 @@ class _RegisterPageState extends State<RegisterPage> {
       await FirebaseAuth.instance.createUserWithEmailAndPassword(
           email: _registerEmail, password: _registerPassword);
       return null;
-    } on FirebaseAuthException catch(e){
+    } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
         return ('The password provided is too weak.');
       } else if (e.code == 'email-already-in-use') {
         return ('The account already exists for that email.');
       }
       return e.message;
-    }
-    catch (e){
+    } catch (e) {
       return (e);
     }
   }
@@ -70,15 +67,14 @@ class _RegisterPageState extends State<RegisterPage> {
 
     //RUN THE CREATE ACCOUNT METHOD
     String _createAccountFeedback = await _createAccount();
-    if(_createAccountFeedback != null){
+    if (_createAccountFeedback != null) {
       _alertDialogBuilder(_createAccountFeedback);
 
       //SET THE FORM TO REGULAR STATE
       setState(() {
         _registerFromLoading = false;
       });
-    }
-    else{
+    } else {
       //STRING WAS NULL -> HOME PAGE
       Navigator.pop(context);
     }
@@ -138,7 +134,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     onChanged: (value) {
                       _registerPassword = value;
                     },
-                    onSubmitted: (value){
+                    onSubmitted: (value) {
                       _submitForm();
                     },
                     focusNode: _inputFocusNodePassword,
@@ -159,12 +155,8 @@ class _RegisterPageState extends State<RegisterPage> {
                 child: CustomBtn(
                   text: "Back to Login",
                   onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => LoginPage()
-                        )
-                    );
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => LoginPage()));
                   },
                   outlineBtn: true,
                 ),

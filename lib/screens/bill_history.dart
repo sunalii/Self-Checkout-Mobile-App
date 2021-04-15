@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:selfcheckoutapp/widgets/bottom_tabs.dart';
-import 'package:selfcheckoutapp/widgets/custom_button.dart';
 
 class BillHistoryPage extends StatefulWidget {
   @override

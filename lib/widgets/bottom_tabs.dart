@@ -93,9 +93,9 @@ import 'package:selfcheckoutapp/screens/shopping_list.dart';
   }
 }*/ //TRY2
 
-
 class BottomTabs extends StatefulWidget {
   final int selectedTab;
+
   const BottomTabs({Key key, this.selectedTab}) : super(key: key);
 
   @override
@@ -109,116 +109,114 @@ class _BottomTabsState extends State<BottomTabs> {
   Widget build(BuildContext context) {
     _selectedTab = widget.selectedTab ?? 0;
     return Container(
-      decoration: BoxDecoration(
-        color: Colors.white,
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.05),
-            spreadRadius: 1.0,
-            blurRadius: 30.0,
-          ),
-        ],
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: [
-          BottomTabBtn(
-            iconData: Icons.home_rounded,
-            selected: _selectedTab == 0 ? true : false,
-            onPressed: (){
-              if(_selectedTab != 0){
-                setState(() {
-                  _selectedTab = 0;
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => HomePage()),
-                  );
-                });
-              }
-            },
-          ),
-          BottomTabBtn(
-            iconData: Icons.assignment_turned_in_rounded,
-            selected: _selectedTab == 1 ? true : false,
-            onPressed: (){
-              if(_selectedTab != 1){
-                setState(() {
-                  _selectedTab = 1;
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => ShoppingListPage()),
-                  );
-                });
-              }
-            },
-          ),
-          BottomTabBtn(
-            iconData: Icons.history,
-            selected: _selectedTab == 2 ? true : false,
-            onPressed: (){
-              if(_selectedTab != 2){
-                setState(() {
-                  _selectedTab = 2;
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => BillHistoryPage()),
-                  );
-                });
-              }
-            },
-          ),
-          BottomTabBtn(
-            iconData: Icons.shopping_cart_rounded,
-            selected: _selectedTab == 3 ? true : false,
-            onPressed: (){
-              if(_selectedTab != 3){
-                setState(() {
-                  _selectedTab = 3;
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => ShoppingCartPage()),
-                  );
-                });
-              }
-            },
-          ),
-        ],
-      )
-    );
+        decoration: BoxDecoration(
+          color: Colors.white,
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.05),
+              spreadRadius: 1.0,
+              blurRadius: 30.0,
+            ),
+          ],
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            BottomTabBtn(
+              iconData: Icons.home_rounded,
+              selected: _selectedTab == 0 ? true : false,
+              onPressed: () {
+                if (_selectedTab != 0) {
+                  setState(() {
+                    _selectedTab = 0;
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => HomePage()),
+                    );
+                  });
+                }
+              },
+            ),
+            BottomTabBtn(
+              iconData: Icons.assignment_turned_in_rounded,
+              selected: _selectedTab == 1 ? true : false,
+              onPressed: () {
+                if (_selectedTab != 1) {
+                  setState(() {
+                    _selectedTab = 1;
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => ShoppingListPage()),
+                    );
+                  });
+                }
+              },
+            ),
+            BottomTabBtn(
+              iconData: Icons.history,
+              selected: _selectedTab == 2 ? true : false,
+              onPressed: () {
+                if (_selectedTab != 2) {
+                  setState(() {
+                    _selectedTab = 2;
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => BillHistoryPage()),
+                    );
+                  });
+                }
+              },
+            ),
+            BottomTabBtn(
+              iconData: Icons.shopping_cart_rounded,
+              selected: _selectedTab == 3 ? true : false,
+              onPressed: () {
+                if (_selectedTab != 3) {
+                  setState(() {
+                    _selectedTab = 3;
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => ShoppingCartPage()),
+                    );
+                  });
+                }
+              },
+            ),
+          ],
+        ));
   }
 }
 
-//BOTTOM NAVIGATION BAR BUTTON - INCLUDED IN ButtomTabs CLASS
+//BOTTOM NAVIGATION BAR BUTTON - INCLUDED IN BottomTabs CLASS
 class BottomTabBtn extends StatelessWidget {
-
   final IconData iconData; //CUSTOM ICON
   final String icon;
   final bool selected;
   final Function onPressed;
 
-  const BottomTabBtn({Key key, this.icon, this.selected, this.iconData, this.onPressed}) : super(key: key);
+  const BottomTabBtn(
+      {Key key, this.icon, this.selected, this.iconData, this.onPressed})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-
     //CHECKING WHETHER THE TAB IS SELECTED
     bool _selected = selected ?? false;
 
     return GestureDetector(
       onTap: onPressed,
       child: Container(
-        padding: EdgeInsets.symmetric(
-          vertical: 28.0,
-          horizontal: 16.0
-        ),
+        padding: EdgeInsets.symmetric(vertical: 28.0, horizontal: 16.0),
         decoration: BoxDecoration(
-          border: Border(
-            top: BorderSide(
-              color: _selected ? Theme.of(context).accentColor : Colors.transparent,
-              width: 2.0
-            )
-          )
-        ),
+            border: Border(
+                top: BorderSide(
+                    color: _selected
+                        ? Theme.of(context).accentColor
+                        : Colors.transparent,
+                    width: 2.0))),
         child: Icon(
           iconData ?? Icons.home_rounded,
           color: _selected ? Theme.of(context).accentColor : Colors.black,
@@ -230,88 +228,85 @@ class BottomTabBtn extends StatelessWidget {
 
 //HOME NAVIGATION TABS
 class HomeNavigateTabs extends StatelessWidget {
-
   final String text;
   final IconData iconData;
   final Function onPressed;
 
-  const HomeNavigateTabs({Key key, this.text, this.iconData, this.onPressed}) : super(key: key);
+  const HomeNavigateTabs({Key key, this.text, this.iconData, this.onPressed})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: onPressed,
-        child: Container(
-          child: Row(
-              children: [
-                  Flexible(
-                    fit: FlexFit.tight,
-                    child: Container(
-                      height: 60.0,
-                      width: 60.0,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(10.0),
-                          bottomLeft: Radius.circular(10.0),
-                        ),
-                        color: Colors.white,
-                        // boxShadow: [
-                        //   BoxShadow(
-                        //     color: Colors.black.withOpacity(0.08),
-                        //     spreadRadius: 1.0,
-                        //     blurRadius: 30.0,
-                        //   ),
-                        // ],
-                      ),
-                      child: Icon(
-                        iconData ?? Icons.home_rounded,
-                        color: Theme.of(context).primaryColor,
-                      ),
-                    ),
+      child: Container(
+        child: Row(
+          children: [
+            Flexible(
+              fit: FlexFit.tight,
+              child: Container(
+                height: 60.0,
+                width: 60.0,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(10.0),
+                    bottomLeft: Radius.circular(10.0),
                   ),
-                  Flexible(
-                    flex: 5,
-                    child: Container(
-                      padding: EdgeInsets.only(
-                        left: 30.0,
-                        right: 10.0
-                      ),
-                      child: Text(text ?? "Text",
-                      textAlign: TextAlign.left,
-                      style: Constants.regularHeading,),
-                    ),
-                  ),
-              ],
-            ),
-          //CONTAINER CONTINUED
-          height: 60.0,
-          width: double.maxFinite,
-          alignment: Alignment.center,
-          decoration: BoxDecoration(
-            border: Border.all(
-              color: Colors.white,
-              width: 0.2,
-            ),
-            borderRadius: BorderRadius.circular(10.0),
-            color: Colors.white,
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withOpacity(0.09),
-                spreadRadius: 1.0,
-                blurRadius: 20.0,
+                  color: Colors.white,
+                  // boxShadow: [
+                  //   BoxShadow(
+                  //     color: Colors.black.withOpacity(0.08),
+                  //     spreadRadius: 1.0,
+                  //     blurRadius: 30.0,
+                  //   ),
+                  // ],
+                ),
+                child: Icon(
+                  iconData ?? Icons.home_rounded,
+                  color: Theme.of(context).primaryColor,
+                ),
               ),
-            ],
-          ),
-          margin: EdgeInsets.symmetric(
-            vertical: 10.0,
-            horizontal: 20.0,
-          ),
+            ),
+            Flexible(
+              flex: 5,
+              child: Container(
+                padding: EdgeInsets.only(left: 30.0, right: 10.0),
+                child: Text(
+                  text ?? "Text",
+                  textAlign: TextAlign.left,
+                  style: Constants.regularHeading,
+                ),
+              ),
+            ),
+          ],
         ),
+        //CONTAINER CONTINUED
+        height: 60.0,
+        width: double.maxFinite,
+        alignment: Alignment.center,
+        decoration: BoxDecoration(
+          border: Border.all(
+            color: Colors.white,
+            width: 0.2,
+          ),
+          borderRadius: BorderRadius.circular(10.0),
+          color: Colors.white,
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.09),
+              spreadRadius: 1.0,
+              blurRadius: 20.0,
+            ),
+          ],
+        ),
+        margin: EdgeInsets.symmetric(
+          vertical: 10.0,
+          horizontal: 20.0,
+        ),
+      ),
     );
   }
 }
-
-
 
 //CHECKOUT TAB FOR SHOPPING CART PAGE
 // class CartBottomTab extends StatelessWidget {
@@ -342,7 +337,6 @@ class HomeNavigateTabs extends StatelessWidget {
 // }
 
 class CartBottomTabBtn extends StatelessWidget {
-
   final Function onPressed;
 
   const CartBottomTabBtn({Key key, this.onPressed}) : super(key: key);
@@ -367,7 +361,8 @@ class CartBottomTabBtn extends StatelessWidget {
           horizontal: 24.0,
           vertical: 30.0,
         ),
-        child: Text("Proceed",
+        child: Text(
+          "Proceed",
           style: TextStyle(
             fontSize: 16.0,
             color: Colors.white,
@@ -379,7 +374,6 @@ class CartBottomTabBtn extends StatelessWidget {
   }
 }
 
-
 class CartBottomTabTotal extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -390,7 +384,8 @@ class CartBottomTabTotal extends StatelessWidget {
       ),
       child: Column(
         children: [
-          Text("Total",
+          Text(
+            "Total",
             style: TextStyle(
               fontSize: 16.0,
               color: Colors.black,
@@ -398,7 +393,8 @@ class CartBottomTabTotal extends StatelessWidget {
             ),
             textAlign: TextAlign.center,
           ),
-          Text("LKR 000",
+          Text(
+            "LKR 000",
             style: TextStyle(
               fontSize: 16.0,
               color: Colors.black,
@@ -411,11 +407,3 @@ class CartBottomTabTotal extends StatelessWidget {
     );
   }
 }
-
-
-
-
-
-
-
-

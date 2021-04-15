@@ -210,8 +210,7 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(
-                        builder: (context) => CheckingPage()),
+                    MaterialPageRoute(builder: (context) => CheckingPage()),
                   );
                 },
               ),

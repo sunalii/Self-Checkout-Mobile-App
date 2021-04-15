@@ -8,7 +8,6 @@ import 'package:selfcheckoutapp/screens/shopping_list.dart';
 import 'package:selfcheckoutapp/widgets/app_drawer.dart';
 import 'package:selfcheckoutapp/widgets/bottom_tabs.dart';
 
-
 class HomePage extends StatefulWidget {
   @override
   _HomePageState createState() => _HomePageState();
