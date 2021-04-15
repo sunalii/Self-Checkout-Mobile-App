@@ -82,12 +82,14 @@ class _ShoppingListPageState extends State<ShoppingListPage> {
           child: ListTile(
             title: Text(item.title),
             //leading: Checkbox(value: item.complete, onChanged: (value){item.complete = value;}),
-            leading: Icon(Icons.assignment_turned_in_rounded),
+            leading: Icon(Icons.assignment_turned_in_rounded,
+                color: Color(0xff1faa00)),
             //onTap: () => setComplete(item),
             onLongPress: () => goToEditItemView(item),
           ),
         ),
       ),
+      elevation: 2.0,
     );
   }
 
@@ -97,17 +99,22 @@ class _ShoppingListPageState extends State<ShoppingListPage> {
   //   );
   // }
 
-  Container noContentScreen(){
+  Container noContentScreen() {
     //final Orientation orientation = MediaQuery.of(context).orientation;
     return Container(
       child: Center(
         child: ListView(
           shrinkWrap: true,
           children: [
-            Icon(Icons.close, size: 50.0,),
-            Text("No items added",
-            textAlign: TextAlign.center,
-            style: TextStyle(color: Colors.black),)
+            Icon(
+              Icons.close,
+              size: 50.0,
+            ),
+            Text(
+              "No items added",
+              textAlign: TextAlign.center,
+              style: TextStyle(color: Colors.black),
+            )
           ],
         ),
       ),
