@@ -120,6 +120,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 children: [
                   CustomInput(
                     hintText: "Email...",
+                    textCapitalization: TextCapitalization.none,
                     onChanged: (value) {
                       _registerEmail = value;
                     },
@@ -130,6 +131,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   ),
                   CustomInput(
                     hintText: "Password...",
+                    textCapitalization: TextCapitalization.none,
                     isPasswordField: true,
                     onChanged: (value) {
                       _registerPassword = value;
