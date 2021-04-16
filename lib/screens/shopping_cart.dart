@@ -19,6 +19,15 @@ class ShoppingCartPage extends StatefulWidget {
 }
 
 class _ShoppingCartPageState extends State<ShoppingCartPage> {
+
+  int _counter = 1;
+
+  void _incrementCounter() {
+    setState(() {
+      _counter++;
+    });
+  }
+
   String qrCode = '';
   bool getDataQr = false;
 
@@ -76,6 +85,7 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
         .collection("Cart")
         .doc(widget.productId)
         .set({
+      'productName': '',
       'productQuality': 1,
       'productWeight': 1,
       'productPrice': 1,
@@ -147,12 +157,13 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
                             width: double.infinity,
                             child: Card(
                               child: ListTile(
+                                onTap: _incrementCounter,
                                 leading: Image.network(
                                     "${snapshot.data[index]['image']}"),
                                 trailing: Text(
                                     "LKR ${snapshot.data[index]['price']}"),
                                 title: Text("${snapshot.data[index]['name']}"),
-                                subtitle: Text("Quantity"),
+                                subtitle: Text("Quantity: $_counter"),
                               ),
                             ),
                           );
