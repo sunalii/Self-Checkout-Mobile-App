@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:selfcheckoutapp/screens/checking_page.dart';
+import 'package:selfcheckoutapp/screens/home.dart';
 import 'package:selfcheckoutapp/widgets/bottom_tabs.dart';
 import 'package:selfcheckoutapp/constants.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
@@ -19,7 +20,6 @@ class ShoppingCartPage extends StatefulWidget {
 }
 
 class _ShoppingCartPageState extends State<ShoppingCartPage> {
-
   int _counter = 1;
 
   void _incrementCounter() {
@@ -121,6 +121,33 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
     return scanProducts;
   }
 
+  onBackPressed() {
+    return showDialog(
+        context: context,
+        barrierDismissible: true,
+        builder: (_) => AlertDialog(
+          title: Text("Exit Checkout?"),
+          content: Text("Exiting while shopping will result in clearing all the scanned items.\nDo you want to exit checkout?"),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(false);
+              },
+              child: Text("No"),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => HomePage()),
+                );
+              },
+              child: Text("Yes"),
+            )
+          ],
+        ));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -130,6 +157,11 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
             style: Constants.boldHeadingAppBar,
           ),
           textTheme: GoogleFonts.poppinsTextTheme(),
+          leading: IconButton(
+              icon: Icon(Icons.arrow_back),
+              onPressed: () {
+                onBackPressed();
+              }),
         ),
         body: SafeArea(
           child: Container(
@@ -230,6 +262,16 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
           ),
         ));
   }
+}
+
+clearCart() {
+  DocumentReference documentReference = FirebaseFirestore.instance
+      // .collection('Users')
+      // .doc('uid')
+      .collection('Cart')
+      .doc('productId');
+
+  documentReference.delete();
 }
 
 // class Products {
