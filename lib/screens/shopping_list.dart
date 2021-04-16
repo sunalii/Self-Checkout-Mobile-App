@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:selfcheckoutapp/constants.dart';
 import 'package:selfcheckoutapp/screens/adding_new_item.dart';
 import 'package:selfcheckoutapp/services/shopping_list_services.dart';
+import 'package:selfcheckoutapp/widgets/list_checkbox.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ShoppingListPage extends StatefulWidget {
@@ -82,8 +83,7 @@ class _ShoppingListPageState extends State<ShoppingListPage> {
           child: ListTile(
             title: Text(item.title),
             //leading: Checkbox(value: item.complete, onChanged: (value){item.complete = value;}),
-            leading: Icon(Icons.assignment_turned_in_rounded,
-                color: Color(0xff1faa00)),
+            leading: CustomCheckbox(),
             //onTap: () => setComplete(item),
             onLongPress: () => goToEditItemView(item),
           ),
@@ -111,7 +111,7 @@ class _ShoppingListPageState extends State<ShoppingListPage> {
               size: 50.0,
             ),
             Text(
-              "No items added",
+              "No items added.\nPress the button to start!",
               textAlign: TextAlign.center,
               style: TextStyle(color: Colors.black),
             )
