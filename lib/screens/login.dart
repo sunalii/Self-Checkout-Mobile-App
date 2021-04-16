@@ -121,6 +121,7 @@ class _LoginPageState extends State<LoginPage> {
                 children: [
                   CustomInput(
                     hintText: "Email...",
+                    textCapitalization: TextCapitalization.none,
                     onChanged: (value){
                       _loginEmail = value;
                     },
@@ -131,6 +132,7 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                   CustomInput(
                     hintText: "Password...",
+                    textCapitalization: TextCapitalization.none,
                     onChanged: (value){
                       _loginPassword = value;
                     },
