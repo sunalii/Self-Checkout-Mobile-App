@@ -144,6 +144,7 @@ confirmationAlert(BuildContext context) {
               TextButton(
                 onPressed: () {
                   FirebaseAuth.instance.signOut();
+                  Navigator.pop(context);
                 },
                 child: Text("Yes"),
               )
