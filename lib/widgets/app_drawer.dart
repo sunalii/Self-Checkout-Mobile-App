@@ -3,7 +3,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:selfcheckoutapp/constants.dart';
 import 'package:selfcheckoutapp/screens/edit_user_profile.dart';
-import 'package:selfcheckoutapp/screens/home.dart';
 import 'package:selfcheckoutapp/widgets/custom_button.dart';
 import 'package:selfcheckoutapp/widgets/profile_avatar.dart';
 
@@ -71,8 +70,7 @@ class _AppDrawerState extends State<AppDrawer> {
                     );
                   },
                   dense: true,
-                  title: Text("Account Settings",
-                      style: Constants.regularDarkText),
+                  title: Text("Profile", style: Constants.regularDarkText),
                   leading: Icon(
                     Icons.account_circle,
                     color: Theme.of(context).primaryColor,
@@ -80,11 +78,13 @@ class _AppDrawerState extends State<AppDrawer> {
                 ),
                 ListTile(
                   onTap: () {
-                    Navigator.pop(context);
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => HomePage()),
-                    );
+                    showAboutDialog(
+                        context: context,
+                        applicationName: 'ScanGo',
+                        applicationVersion: 'Version 1.0',
+                        applicationLegalese:
+                            'ScanGo is a Self-Checkout Mobile Application.\n\n'
+                            'Scan->Add->Check->Pay->Go');
                   },
                   dense: true,
                   title: Text("About App", style: Constants.regularDarkText),
@@ -113,7 +113,10 @@ class _AppDrawerState extends State<AppDrawer> {
             child: CustomBtn(
               text: "Logout",
               onPressed: () {
-                FirebaseAuth.instance.signOut();
+                confirmationAlert(context);
+                // setState(() {
+                //   confirmationAlert(context);
+                // });
               },
               outlineBtn: true,
             ),
@@ -122,4 +125,28 @@ class _AppDrawerState extends State<AppDrawer> {
       ),
     );
   }
+}
+
+confirmationAlert(BuildContext context) {
+  return showDialog(
+      context: context,
+      barrierDismissible: true,
+      builder: (_) => AlertDialog(
+            title: Text("Logout?"),
+            content: Text("Do you want to Logout?"),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: Text("No"),
+              ),
+              TextButton(
+                onPressed: () {
+                  FirebaseAuth.instance.signOut();
+                },
+                child: Text("Yes"),
+              )
+            ],
+          ));
 }
