@@ -374,36 +374,33 @@ class CartBottomTabBtn extends StatelessWidget {
   }
 }
 
-class CartBottomTabTotal extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.symmetric(
-        horizontal: 24.0,
-        vertical: 30.0,
-      ),
-      child: Column(
-        children: [
-          Text(
-            "Total",
-            style: TextStyle(
-              fontSize: 16.0,
-              color: Colors.black,
-              fontWeight: FontWeight.w300,
-            ),
-            textAlign: TextAlign.center,
+Widget cartBottomTabTotal(double total) {
+  return Container(
+    margin: EdgeInsets.symmetric(
+      horizontal: 24.0,
+      vertical: 30.0,
+    ),
+    child: Column(
+      children: [
+        Text(
+          "Total",
+          style: TextStyle(
+            fontSize: 16.0,
+            color: Colors.black,
+            fontWeight: FontWeight.w300,
           ),
-          Text(
-            "LKR 000",
-            style: TextStyle(
-              fontSize: 16.0,
-              color: Colors.black,
-              fontWeight: FontWeight.w800,
-            ),
-            textAlign: TextAlign.center,
+          textAlign: TextAlign.center,
+        ),
+        Text(
+          "LKR ${total.toString()}",
+          style: TextStyle(
+            fontSize: 16.0,
+            color: Colors.black,
+            fontWeight: FontWeight.w800,
           ),
-        ],
-      ),
-    );
-  }
+          textAlign: TextAlign.center,
+        ),
+      ],
+    ),
+  );
 }

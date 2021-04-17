@@ -27,3 +27,30 @@ Future<void> userSetup(String displayName) async {
   return;
 }
 
+class AuthUtil {
+
+  static Future<User> getCurrentUser() async {
+    final user = await FirebaseAuth.instance.currentUser;
+    return user;
+  }
+
+  static Future<DocumentSnapshot> getCurrentUserFromFS(
+      User user) async {
+    try {
+      if (user != null) {
+        print("user id is ${user.uid}");
+        return FirebaseFirestore.instance.collection('users').doc(user.uid).get();
+//            .then((ds) {
+//          print("got user from fs ${ds["email"]}");
+//          return ds;
+//        });
+      } else {
+        print("user is null");
+        return null;
+      }
+    } catch (e) {
+      print(e);
+      return null;
+    }
+  }
+}
