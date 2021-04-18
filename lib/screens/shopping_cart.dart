@@ -190,12 +190,13 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
                                     "${snapshot.data[index]['image']}"),
                                 trailing: Text(
                                     "LKR ${snapshot.data[index]['price']}"),
-                                title: Text("${snapshot.data[index]['name']}", style: TextStyle(fontSize: 15.0),),
+                                title: Text("${snapshot.data[index]['name']}",
+                                  style: TextStyle(fontSize: 15.0),),
                                 subtitle: Row(
                                   children: [
                                     TextButton(
                                       style: TextButton.styleFrom(
-                                        backgroundColor: Colors.yellow,
+                                        backgroundColor: Color(0xff1faa00),
                                         minimumSize: Size(10.0, 5.0)
                                       ),
                                         onPressed: () {
@@ -206,13 +207,17 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
                                             totalWeight += int.parse(snapshot.data[index]['weight'].toString());
                                           });
                                         },
-                                        child: Text('+')),
-                                    Text('   Quantity:   ' +
+                                        child: Text(
+                                          '+',
+                                          style: TextStyle(color: Colors.white)
+                                        )
+                                    ),
+                                    Text(' Quantity:   ' +
                                         (snapshot.data[index]['quantity']
                                             .toString())),
                                     TextButton(
                                         style: TextButton.styleFrom(
-                                          backgroundColor: Colors.yellow,
+                                          backgroundColor: Color(0xff1faa00),
                                           minimumSize: Size(10.0, 5.0)
                                         ),
                                         onPressed: () {
@@ -227,7 +232,11 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
                                             }
                                           });
                                         },
-                                        child: Text('-')),
+                                        child: Text(
+                                          '-',
+                                          style: TextStyle(color: Colors.white)
+                                        )
+                                    ),
                                   ],
                                 ),
                                 //dense: true,
