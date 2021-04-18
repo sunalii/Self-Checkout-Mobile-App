@@ -404,3 +404,5 @@ Widget cartBottomTabTotal(double total) {
     ),
   );
 }
+
+
