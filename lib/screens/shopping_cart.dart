@@ -25,6 +25,7 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
   List scanProducts = [];
 
   double total = 0;
+  int totalWeight = 0;
 
   final SnackBar _snackBar = SnackBar(content: Text("Item added to cart"));
 
@@ -41,7 +42,7 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
           "Cancel", //CANCEL BUTTON TEXT
           true, //FLASH USE
           ScanMode.BARCODE //SCAN MODE --> QR, BARCODE, DEFAULT
-      );
+          );
 
       if (!mounted) return;
 
@@ -70,9 +71,25 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
     scanProducts.forEach((element) async {
       await _usersRef.doc(_user.uid).collection("Cart").add({
         'barcode': element['barcode'],
-        'productQuantity': element['quantity'],
-        'productWeight': element['weight'],
-        'productPrice': element['price'],
+        'name': element['name'],
+        'quantity': element['quantity'],
+        'weight': element['weight'],
+        'price': element['price'],
+      });
+    });
+    _addToPay();
+  }
+
+  Future _addToPay() async {
+    final CollectionReference _usersRef = FirebaseFirestore.instance.collection(
+        "UsersPayCheck");
+
+    User _user = FirebaseAuth.instance.currentUser;
+
+    scanProducts.forEach((element) async {
+      await _usersRef.doc(_user.uid).collection("CartPayCheck").add({
+        'totalWeight': totalWeight,
+        'totalPrice': total,
       });
     });
   }
@@ -95,7 +112,7 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
           setState(() {
             scanProducts.add(element.data());
             total += double.parse(element['price'].toString());
-
+            totalWeight += int.parse(element['weight'].toString());
             this.getDataQr = false;
             ScaffoldMessenger.of(context).showSnackBar(_snackBar);
           });
@@ -105,6 +122,33 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
     }
     return scanProducts;
   }
+
+  // //double total = 0;
+  // double price = 0;
+  //
+  // Future getTotal() async {
+  //
+  //   double total = 0;
+  //   //double price = 0;
+  //
+  //   FirebaseFirestore.instance
+  //       .collection('Priducts')
+  //       .where('barcode', isEqualTo: this.qrCode)
+  //       .snapshots()
+  //       .listen((data) {
+  //      data.docs.forEach((element) {
+  //        setState(() {
+  //          total = double.parse(element['price'].toString());
+  //          price = total;
+  //          return price;
+  //        });
+  //      });
+  //   });
+  //   return total;
+  // }
+
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -138,7 +182,7 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
                         itemBuilder: (BuildContext context, int index) {
                           //print("document ${document}");
                           return Container(
-                            height: 80.0,
+                            height: 120.0,
                             width: double.infinity,
                             child: Card(
                               child: ListTile(
@@ -146,34 +190,47 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
                                     "${snapshot.data[index]['image']}"),
                                 trailing: Text(
                                     "LKR ${snapshot.data[index]['price']}"),
-                                title: Text("${snapshot.data[index]['name']}"),
+                                title: Text("${snapshot.data[index]['name']}", style: TextStyle(fontSize: 15.0),),
                                 subtitle: Row(
                                   children: [
                                     TextButton(
+                                      style: TextButton.styleFrom(
+                                        backgroundColor: Colors.yellow,
+                                        minimumSize: Size(10.0, 5.0)
+                                      ),
                                         onPressed: () {
                                           setState(() {
                                             snapshot.data[index]['quantity'] +=
-                                            1;
+                                                1;
+                                            total += double.parse(snapshot.data[index]['price'].toString());
+                                            totalWeight += int.parse(snapshot.data[index]['weight'].toString());
                                           });
                                         },
                                         child: Text('+')),
-                                    Text('Quantity: ' +
+                                    Text('   Quantity:   ' +
                                         (snapshot.data[index]['quantity']
                                             .toString())),
                                     TextButton(
+                                        style: TextButton.styleFrom(
+                                          backgroundColor: Colors.yellow,
+                                          minimumSize: Size(10.0, 5.0)
+                                        ),
                                         onPressed: () {
                                           setState(() {
                                             if (snapshot.data[index]
-                                            ['quantity'] >
+                                                    ['quantity'] >
                                                 1) {
                                               snapshot.data[index]
-                                              ['quantity'] -= 1;
+                                                  ['quantity'] -= 1;
+                                              total -= double.parse(snapshot.data[index]['price'].toString());
+                                              totalWeight -= int.parse(snapshot.data[index]['weight'].toString());
                                             }
                                           });
                                         },
                                         child: Text('-')),
                                   ],
                                 ),
+                                //dense: true,
                               ),
                             ),
                           );
@@ -229,7 +286,8 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
             children: [
               CartBottomTabBtn(
                 onPressed: () {
-                  _addToCart().then((value) {
+                  _addToCart().then((value)
+                  {
                     Navigator.push(
                       context,
                       MaterialPageRoute(builder: (context) => CheckingPage()),
