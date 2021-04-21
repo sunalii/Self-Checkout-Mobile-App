@@ -156,11 +156,17 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
                 content: Text('Exiting cart will clear all your items.'),
                 actions: [
                   TextButton(
-                    child: Text("Yes"),
+                    child: Text(
+                      "Yes",
+                      style: TextStyle(fontSize: 18),
+                    ),
                     onPressed: () => Navigator.of(context).pop(true),
                   ),
                   TextButton(
-                    child: Text("No"),
+                    child: Text(
+                      "No",
+                      style: TextStyle(fontSize: 18),
+                    ),
                     onPressed: () => Navigator.of(context).pop(false),
                   ),
                 ],
