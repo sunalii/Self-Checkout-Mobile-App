@@ -136,14 +136,16 @@ confirmationAlert(BuildContext context) {
             content: Text("Do you want to Logout?"),
             actions: [
               TextButton(
-                child: Text("Yes"),
+                child: Text("Yes",
+                  style: TextStyle(fontSize: 18),),
                 onPressed: () {
                   FirebaseAuth.instance.signOut();
                   Navigator.pop(context);
                 },
               ),
               TextButton(
-                child: Text("No"),
+                child: Text("No",
+                  style: TextStyle(fontSize: 18),),
                 onPressed: () {
                   Navigator.pop(context);
                 },
