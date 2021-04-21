@@ -81,8 +81,8 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
   }
 
   Future _addToPay() async {
-    final CollectionReference _usersRef = FirebaseFirestore.instance.collection(
-        "UsersPayCheck");
+    final CollectionReference _usersRef =
+        FirebaseFirestore.instance.collection("UsersPayCheck");
 
     User _user = FirebaseAuth.instance.currentUser;
 
@@ -147,166 +147,194 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
   //   return total;
   // }
 
-
-
+  Future<bool> _onBackPressed() {
+    return showDialog(
+            context: context,
+            builder: (context) {
+              return AlertDialog(
+                title: Text('Leave?'),
+                content: Text('Exiting cart will clear all your items.'),
+                actions: [
+                  TextButton(
+                    child: Text("Yes"),
+                    onPressed: () => Navigator.of(context).pop(true),
+                  ),
+                  TextButton(
+                    child: Text("No"),
+                    onPressed: () => Navigator.of(context).pop(false),
+                  ),
+                ],
+              );
+            }) ??
+        false;
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          title: Text(
-            "Shopping Cart",
-            style: Constants.boldHeadingAppBar,
+    return WillPopScope(
+      onWillPop: _onBackPressed,
+      child: Scaffold(
+          appBar: AppBar(
+            title: Text(
+              "Shopping Cart",
+              style: Constants.boldHeadingAppBar,
+            ),
+            textTheme: GoogleFonts.poppinsTextTheme(),
           ),
-          textTheme: GoogleFonts.poppinsTextTheme(),
-        ),
-        body: SafeArea(
-          child: Container(
-            child: FutureBuilder(
-              future: _getData(),
-              builder: (context, AsyncSnapshot snapshot) {
-                print("hello ${snapshot.data}");
-                if (snapshot.hasError) {
-                  return Scaffold(
-                    body: Center(
-                      child: Text("Error: ${snapshot.error}"),
-                    ),
-                  );
-                }
-
-                if (snapshot.hasData) {
-                  if (snapshot.data.length > 0) {
-                    //if (qrCode == 'barcode') {
-                    return ListView.builder(
-                        itemCount: snapshot.data.length,
-                        itemBuilder: (BuildContext context, int index) {
-                          //print("document ${document}");
-                          return Container(
-                            height: 120.0,
-                            width: double.infinity,
-                            child: Card(
-                              child: ListTile(
-                                leading: Image.network(
-                                    "${snapshot.data[index]['image']}"),
-                                trailing: Text(
-                                    "LKR ${snapshot.data[index]['price']}"),
-                                title: Text("${snapshot.data[index]['name']}",
-                                  style: TextStyle(fontSize: 15.0),),
-                                subtitle: Row(
-                                  children: [
-                                    TextButton(
-                                      style: TextButton.styleFrom(
-                                        backgroundColor: Color(0xff1faa00),
-                                        minimumSize: Size(10.0, 5.0)
-                                      ),
-                                        onPressed: () {
-                                          setState(() {
-                                            snapshot.data[index]['quantity'] +=
-                                                1;
-                                            total += double.parse(snapshot.data[index]['price'].toString());
-                                            totalWeight += int.parse(snapshot.data[index]['weight'].toString());
-                                          });
-                                        },
-                                        child: Text(
-                                          '+',
-                                          style: TextStyle(color: Colors.white)
-                                        )
-                                    ),
-                                    Text(' Quantity:   ' +
-                                        (snapshot.data[index]['quantity']
-                                            .toString())),
-                                    TextButton(
-                                        style: TextButton.styleFrom(
-                                          backgroundColor: Color(0xff1faa00),
-                                          minimumSize: Size(10.0, 5.0)
-                                        ),
-                                        onPressed: () {
-                                          setState(() {
-                                            if (snapshot.data[index]
-                                                    ['quantity'] >
-                                                1) {
-                                              snapshot.data[index]
-                                                  ['quantity'] -= 1;
-                                              total -= double.parse(snapshot.data[index]['price'].toString());
-                                              totalWeight -= int.parse(snapshot.data[index]['weight'].toString());
-                                            }
-                                          });
-                                        },
-                                        child: Text(
-                                          '-',
-                                          style: TextStyle(color: Colors.white)
-                                        )
-                                    ),
-                                  ],
-                                ),
-                                //dense: true,
-                              ),
-                            ),
-                          );
-                        });
-                  } else {
+          body: SafeArea(
+            child: Container(
+              child: FutureBuilder(
+                future: _getData(),
+                builder: (context, AsyncSnapshot snapshot) {
+                  print("hello ${snapshot.data}");
+                  if (snapshot.hasError) {
                     return Scaffold(
                       body: Center(
-                        child: Text("No items added to cart"),
+                        child: Text("Error: ${snapshot.error}"),
                       ),
                     );
                   }
-                }
 
-                return Scaffold(
-                  body: Center(
-                    child: CircularProgressIndicator(),
-                  ),
-                );
-              },
-            ),
-          ),
-        ),
-        floatingActionButton: Padding(
-          padding: const EdgeInsets.only(
-            bottom: 20.0,
-            right: 8.0,
-          ),
-          child: Container(
-            height: 60.0,
-            width: 60.0,
-            child: FloatingActionButton(
-              backgroundColor: Theme.of(context).primaryColor,
-              child: Icon(Icons.qr_code_rounded),
-              onPressed: _scanQR,
-            ),
-          ),
-        ),
-        bottomNavigationBar: Container(
-          height: 120.0,
-          width: double.infinity,
-          decoration: BoxDecoration(
-            color: Colors.white,
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withOpacity(0.1),
-                spreadRadius: 1.0,
-                blurRadius: 20.0,
-              ),
-            ],
-          ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              CartBottomTabBtn(
-                onPressed: () {
-                  _addToCart().then((value)
-                  {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => CheckingPage()),
-                    );
-                  });
+                  if (snapshot.hasData) {
+                    if (snapshot.data.length > 0) {
+                      //if (qrCode == 'barcode') {
+                      return ListView.builder(
+                          itemCount: snapshot.data.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            //print("document ${document}");
+                            return Container(
+                              height: 120.0,
+                              width: double.infinity,
+                              child: Card(
+                                child: ListTile(
+                                  leading: Image.network(
+                                      "${snapshot.data[index]['image']}"),
+                                  trailing: Text(
+                                      "LKR ${snapshot.data[index]['price']}"),
+                                  title: Text(
+                                    "${snapshot.data[index]['name']}",
+                                    style: TextStyle(fontSize: 15.0),
+                                  ),
+                                  subtitle: Row(
+                                    children: [
+                                      TextButton(
+                                          style: TextButton.styleFrom(
+                                              backgroundColor:
+                                                  Color(0xff1faa00),
+                                              minimumSize: Size(10.0, 5.0)),
+                                          onPressed: () {
+                                            setState(() {
+                                              snapshot.data[index]
+                                                  ['quantity'] += 1;
+                                              total += double.parse(snapshot
+                                                  .data[index]['price']
+                                                  .toString());
+                                              totalWeight += int.parse(snapshot
+                                                  .data[index]['weight']
+                                                  .toString());
+                                            });
+                                          },
+                                          child: Text('+',
+                                              style: TextStyle(
+                                                  color: Colors.white))),
+                                      Text(' Quantity:   ' +
+                                          (snapshot.data[index]['quantity']
+                                              .toString())),
+                                      TextButton(
+                                          style: TextButton.styleFrom(
+                                              backgroundColor:
+                                                  Color(0xff1faa00),
+                                              minimumSize: Size(10.0, 5.0)),
+                                          onPressed: () {
+                                            setState(() {
+                                              if (snapshot.data[index]
+                                                      ['quantity'] >
+                                                  1) {
+                                                snapshot.data[index]
+                                                    ['quantity'] -= 1;
+                                                total -= double.parse(snapshot
+                                                    .data[index]['price']
+                                                    .toString());
+                                                totalWeight -= int.parse(
+                                                    snapshot.data[index]
+                                                            ['weight']
+                                                        .toString());
+                                              }
+                                            });
+                                          },
+                                          child: Text('-',
+                                              style: TextStyle(
+                                                  color: Colors.white))),
+                                    ],
+                                  ),
+                                  //dense: true,
+                                ),
+                              ),
+                            );
+                          });
+                    } else {
+                      return Scaffold(
+                        body: Center(
+                          child: Text("No items added to cart"),
+                        ),
+                      );
+                    }
+                  }
+
+                  return Scaffold(
+                    body: Center(
+                      child: CircularProgressIndicator(),
+                    ),
+                  );
                 },
               ),
-              cartBottomTabTotal(total),
-            ],
+            ),
           ),
-        ));
+          floatingActionButton: Padding(
+            padding: const EdgeInsets.only(
+              bottom: 20.0,
+              right: 8.0,
+            ),
+            child: Container(
+              height: 60.0,
+              width: 60.0,
+              child: FloatingActionButton(
+                backgroundColor: Theme.of(context).primaryColor,
+                child: Icon(Icons.qr_code_rounded),
+                onPressed: _scanQR,
+              ),
+            ),
+          ),
+          bottomNavigationBar: Container(
+            height: 120.0,
+            width: double.infinity,
+            decoration: BoxDecoration(
+              color: Colors.white,
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.1),
+                  spreadRadius: 1.0,
+                  blurRadius: 20.0,
+                ),
+              ],
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                CartBottomTabBtn(
+                  onPressed: () {
+                    _addToCart().then((value) {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => CheckingPage()),
+                      );
+                    });
+                  },
+                ),
+                cartBottomTabTotal(total),
+              ],
+            ),
+          )),
+    );
   }
 }
