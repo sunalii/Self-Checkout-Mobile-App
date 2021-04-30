@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-//CUSTOM BUTTONS TO LOGIN AND REGISTER PAGES
+//CUSTOM BUTTONS TO LOGIN AND REGISTER PAGES / WHITE - GREEN
 class CustomBtn extends StatelessWidget {
   final String text;
   final Function onPressed;
@@ -66,7 +66,7 @@ class CustomBtn extends StatelessWidget {
     );
   }
 }
-
+//WHITE - BLUE
 class CustomEditBtn extends StatelessWidget {
   final String text;
   final Function onPressed;
