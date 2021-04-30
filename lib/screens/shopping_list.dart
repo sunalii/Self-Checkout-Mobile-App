@@ -113,7 +113,6 @@ class _ShoppingListPageState extends State<ShoppingListPage> {
             Text(
               "No items added.\nPress the button to start!",
               textAlign: TextAlign.center,
-              style: TextStyle(color: Colors.black),
             )
           ],
         ),
