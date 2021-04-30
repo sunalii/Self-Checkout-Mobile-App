@@ -27,8 +27,10 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
   double total = 0;
   int totalWeight = 0;
 
-  final SnackBar _snackBarItemAdded = SnackBar(content: Text("Item added to cart"));
-  final SnackBar _snackBarItemDeleted = SnackBar(content: Text("Item removed from cart"));
+  final SnackBar _snackBarItemAdded =
+      SnackBar(content: Text("Item added to cart"));
+  final SnackBar _snackBarItemDeleted =
+      SnackBar(content: Text("Item removed from cart"));
 
   @override
   void initState() {
@@ -62,8 +64,6 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
 
   // final CollectionReference _productsRef = FirebaseFirestore.instance
   //     .collection("Products");
-
-
 
   Future<List> _getData() async {
     //print(this.qrCode.runtimeType);
@@ -114,7 +114,7 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
 
   Future _addToPay() async {
     final CollectionReference _usersRef =
-    FirebaseFirestore.instance.collection("UsersPayCheck");
+        FirebaseFirestore.instance.collection("UsersPayCheck");
 
     User _user = FirebaseAuth.instance.currentUser;
 
@@ -127,7 +127,8 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
   }
 
   void deleteCartItem(index) async {
-    CollectionReference cartItem = FirebaseFirestore.instance.collection('Users');
+    CollectionReference cartItem =
+        FirebaseFirestore.instance.collection('Users');
     User _user = FirebaseAuth.instance.currentUser;
     setState(() {
       scanProducts.forEach((element) async {
@@ -143,13 +144,11 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
     });
   }
 
-  clearCart(){
+  clearCart() {
     setState(() {
       scanProducts.clear();
     });
   }
-
-
 
   // //double total = 0;
   // double price = 0;
@@ -206,8 +205,6 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
         false;
   }
 
-
-
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
@@ -246,7 +243,8 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
                               width: double.infinity,
                               child: Card(
                                 child: Dismissible(
-                                  key: Key(scanProducts.toString()), //HAS TO GIVE A UNIQUE KEY TO IDENTIFY THE DISMISS TILE
+                                  key: Key(scanProducts.toString()),
+                                  //HAS TO GIVE A UNIQUE KEY TO IDENTIFY THE DISMISS TILE
                                   onDismissed: (direction) async {
                                     setState(() {
                                       scanProducts.remove(index);
@@ -255,7 +253,8 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
                                   direction: DismissDirection.startToEnd,
                                   background: Container(
                                     color: Color(0xffD50000),
-                                    child: Icon(Icons.delete_rounded, color: Colors.white),
+                                    child: Icon(Icons.delete_rounded,
+                                        color: Colors.white),
                                     alignment: Alignment.centerLeft,
                                     padding: EdgeInsets.only(left: 15.0),
                                   ),
@@ -282,9 +281,10 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
                                                 total += double.parse(snapshot
                                                     .data[index]['price']
                                                     .toString());
-                                                totalWeight += int.parse(snapshot
-                                                    .data[index]['weight']
-                                                    .toString());
+                                                totalWeight += int.parse(
+                                                    snapshot.data[index]
+                                                            ['weight']
+                                                        .toString());
                                               });
                                             },
                                             child: Text('+',
@@ -328,8 +328,22 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
                           });
                     } else {
                       return Scaffold(
-                        body: Center(
-                          child: Text("No items added to cart"),
+                        body: Container(
+                          child: Center(
+                            child: ListView(
+                              shrinkWrap: true,
+                              children: [
+                                Icon(
+                                  Icons.remove_shopping_cart,
+                                  size: 50.0,
+                                ),
+                                Text(
+                                  "No items added.\nPress the button to start!",
+                                  textAlign: TextAlign.center,
+                                ),
+                              ],
+                            ),
+                          ),
                         ),
                       );
                     }
