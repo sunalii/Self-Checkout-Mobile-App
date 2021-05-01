@@ -29,7 +29,21 @@ class _AppDrawerState extends State<AppDrawer> {
                         .snapshots(),
                     builder: (context, snapshot) {
                       if (!snapshot.hasData) {
-                        return Text("Display Name");
+                        return UserAccountsDrawerHeader(
+                          decoration: BoxDecoration(
+                            color: Color(0xffD50000),
+                            image: DecorationImage(
+                                image: AssetImage("assets/image2-dark.png"),
+                                fit: BoxFit.cover),
+                          ),
+                          accountName: Text(
+                            FirebaseAuth.instance.currentUser.displayName ?? "Display Name",
+                            style: TextStyle(fontSize: 20.0),
+                          ),
+                          accountEmail: Text(
+                              '${FirebaseAuth.instance.currentUser.email}'),
+                          currentAccountPicture: Avatar(),
+                        );
                       } else {
                         return UserAccountsDrawerHeader(
                           decoration: BoxDecoration(
@@ -136,16 +150,20 @@ confirmationAlert(BuildContext context) {
             content: Text("Do you want to Logout?"),
             actions: [
               TextButton(
-                child: Text("Yes",
-                  style: TextStyle(fontSize: 18),),
+                child: Text(
+                  "Yes",
+                  style: TextStyle(fontSize: 18),
+                ),
                 onPressed: () {
                   FirebaseAuth.instance.signOut();
                   Navigator.pop(context);
                 },
               ),
               TextButton(
-                child: Text("No",
-                  style: TextStyle(fontSize: 18),),
+                child: Text(
+                  "No",
+                  style: TextStyle(fontSize: 18),
+                ),
                 onPressed: () {
                   Navigator.pop(context);
                 },

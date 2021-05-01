@@ -92,7 +92,7 @@ class _EditUserProfileState extends State<EditUserProfile> {
               Column(
                 children: [
                   Text(
-                    "${FirebaseAuth.instance.currentUser.displayName}" ?? "Display Name Here",
+                    FirebaseAuth.instance.currentUser.displayName ?? "Display Name Here",
                     style: Constants.regularWhiteText,
                   )
                 ],
