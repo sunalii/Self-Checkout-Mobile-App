@@ -336,9 +336,10 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
                                 Icon(
                                   Icons.remove_shopping_cart,
                                   size: 50.0,
+                                  color: Colors.black26,
                                 ),
                                 Text(
-                                  "No items added.\nPress the button to start!",
+                                  "No items added.\nPress the Green button to start!",
                                   textAlign: TextAlign.center,
                                 ),
                               ],
