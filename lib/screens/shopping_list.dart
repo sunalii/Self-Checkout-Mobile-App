@@ -109,6 +109,7 @@ class _ShoppingListPageState extends State<ShoppingListPage> {
             Icon(
               Icons.close,
               size: 50.0,
+              color: Colors.black26,
             ),
             Text(
               "No items added.\nPress the button to start!",
