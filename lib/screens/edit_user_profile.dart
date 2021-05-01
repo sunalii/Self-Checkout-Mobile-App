@@ -17,11 +17,9 @@ class _EditUserProfileState extends State<EditUserProfile> {
   TextEditingController _usernameController = TextEditingController();
 
   Future _addDisplayName() async {
-    setState(() {
       User updateUser = FirebaseAuth.instance.currentUser;
       updateUser.updateProfile(displayName: _usernameController.text);
       userSetup(_usernameController.text);
-    });
   }
 
   @override
@@ -114,15 +112,15 @@ class _EditUserProfileState extends State<EditUserProfile> {
                   CustomEditBtn(
                     text: "Cancel",
                     onPressed: () {
-                      FocusScope.of(context).requestFocus(FocusNode());
+                      FocusScope.of(context).requestFocus(FocusNode()); //CLOSING THE KEYBOARD BEFORE GOING TO NEXT PAGE
                       Navigator.pop(context);
                     },
                     outlineBtn: true,
                   ),
                   CustomEditBtn(
                     text: "Save",
-                    onPressed: () async {
-                      FocusScope.of(context).requestFocus(FocusNode());
+                    onPressed: () {
+                      FocusScope.of(context).requestFocus(FocusNode()); //CLOSING THE KEYBOARD BEFORE GOING TO NEXT PAGE
                       _addDisplayName();
                       Navigator.pop(context);
                     },
