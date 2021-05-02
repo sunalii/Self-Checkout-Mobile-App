@@ -36,7 +36,7 @@ class FirebaseServices{
     String uid = getCurrentEmail().toString();
     String displayName = getCurrentUserName().toString();
 
-    users.add({'displayName': displayName, 'uid': uid});
+    users.doc(getUserId()).set({'displayName': displayName, 'uid': uid});
     return;
   }
 }
