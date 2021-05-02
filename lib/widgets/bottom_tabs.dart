@@ -392,7 +392,7 @@ Widget cartBottomTabTotal(double total) {
           textAlign: TextAlign.center,
         ),
         Text(
-          "LKR ${total.toString()}",
+          "LKR ${total.toString()}0",
           style: TextStyle(
             fontSize: 16.0,
             color: Colors.black,
@@ -404,5 +404,3 @@ Widget cartBottomTabTotal(double total) {
     ),
   );
 }
-
-
