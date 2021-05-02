@@ -29,7 +29,19 @@ class FirebaseServices{
   final CollectionReference usersPayRef = FirebaseFirestore
       .instance
       .collection("UsersPayCheck");
+
+  Future<void> userSetup(String displayName) async {
+    CollectionReference users = _firebaseFirestore.collection('UserDetails');
+
+    String uid = getCurrentEmail().toString();
+    String displayName = getCurrentUserName().toString();
+
+    users.add({'displayName': displayName, 'uid': uid});
+    return;
+  }
 }
+
+
 
 // import 'package:cloud_firestore/cloud_firestore.dart';
 // import 'package:flutter/foundation.dart';

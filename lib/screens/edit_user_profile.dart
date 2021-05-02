@@ -1,7 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:selfcheckoutapp/services/auth.dart';
 import 'package:selfcheckoutapp/services/firebase_services.dart';
 import 'package:selfcheckoutapp/widgets/custom_button.dart';
 import 'package:selfcheckoutapp/widgets/custom_input.dart';
@@ -20,7 +19,7 @@ class _EditUserProfileState extends State<EditUserProfile> {
   Future _addDisplayName() async {
       User updateUser = FirebaseAuth.instance.currentUser;
       updateUser.updateProfile(displayName: _usernameController.text);
-      userSetup(_usernameController.text);
+      _firebaseServices.userSetup(_usernameController.text);
   }
 
   @override
