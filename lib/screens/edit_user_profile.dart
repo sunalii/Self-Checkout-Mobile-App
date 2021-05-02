@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:selfcheckoutapp/services/auth.dart';
+import 'package:selfcheckoutapp/services/firebase_services.dart';
 import 'package:selfcheckoutapp/widgets/custom_button.dart';
 import 'package:selfcheckoutapp/widgets/custom_input.dart';
 import 'package:selfcheckoutapp/widgets/profile_avatar.dart';
@@ -13,7 +14,7 @@ class EditUserProfile extends StatefulWidget {
 }
 
 class _EditUserProfileState extends State<EditUserProfile> {
-
+  FirebaseServices _firebaseServices = FirebaseServices();
   TextEditingController _usernameController = TextEditingController();
 
   Future _addDisplayName() async {
@@ -92,7 +93,7 @@ class _EditUserProfileState extends State<EditUserProfile> {
               Column(
                 children: [
                   Text(
-                    FirebaseAuth.instance.currentUser.displayName ?? "Display Name Here",
+                    _firebaseServices.getCurrentUserName() ?? "Display Name Here",
                     style: Constants.regularWhiteText,
                   )
                 ],

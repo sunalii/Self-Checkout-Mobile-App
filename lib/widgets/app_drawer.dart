@@ -5,6 +5,7 @@ import 'package:selfcheckoutapp/constants.dart';
 import 'package:selfcheckoutapp/screens/edit_user_profile.dart';
 import 'package:selfcheckoutapp/widgets/custom_button.dart';
 import 'package:selfcheckoutapp/widgets/profile_avatar.dart';
+import 'package:selfcheckoutapp/services/firebase_services.dart';
 
 class AppDrawer extends StatefulWidget {
   @override
@@ -12,6 +13,8 @@ class AppDrawer extends StatefulWidget {
 }
 
 class _AppDrawerState extends State<AppDrawer> {
+  FirebaseServices _firebaseServices = FirebaseServices();
+
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -37,11 +40,11 @@ class _AppDrawerState extends State<AppDrawer> {
                                 fit: BoxFit.cover),
                           ),
                           accountName: Text(
-                            FirebaseAuth.instance.currentUser.displayName ?? "Display Name",
+                            _firebaseServices.getCurrentUserName() ?? "Display Name",
                             style: TextStyle(fontSize: 20.0),
                           ),
                           accountEmail: Text(
-                              '${FirebaseAuth.instance.currentUser.email}'),
+                              '${_firebaseServices.getCurrentEmail()}'),
                           currentAccountPicture: Avatar(),
                         );
                       } else {
@@ -56,12 +59,12 @@ class _AppDrawerState extends State<AppDrawer> {
                               stream: null,
                               builder: (context, snapshot) {
                                 return Text(
-                                  "${FirebaseAuth.instance.currentUser.displayName}",
+                                  "${_firebaseServices.getCurrentUserName()}",
                                   style: TextStyle(fontSize: 20.0),
                                 );
                               }),
                           accountEmail: Text(
-                              '${FirebaseAuth.instance.currentUser.email}'),
+                              '${_firebaseServices.getCurrentEmail()}'),
                           currentAccountPicture: Avatar(),
                         );
                       }
