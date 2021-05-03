@@ -1,9 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:selfcheckoutapp/constants.dart';
-import 'package:selfcheckoutapp/screens/bill_history_display.dart';
 import 'package:selfcheckoutapp/services/firebase_services.dart';
 
 class BillHistoryPage extends StatefulWidget {
@@ -21,22 +19,85 @@ class _BillHistoryPageState extends State<BillHistoryPage> {
   //
   // User _user = FirebaseAuth.instance.currentUser;
 
+  void _deleteCart() async {
+    _firebaseServices.usersCartRef
+        .doc(_firebaseServices.getUserId())
+        .collection("Cart")
+        .snapshots()
+        .forEach((element) {
+      for (QueryDocumentSnapshot snapshot in element.docs) {
+        snapshot.reference
+            .delete(); //first time -- add > delete //second time -- add and deleting at the same time
+      }
+      //_goBack();
+    });
+    //return _goBack();
+  }
+
+  Future<bool> _popUpMenu() async {
+    return showDialog(
+            context: context,
+            builder: (context) {
+              return AlertDialog(
+                title: Text('Delete Cart'),
+                content: Text('Are you sure you want to delete the cart?'),
+                actions: [
+                  TextButton(
+                    child: Text(
+                      "No",
+                      style: TextStyle(fontSize: 18),
+                    ),
+                    onPressed: () => Navigator.of(context).pop(false),
+                  ),
+                  TextButton(
+                    child: Text(
+                      "Yes",
+                      style: TextStyle(fontSize: 18),
+                    ),
+                    onPressed: () {
+                      _deleteCart();
+                      Navigator.of(context).pop(true);
+                      setState(() {
+                        emptyBodyBuild();
+                      });
+                    },
+                  ),
+                ],
+              );
+            }) ??
+        false;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text(
-            "Cart History",
-            style: Constants.boldHeadingAppBar,
-          ),
-          textTheme: GoogleFonts.poppinsTextTheme(),
+      appBar: AppBar(
+        title: Text(
+          "Cart History",
+          style: Constants.boldHeadingAppBar,
         ),
-        body: Container(
-          height: 85.0,
-          width: double.infinity,
-          child: Card(
+        textTheme: GoogleFonts.poppinsTextTheme(),
+        actions: [
+          Padding(
+            padding: EdgeInsets.only(right: 20.0),
+            child: GestureDetector(
+              onTap: _popUpMenu,
+              child: Icon(Icons.more_vert_rounded),
+            ),
+          ),
+        ],
+      ),
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.only(bottom: 20.0),
+          child: Container(
+            width: double.infinity,
             child: FutureBuilder<QuerySnapshot>(
-                future: _firebaseServices.usersCartRef.doc(_firebaseServices.getUserId()).collection('Cart').orderBy('time', descending: true).get(),
+                future: _firebaseServices.usersCartRef
+                    .doc(_firebaseServices.getUserId())
+                    .collection('Cart')
+                    .orderBy('time', descending: true)
+                    .get(),
                 builder: (context, snapshot) {
                   if (snapshot.hasError) {
                     return Scaffold(
@@ -47,52 +108,54 @@ class _BillHistoryPageState extends State<BillHistoryPage> {
                   }
 
                   if (snapshot.connectionState == ConnectionState.done) {
-
-                    // return ListView.builder(
-                    //   itemCount: snapshot.data.docs.length,
-                    //   itemBuilder: (BuildContext context, index) {
-                    //     return ListTile(
-                    //       leading: Image.network("${snapshot.data[index]['image']}"),
-                    //       title: Text("${documents.data()['name']}"),
-                    //       trailing: Text("LKR ${documents.data()['price']}"),
-                    //       subtitle: Text("Quantity: ${documents.data()['quantity']}\nWeight: ${documents.data()['weight']} g"),
-                    //       isThreeLine: true,
-                    //
-                    //     );
-                    //   }
-                    // );
-                  } else {
-                    return Scaffold(
-                      body: Container(
-                        child: Center(
-                          child: ListView(
-                            shrinkWrap: true,
-                            children: [
-                              Icon(
-                                Icons.remove_shopping_cart_outlined,
-                                size: 50.0,
-                                color: Colors.black26,
-                              ),
-                              Text(
-                                "No history to show!",
-                                textAlign: TextAlign.center,
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    );
+                    if (snapshot.hasData != null) {
+                      return ListView(
+                        children: snapshot.data.docs.map((documents) {
+                          return ListTile(
+                            leading:
+                                Image.network("${documents.data()['image']}"),
+                            title: Text("${documents.data()['name']}"),
+                            trailing: Text("LKR ${documents.data()['price']}"),
+                            subtitle: Text(
+                                "Quantity: ${documents.data()['quantity']}\nWeight: ${documents.data()['weight']} g"),
+                            isThreeLine: true,
+                          );
+                        }).toList(),
+                      );
+                    } else {
+                      emptyBodyBuild();
+                    }
                   }
-
                   return Scaffold(
                     body: Center(
                       child: CircularProgressIndicator(),
                     ),
                   );
-                }
-            ),
-            elevation: 5.0,
+                }),
           ),
-        ));
+        ),
+      ),
+    );
+  }
+
+  Container emptyBodyBuild() {
+    return Container(
+      child: Center(
+        child: ListView(
+          shrinkWrap: true,
+          children: [
+            Icon(
+              Icons.remove_shopping_cart_outlined,
+              size: 50.0,
+              color: Colors.black26,
+            ),
+            Text(
+              "No history to show!",
+              textAlign: TextAlign.center,
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }

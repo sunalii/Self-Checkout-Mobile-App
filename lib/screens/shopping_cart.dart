@@ -89,6 +89,7 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
     scanProducts.forEach((element) async {
       await _firebaseServices.usersCartRef.doc(_firebaseServices.getUserId()).collection("Cart").add({ //_firebaseServices.getUserId() = _user.uid
         'barcode': element['barcode'],
+        'image': element['image'],
         'name': element['name'],
         'quantity': element['quantity'],
         'weight': element['weight'],
@@ -141,7 +142,7 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
   Future _checkCartItems() async {
     if (scanProducts.isNotEmpty) {
       setState(() {
-        _addToPay().then((value) {
+        _addToCart().then((value) {
           Navigator.push(
             context,
             MaterialPageRoute(builder: (context) => CheckingPage()),

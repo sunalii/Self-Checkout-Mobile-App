@@ -96,26 +96,29 @@ class _CheckingPageState extends State<CheckingPage> {
     super.initState();
   }
 
-  Future<bool> _deleteCart() async {
-    _firebaseServices.usersCartRef.doc(_firebaseServices.getUserId()).collection("Cart").snapshots().forEach((element) {
-      for (QueryDocumentSnapshot snapshot in element.docs) {
-        snapshot.reference.delete();
-      }
-      _goBack();
-    });
-   return null;
-  }
-
-  _goBack() {
-      Navigator.of(context).pop(true);
-  }
+  // Future<bool> _deleteCart() async {
+  //   _firebaseServices.usersCartRef.doc(_firebaseServices.getUserId()).collection("Cart").snapshots().forEach((element) {
+  //     for (QueryDocumentSnapshot snapshot in element.docs) {
+  //       snapshot.reference.delete(); //first time -- add > delete //second time -- add and deleting at the same time
+  //     }
+  //     _goBack();
+  //   });
+  //  return _goBack();
+  // }
+  //
+  // _goBack() {
+  //   Navigator.push(
+  //     context,
+  //     MaterialPageRoute(builder: (context) => ShoppingCartPage()),
+  //   );
+  // }
 
   @override
   Widget build(BuildContext context) {
     return
-      WillPopScope(
-      onWillPop: _deleteCart,
-      child:
+      // WillPopScope(
+      // onWillPop: _deleteCart,
+      // child:
         Scaffold(
         appBar: AppBar(
           title: Text(
@@ -200,7 +203,7 @@ class _CheckingPageState extends State<CheckingPage> {
                 );
               }),
         ),
-      ),
+     // ),
     );
   }
 }
