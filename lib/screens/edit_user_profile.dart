@@ -104,6 +104,7 @@ class _EditUserProfileState extends State<EditUserProfile> {
               CustomInput(
                 controller: _usernameController,
                 hintText: "Edit Display Name...",
+                textInputType: TextInputType.text,
                 textCapitalization: TextCapitalization.words,
               ),
               Row(
