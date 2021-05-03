@@ -10,6 +10,7 @@ class CustomInput extends StatelessWidget {
   final TextInputAction textInputAction;
   final bool isPasswordField;
   final TextCapitalization textCapitalization;
+  final TextInputType textInputType;
   final dynamic controller;
 
   const CustomInput(
@@ -21,7 +22,8 @@ class CustomInput extends StatelessWidget {
       this.textInputAction,
       this.isPasswordField,
       this.controller,
-      this.textCapitalization})
+      this.textCapitalization,
+      this.textInputType})
       : super(key: key);
 
   @override
@@ -44,6 +46,7 @@ class CustomInput extends StatelessWidget {
           onChanged: onChanged,
           onSubmitted: onSubmitted,
           textInputAction: textInputAction,
+          keyboardType: textInputType,
           textCapitalization: textCapitalization,
           decoration: InputDecoration(
               border: InputBorder.none,

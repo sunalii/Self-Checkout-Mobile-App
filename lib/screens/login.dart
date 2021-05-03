@@ -122,6 +122,7 @@ class _LoginPageState extends State<LoginPage> {
                   CustomInput(
                     hintText: "Email...",
                     textCapitalization: TextCapitalization.none,
+                    textInputType: TextInputType.emailAddress,
                     onChanged: (value){
                       _loginEmail = value;
                     },
