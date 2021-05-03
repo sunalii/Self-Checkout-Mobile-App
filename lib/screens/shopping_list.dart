@@ -93,12 +93,6 @@ class _ShoppingListPageState extends State<ShoppingListPage> {
     );
   }
 
-  // Widget buildEmptyBody() {
-  //   return Center(
-  //     child: Text("No items added"),
-  //   );
-  // }
-
   Container noContentScreen() {
     //final Orientation orientation = MediaQuery.of(context).orientation;
     return Container(
