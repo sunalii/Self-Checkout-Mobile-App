@@ -7,13 +7,9 @@ import 'package:selfcheckoutapp/services/firebase_services.dart';
 import 'package:selfcheckoutapp/widgets/bottom_tabs.dart';
 import 'package:selfcheckoutapp/constants.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:intl/intl.dart';
 
 class ShoppingCartPage extends StatefulWidget {
-  // final String productId;
-  //
-  // const ShoppingCartPage({Key key, this.productId}) : super(key: key);
-
   @override
   _ShoppingCartPageState createState() => _ShoppingCartPageState();
 }
@@ -28,6 +24,10 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
 
   double total = 0;
   int totalWeight = 0;
+
+  static final DateTime now = DateTime.now();
+  static final DateFormat formatter = DateFormat('dd-MM-yyyy hh:mm:ss');
+  final String formatted = formatter.format(now);
 
   final SnackBar _snackBarItemAdded =
       SnackBar(content: Text("Item added to cart"));
@@ -64,17 +64,7 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
     }
   }
 
-  // final CollectionReference _productsRef = FirebaseFirestore.instance
-  //     .collection("Products");
-
   Future<List> _getData() async {
-    //print(this.qrCode.runtimeType);
-
-    // CollectionReference _productsRef =
-    //     FirebaseFirestore.instance.collection("Products");
-
-    //print('grower ${_productsRef.get()}');
-
     if (this.getDataQr) {
       _firebaseServices.productsRef
           .where('barcode', isEqualTo: this.qrCode)
@@ -96,59 +86,25 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
   }
 
   Future _addToCart() async {
-    //final CollectionReference _usersRef = FirebaseFirestore.instance.collection('Users'); // TO STORE USERS CART | User-->userId->Cart-->productId
-
-    //User _user = FirebaseAuth.instance.currentUser;
-
     scanProducts.forEach((element) async {
-      await _firebaseServices.usersRef.doc(_firebaseServices.getUserId()).collection("Cart").add({ //_user.uid
+      await _firebaseServices.usersCartRef.doc(_firebaseServices.getUserId()).collection("Cart").add({ //_firebaseServices.getUserId() = _user.uid
         'barcode': element['barcode'],
         'name': element['name'],
         'quantity': element['quantity'],
         'weight': element['weight'],
         'price': element['price'],
+        'time': formatted
       });
     });
     _addToPay();
   }
 
   Future _addToPay() async {
-    //final CollectionReference _usersPayRef = FirebaseFirestore.instance.collection("UsersPayCheck");
-
-    //User _user = FirebaseAuth.instance.currentUser;
-
     scanProducts.forEach((element) async {
       await _firebaseServices.usersPayRef.doc(_firebaseServices.getUserId()).set({
         'totalWeight': totalWeight,
         'totalPrice': total,
       });
-    });
-  }
-
-  Future deleteCartItem() async {
-    int index;
-    //User _user = FirebaseAuth.instance.currentUser;
-    DocumentReference cartItem =
-        FirebaseFirestore.instance.collection('Users').doc();
-    cartItem.delete();
-
-    // setState(() {
-    //   scanProducts.forEach((element) async {
-    //    await cartItem
-    //         .doc(_user.uid)
-    //         .delete()
-    //         .then((value) => print("User Deleted"))
-    //         .catchError((error) => print("Failed to delete user: $error"));
-
-    // ScaffoldMessenger.of(context).showSnackBar(_snackBarItemDeleted);
-    // });
-    //scanProducts.removeAt(index);
-    // });
-  }
-
-  clearCart() {
-    setState(() {
-      scanProducts.clear();
     });
   }
 
@@ -162,18 +118,16 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
                 actions: [
                   TextButton(
                     child: Text(
-                      "Yes",
+                      "OK",
                       style: TextStyle(fontSize: 18),
                     ),
                     onPressed: () {
                       Navigator.of(context).pop(true);
-                      clearCart();
-                      deleteCartItem();
                     },
                   ),
                   TextButton(
                     child: Text(
-                      "No",
+                      "Cancel",
                       style: TextStyle(fontSize: 18),
                     ),
                     onPressed: () => Navigator.of(context).pop(false),
@@ -187,7 +141,7 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
   Future _checkCartItems() async {
     if (scanProducts.isNotEmpty) {
       setState(() {
-        _addToCart().then((value) {
+        _addToPay().then((value) {
           Navigator.push(
             context,
             MaterialPageRoute(builder: (context) => CheckingPage()),
@@ -256,12 +210,14 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
                             width: double.infinity,
                             child: Card(
                               child: Dismissible(
-                                key: Key(scanProducts.toString()),
-                                //HAS TO GIVE A UNIQUE KEY TO IDENTIFY THE DISMISS TILE
+                                key: Key(scanProducts[index].hashCode.toString()),
                                 onDismissed: (direction) async {
                                   setState(() {
-                                    scanProducts.remove(index);
+                                    scanProducts.removeAt(index);
+                                    ScaffoldMessenger.of(context).showSnackBar(_snackBarItemDeleted);
                                   });
+                                  total -= double.parse(snapshot.data[index]['price'].toString());
+                                  totalWeight -= int.parse(snapshot.data[index]['weight'].toString());
                                 },
                                 direction: DismissDirection.startToEnd,
                                 background: Container(
@@ -289,39 +245,25 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
                                               minimumSize: Size(10.0, 5.0)),
                                           onPressed: () {
                                             setState(() {
-                                              snapshot.data[index]
-                                                  ['quantity'] += 1;
-                                              total += double.parse(snapshot
-                                                  .data[index]['price']
-                                                  .toString());
-                                              totalWeight += int.parse(snapshot
-                                                  .data[index]['weight']
-                                                  .toString());
+                                              snapshot.data[index]['quantity'] += 1;
+                                              total += double.parse(snapshot.data[index]['price'].toString());
+                                              totalWeight += int.parse(snapshot.data[index]['weight'].toString());
                                             });
                                           },
                                           child: Text('+',
                                               style: TextStyle(
                                                   color: Colors.white))),
-                                      Text(' Quantity:   ' +
-                                          (snapshot.data[index]['quantity']
-                                              .toString())),
+                                      Text(' Quantity:   ' + (snapshot.data[index]['quantity'].toString())),
                                       TextButton(
                                         style: TextButton.styleFrom(
                                             backgroundColor: Color(0xff1faa00),
                                             minimumSize: Size(10.0, 5.0)),
                                         onPressed: () {
                                           setState(() {
-                                            if (snapshot.data[index]
-                                                    ['quantity'] >
-                                                1) {
-                                              snapshot.data[index]
-                                                  ['quantity'] -= 1;
-                                              total -= double.parse(snapshot
-                                                  .data[index]['price']
-                                                  .toString());
-                                              totalWeight -= int.parse(snapshot
-                                                  .data[index]['weight']
-                                                  .toString());
+                                            if (snapshot.data[index]['quantity'] > 1) {
+                                              snapshot.data[index]['quantity'] -= 1;
+                                              total -= double.parse(snapshot.data[index]['price'].toString());
+                                              totalWeight -= int.parse(snapshot.data[index]['weight'].toString());
                                             }
                                           });
                                         },
@@ -346,7 +288,7 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
                             shrinkWrap: true,
                             children: [
                               Icon(
-                                Icons.remove_shopping_cart,
+                                Icons.remove_shopping_cart_rounded,
                                 size: 50.0,
                                 color: Colors.black26,
                               ),
@@ -422,3 +364,5 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
     );
   }
 }
+
+

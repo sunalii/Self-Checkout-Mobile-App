@@ -34,7 +34,7 @@ class _ExistingCardsPageState extends State<PaymentPage> {
     );
     await dialog.show();
     var response = await StripeService.payWithNewCard(
-        amount: '300000', currency: 'LKR');
+        amount: '300000', currency: 'LKR'); //get total price
     await dialog.hide();
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
       content: Text(response.message),

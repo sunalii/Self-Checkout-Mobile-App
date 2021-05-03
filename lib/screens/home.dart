@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:selfcheckoutapp/constants.dart';
-import 'package:selfcheckoutapp/screens/bill_history.dart';
+import 'package:selfcheckoutapp/screens/cart_history.dart';
 import 'package:selfcheckoutapp/screens/shopping_cart.dart';
 import 'package:selfcheckoutapp/screens/shopping_list.dart';
 import 'package:selfcheckoutapp/widgets/app_drawer.dart';
@@ -74,7 +74,7 @@ class _HomePageState extends State<HomePage> {
                       },
                     ),
                     HomeNavigateTabs(
-                      text: "Check Bill History",
+                      text: "Check Cart History",
                       iconData: Icons.history,
                       onPressed: () {
                         setState(() {

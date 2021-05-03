@@ -45,7 +45,7 @@ class _ExistingCardPageState extends State<ExistingCardPage> {
       expYear: int.parse(expiryArr[1]),
     );
     var response = await StripeService.payViaExistingCard(
-        amount: '25000',
+        amount: '25000', //get total price
         currency: 'LKR',
         card: stripeCard
     );

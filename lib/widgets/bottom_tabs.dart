@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import '../constants.dart';
-import 'package:selfcheckoutapp/screens/bill_history.dart';
+import 'package:selfcheckoutapp/screens/cart_history.dart';
 import 'package:selfcheckoutapp/screens/home.dart';
 import 'package:selfcheckoutapp/screens/shopping_cart.dart';
 import 'package:selfcheckoutapp/screens/shopping_list.dart';

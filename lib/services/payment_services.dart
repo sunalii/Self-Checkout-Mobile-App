@@ -1,7 +1,13 @@
 import 'dart:convert';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/services.dart';
+import 'package:selfcheckoutapp/screens/shopping_cart.dart';
+import 'package:selfcheckoutapp/services/firebase_services.dart';
 import 'package:stripe_payment/stripe_payment.dart';
 import 'package:http/http.dart' as http;
+
+FirebaseServices _firebaseServices = FirebaseServices();
+ShoppingCartPage _cartPage = ShoppingCartPage();
 
 class StripeTransactionResponse {
   String message;
@@ -23,7 +29,7 @@ class StripeService {
   static init() {
     StripePayment.setOptions(StripeOptions(
         publishableKey:
-            "pk_test_51IfMt7FnrKt7w8UFFUjOLYAsZINU5EuE9Qtst7zX2PEGhk5dAharCJQeFH0SdVuozRGQF4JgmfGtyqyfbuuKIAJO0028dxZ7CC",
+        "pk_test_51IfMt7FnrKt7w8UFFUjOLYAsZINU5EuE9Qtst7zX2PEGhk5dAharCJQeFH0SdVuozRGQF4JgmfGtyqyfbuuKIAJO0028dxZ7CC",
         merchantId: "Test",
         androidPayMode: 'test'));
   }
@@ -34,12 +40,13 @@ class StripeService {
       var paymentMethod = await StripePayment.createPaymentMethod(
           PaymentMethodRequest(card: card));
       var paymentIntent =
-          await StripeService.createPaymentIntent(amount, currency);
+      await StripeService.createPaymentIntent(amount, currency);
       var response = await StripePayment.confirmPaymentIntent(PaymentIntent(
           clientSecret: paymentIntent['client_secret'],
           paymentMethodId: paymentMethod.id)); //CONFIRM PAYMENT
       if (response.status == 'succeeded') {
-        ///
+        //cartAddedToBill();
+        //addToCart();
 
         return StripeTransactionResponse(
             message: 'Transaction successful', success: true);
@@ -61,12 +68,13 @@ class StripeService {
       var paymentMethod = await StripePayment.paymentRequestWithCardForm(
           CardFormPaymentRequest());
       var paymentIntent =
-          await StripeService.createPaymentIntent(amount, currency);
+      await StripeService.createPaymentIntent(amount, currency);
       var response = await StripePayment.confirmPaymentIntent(PaymentIntent(
           clientSecret: paymentIntent['client_secret'],
           paymentMethodId: paymentMethod.id)); //CONFIRM PAYMENT
       if (response.status == 'succeeded') {
-        //..
+        //cartAddedToBill();
+        //_cartPage.addToCart();
 
         return StripeTransactionResponse(
             message: 'Transaction successful', success: true);
@@ -91,8 +99,8 @@ class StripeService {
     return StripeTransactionResponse(message: message, success: false);
   }
 
-  static Future<Map<String, dynamic>> createPaymentIntent(
-      String amount, String currency) async {
+  static Future<Map<String, dynamic>> createPaymentIntent(String amount,
+      String currency) async {
     try {
       Map<String, dynamic> body = {
         'amount': amount,
@@ -107,4 +115,47 @@ class StripeService {
     }
     return null;
   }
+
+//   static void addToCart() {
+//     scanProducts.forEach((element) async {
+//       await _firebaseServices.usersCartRef.doc(_firebaseServices.getUserId()).collection("Cart").add({ //_firebaseServices.getUserId() = _user.uid
+//         'barcode': element['barcode'],
+//         'name': element['name'],
+//         'quantity': element['quantity'],
+//         'weight': element['weight'],
+//         'price': element['price'],
+//         'time': formatted
+//       });
+//     });
+//   }
+// }
+
+  Future<void> cartAddedToBill() async {
+    // User user = _firebaseServices.getUserId();
+    // print(user.uid);
+    _firebaseServices.usersCartRef.get().then((querySnapshot) {
+      querySnapshot.docs.forEach((result) {
+        _firebaseServices.usersCartRef.doc(_firebaseServices.getUserId())
+            .collection("Cart").get()
+            .then((querySnapshot) {
+          querySnapshot.docs.forEach((result) {
+            FirebaseFirestore
+                .instance
+                .collection('BillHistory')
+                .doc(_firebaseServices.getUserId())
+            //  .add({
+            // 'barcode': barcode,
+            // 'name': name,
+            // 'quantity': quantity,
+            // 'weight': weight,
+            // 'price': price,
+            //})
+                ;
+            //print(result.data);
+          });
+        });
+      });
+    });
+  }
 }
+
