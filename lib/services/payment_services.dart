@@ -1,13 +1,11 @@
 import 'dart:convert';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/services.dart';
-import 'package:selfcheckoutapp/screens/shopping_cart.dart';
 import 'package:selfcheckoutapp/services/firebase_services.dart';
 import 'package:stripe_payment/stripe_payment.dart';
 import 'package:http/http.dart' as http;
 
 FirebaseServices _firebaseServices = FirebaseServices();
-ShoppingCartPage _cartPage = ShoppingCartPage();
 
 class StripeTransactionResponse {
   String message;

@@ -19,19 +19,24 @@ class _BillHistoryPageState extends State<BillHistoryPage> {
   //
   // User _user = FirebaseAuth.instance.currentUser;
 
-  void _deleteCart() async {
-    _firebaseServices.usersCartRef
-        .doc(_firebaseServices.getUserId())
-        .collection("Cart")
-        .snapshots()
-        .forEach((element) {
-      for (QueryDocumentSnapshot snapshot in element.docs) {
-        snapshot.reference
-            .delete(); //first time -- add > delete //second time -- add and deleting at the same time
-      }
-      //_goBack();
-    });
-    //return _goBack();
+  _deleteCart() async {
+    // _firebaseServices.usersCartRef
+    //     .doc(_firebaseServices.getUserId())
+    //     .collection("Cart")
+    //     .snapshots()
+    //     .forEach((element) {
+    //
+    //   for (QueryDocumentSnapshot snapshot in element.docs) {
+    //     snapshot.reference
+    //         .delete(); //first time -- add > delete //second time -- add and deleting at the same time
+    //   }
+    //   //_goBack();
+    // });
+    // //return _goBack();
+
+    DocumentReference documentReference =
+        _firebaseServices.usersPayCheckRef.doc(_firebaseServices.getUserId());
+    documentReference.delete();
   }
 
   Future<bool> _popUpMenu() async {
@@ -68,6 +73,14 @@ class _BillHistoryPageState extends State<BillHistoryPage> {
         false;
   }
 
+  Future<QuerySnapshot> _getData() async {
+    return await _firebaseServices.usersCartRef
+        .doc(_firebaseServices.getUserId())
+        .collection('Cart')
+        .orderBy('time', descending: true)
+        .get();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -93,11 +106,7 @@ class _BillHistoryPageState extends State<BillHistoryPage> {
           child: Container(
             width: double.infinity,
             child: FutureBuilder<QuerySnapshot>(
-                future: _firebaseServices.usersCartRef
-                    .doc(_firebaseServices.getUserId())
-                    .collection('Cart')
-                    .orderBy('time', descending: true)
-                    .get(),
+                future: _getData(),
                 builder: (context, snapshot) {
                   if (snapshot.hasError) {
                     return Scaffold(

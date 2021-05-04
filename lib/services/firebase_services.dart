@@ -30,6 +30,10 @@ class FirebaseServices{
       .instance
       .collection("UsersPayCheck");
 
+  final CollectionReference userDetailsRef = FirebaseFirestore
+      .instance
+      .collection("UserDetails");
+
   Future<void> userSetup(String displayName) async {
     CollectionReference users = _firebaseFirestore.collection('UserDetails');
 
