@@ -48,9 +48,7 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
           true, //FLASH USE
           ScanMode.BARCODE //SCAN MODE --> QR, BARCODE, DEFAULT
           );
-
       if (!mounted) return;
-
       setState(() {
         this.qrCode = qrCode;
         this.getDataQr = true;
@@ -102,44 +100,14 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
 
   Future _addToPay() async {
     scanProducts.forEach((element) async {
-      await _firebaseServices.usersPayRef.doc(_firebaseServices.getUserId()).set({
+      await _firebaseServices.usersPayCheckRef.doc(_firebaseServices.getUserId()).set({
         'totalWeight': totalWeight,
         'totalPrice': total,
       });
     });
   }
 
-  Future<bool> _onBackPressed() async {
-    return showDialog(
-            context: context,
-            builder: (context) {
-              return AlertDialog(
-                title: Text('Leave?'),
-                content: Text('Exiting cart will clear all your items.'),
-                actions: [
-                  TextButton(
-                    child: Text(
-                      "OK",
-                      style: TextStyle(fontSize: 18),
-                    ),
-                    onPressed: () {
-                      Navigator.of(context).pop(true);
-                    },
-                  ),
-                  TextButton(
-                    child: Text(
-                      "Cancel",
-                      style: TextStyle(fontSize: 18),
-                    ),
-                    onPressed: () => Navigator.of(context).pop(false),
-                  ),
-                ],
-              );
-            }) ??
-        false;
-  }
-
-  Future _checkCartItems() async {
+  Future _onProceedButtonPress() async {
     if (scanProducts.isNotEmpty) {
       setState(() {
         _addToCart().then((value) {
@@ -171,6 +139,36 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
             );
           });
     }
+  }
+
+  Future<bool> _onBackPressed() async {
+    return showDialog(
+            context: context,
+            builder: (context) {
+              return AlertDialog(
+                title: Text('Leave?'),
+                content: Text('Exiting cart will clear all your items.'),
+                actions: [
+                  TextButton(
+                    child: Text(
+                      "OK",
+                      style: TextStyle(fontSize: 18),
+                    ),
+                    onPressed: () {
+                      Navigator.of(context).pop(true);
+                    },
+                  ),
+                  TextButton(
+                    child: Text(
+                      "Cancel",
+                      style: TextStyle(fontSize: 18),
+                    ),
+                    onPressed: () => Navigator.of(context).pop(false),
+                  ),
+                ],
+              );
+            }) ??
+        false;
   }
 
   @override
@@ -347,7 +345,7 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
             children: [
               CartBottomTabBtn(
                 onPressed: () {
-                  _checkCartItems();
+                  _onProceedButtonPress();
                   // _addToCart().then((value) {
                   //   Navigator.push(
                   //     context,
