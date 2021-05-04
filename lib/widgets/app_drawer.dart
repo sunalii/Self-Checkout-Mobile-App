@@ -154,20 +154,20 @@ confirmationAlert(BuildContext context) {
             actions: [
               TextButton(
                 child: Text(
-                  "Yes",
+                  "No",
                   style: TextStyle(fontSize: 18),
                 ),
                 onPressed: () {
-                  FirebaseAuth.instance.signOut();
                   Navigator.pop(context);
                 },
               ),
               TextButton(
                 child: Text(
-                  "No",
+                  "Yes",
                   style: TextStyle(fontSize: 18),
                 ),
                 onPressed: () {
+                  FirebaseAuth.instance.signOut();
                   Navigator.pop(context);
                 },
               ),
