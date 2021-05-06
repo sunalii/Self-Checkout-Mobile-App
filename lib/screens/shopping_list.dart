@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:selfcheckoutapp/constants.dart';
 import 'package:selfcheckoutapp/screens/adding_new_item.dart';
-import 'package:selfcheckoutapp/services/shopping_list_services.dart';
+import 'package:selfcheckoutapp/models/todo.dart';
 import 'package:selfcheckoutapp/widgets/list_checkbox.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
