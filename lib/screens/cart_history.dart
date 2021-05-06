@@ -35,41 +35,41 @@ class _BillHistoryPageState extends State<BillHistoryPage> {
     // //return _goBack();
 
     DocumentReference documentReference =
-        _firebaseServices.usersPayCheckRef.doc(_firebaseServices.getUserId());
+    _firebaseServices.usersPayCheckRef.doc(_firebaseServices.getUserId());
     documentReference.delete();
   }
 
   Future<bool> _popUpMenu() async {
     return showDialog(
-            context: context,
-            builder: (context) {
-              return AlertDialog(
-                title: Text('Delete Cart'),
-                content: Text('Are you sure you want to delete the cart?'),
-                actions: [
-                  TextButton(
-                    child: Text(
-                      "No",
-                      style: TextStyle(fontSize: 18),
-                    ),
-                    onPressed: () => Navigator.of(context).pop(false),
-                  ),
-                  TextButton(
-                    child: Text(
-                      "Yes",
-                      style: TextStyle(fontSize: 18),
-                    ),
-                    onPressed: () {
-                      _deleteCart();
-                      Navigator.of(context).pop(true);
-                      setState(() {
-                        emptyBodyBuild();
-                      });
-                    },
-                  ),
-                ],
-              );
-            }) ??
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Text('Delete Cart'),
+            content: Text('Are you sure you want to delete the cart?'),
+            actions: [
+              TextButton(
+                child: Text(
+                  "No",
+                  style: TextStyle(fontSize: 18),
+                ),
+                onPressed: () => Navigator.of(context).pop(false),
+              ),
+              TextButton(
+                child: Text(
+                  "Yes",
+                  style: TextStyle(fontSize: 18),
+                ),
+                onPressed: () {
+                  _deleteCart();
+                  Navigator.of(context).pop(true);
+                  setState(() {
+                    emptyBodyBuild();
+                  });
+                },
+              ),
+            ],
+          );
+        }) ??
         false;
   }
 
@@ -121,12 +121,11 @@ class _BillHistoryPageState extends State<BillHistoryPage> {
                       return ListView(
                         children: snapshot.data.docs.map((documents) {
                           return ListTile(
-                            leading:
-                                Image.network("${documents.data()['image']}"),
-                            title: Text("${documents.data()['name']}"),
-                            trailing: Text("LKR ${documents.data()['price']}"),
+                            leading: Image.network("${documents['image']}"),
+                            title: Text("${documents['name']}"),
+                            trailing: Text("LKR ${documents['price']}"),
                             subtitle: Text(
-                                "Quantity: ${documents.data()['quantity']}\nWeight: ${documents.data()['weight']} g"),
+                                "Quantity: ${documents['quantity']}\nWeight: ${documents['weight']} g"),
                             isThreeLine: true,
                           );
                         }).toList(),
