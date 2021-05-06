@@ -1,14 +1,13 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
+import 'package:selfcheckoutapp/constants.dart';
+import 'package:selfcheckoutapp/models/item.dart';
 import 'package:selfcheckoutapp/screens/checking_page.dart';
 import 'package:selfcheckoutapp/services/firebase_services.dart';
 import 'package:selfcheckoutapp/widgets/bottom_tabs.dart';
-import 'package:selfcheckoutapp/constants.dart';
-import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
-import 'package:intl/intl.dart';
 
 class ShoppingCartPage extends StatefulWidget {
   @override
@@ -18,113 +17,109 @@ class ShoppingCartPage extends StatefulWidget {
 class _ShoppingCartPageState extends State<ShoppingCartPage> {
   FirebaseServices _firebaseServices = FirebaseServices();
 
+  List<Item> itemsList = [];
+
   String qrCode = '';
   bool getDataQr = false;
 
-  List scanProducts = [];
+  //List scanProducts = [];
 
   double total = 0;
-  int totalWeight = 0;
+  double totalWeight = 0;
 
   static final DateTime now = DateTime.now();
   static final DateFormat formatter = DateFormat('dd-MM-yyyy hh:mm:ss');
   final String formatted = formatter.format(now);
 
+  void scanQRCode() async {
+    await FlutterBarcodeScanner.scanBarcode(
+        '#1faa00', "Cancel", true, ScanMode.BARCODE)
+        .then((value) {
+      print(value);
+      _firebaseServices.productsRef
+          .where('barcode', isEqualTo: value)
+          .get()
+          .then((val) {
+        itemsList.add(new Item(
+          name: val.docs.first['name'],
+          price: double.parse(val.docs.first['price'].toString()),
+          weight: double.parse(val.docs.first['weight'].toString()),
+          quantity: 1,
+          photo: val.docs.first['image'],
+        ));
+        ScaffoldMessenger.of(context).showSnackBar(_snackBarItemAdded);
+        getTotals();
+      });
+    });
+  }
+
+  void getTotals() {
+    setState(() {
+      totalWeight = 0;
+      total = 0;
+      itemsList.forEach((element) {
+        total += element.price * element.quantity;
+        totalWeight += element.weight * element.quantity;
+      });
+    });
+  }
+
   final SnackBar _snackBarItemAdded =
-      SnackBar(content: Text("Item added to cart"));
+  SnackBar(content: Text("Item added to cart"));
   final SnackBar _snackBarItemDeleted =
-      SnackBar(content: Text("Item removed from cart"));
+  SnackBar(content: Text("Item removed from cart"));
 
   @override
   void initState() {
     super.initState();
-    //this.getData();
   }
 
-  Future _scanQR() async {
-    try {
-      final qrCode = await FlutterBarcodeScanner.scanBarcode(
-          '#1faa00', //HEX COLOR
-          "Cancel", //CANCEL BUTTON TEXT
-          true, //FLASH USE
-          ScanMode.BARCODE //SCAN MODE --> QR, BARCODE, DEFAULT
-          );
-      if (!mounted) return;
-      setState(() {
-        this.qrCode = qrCode;
-        this.getDataQr = true;
-        //_getData();
-        // _addToCart();
-      });
-    } on PlatformException catch (e) {
-      setState(() {
-        qrCode = "Error: $e";
-      });
-    }
-  }
+  // Future _addToCart() async {
+  //   itemsList.forEach((element) async {
+  //     await _firebaseServices.usersCartRef
+  //         .doc(_firebaseServices.getUserId())
+  //         .collection("Cart")
+  //         .add({
+  //       //_firebaseServices.getUserId() = _user.uid
+  //       'barcode': element.barcode,
+  //       'image': element.photo,
+  //       'name': element.name,
+  //       'quantity': element.quantity,
+  //       'weight': element.weight,
+  //       'price': element.price,
+  //       'time': formatted
+  //     });
+  //   });
+  //   _addToPay();
+  // }
 
-  Future<List> _getData() async {
-    if (this.getDataQr) {
-      _firebaseServices.productsRef
-          .where('barcode', isEqualTo: this.qrCode)
-          .snapshots()
-          .listen((data) {
-        data.docs.forEach((element) {
-          setState(() {
-            scanProducts.add(element.data());
-            total += double.parse(element['price'].toString());
-            totalWeight += int.parse(element['weight'].toString());
-            this.getDataQr = false;
-            ScaffoldMessenger.of(context).showSnackBar(_snackBarItemAdded);
-          });
-          //return ;
-        });
-      });
-    }
-    return scanProducts;
-  }
-
-  Future _addToCart() async {
-    scanProducts.forEach((element) async {
-      await _firebaseServices.usersCartRef
-          .doc(_firebaseServices.getUserId())
-          .collection("Cart")
-          .add({
-        //_firebaseServices.getUserId() = _user.uid
-        'barcode': element['barcode'],
-        'image': element['image'],
-        'name': element['name'],
-        'quantity': element['quantity'],
-        'weight': element['weight'],
-        'price': element['price'],
-        'time': formatted
-      });
-    });
-    _addToPay();
-  }
-
-  Future _addToPay() async {
-    scanProducts.forEach((element) async {
-      await _firebaseServices.usersPayCheckRef
-          .doc(_firebaseServices.getUserId())
-          .set({
-        'email': _firebaseServices.getCurrentEmail(),
-        'totalWeight': totalWeight,
-        'totalPrice': total,
-      });
-    });
-  }
+  // Future _addToPay() async {
+  //   scanProducts.forEach((element) async {
+  //     await _firebaseServices.usersPayCheckRef
+  //         .doc(_firebaseServices.getUserId())
+  //         .collection("Total")
+  //         .doc(_firebaseServices.getUserId())
+  //         .set({
+  //       'email': _firebaseServices.getCurrentEmail(),
+  //       'totalWeight': totalWeight,
+  //       'totalPrice': total,
+  //     });
+  //   });
+  // }
 
   Future _onProceedButtonPress() async {
-    if (scanProducts.isNotEmpty) {
+    if (itemsList.isNotEmpty) {
       setState(() {
-        _addToCart().then((value) {
+        //_addToCart().then((value) {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => CheckingPage()),
+            MaterialPageRoute(
+                builder: (context) => CheckingPage(
+                  total: total,
+                  totalWeight: totalWeight,
+                )),
           );
-          // clearCart();
-        });
+        //});
       });
     } else {
       return showDialog(
@@ -141,7 +136,6 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
                   ),
                   onPressed: () {
                     Navigator.of(context).pop(true);
-                    _deleteCart();
                   },
                 ),
               ],
@@ -150,56 +144,39 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
     }
   }
 
-  Future<bool> _deleteCart() async {
-    _firebaseServices.usersCartRef
-        .doc(_firebaseServices.getUserId())
-        .collection("Cart")
-        .snapshots()
-        .forEach((element) {
-      for (QueryDocumentSnapshot snapshot in element.docs) {
-        snapshot.reference
-            .delete(); //first time -- add > delete //second time -- adding and deleting at the same time ..error
-
-      }
-    });
-    Navigator.of(context).pop();
-  }
-
   Future<bool> _onBackPressed() async {
     return showDialog(
-            context: context,
-            builder: (context) {
-              return AlertDialog(
-                title: Text('Leave?'),
-                content: Text('Exiting cart will clear all your items.'),
-                actions: [
-                  TextButton(
-                    child: Text(
-                      "OK",
-                      style: TextStyle(fontSize: 18),
-                    ),
-                    onPressed: () {
-                      Navigator.of(context).pop(true);
-                    },
-                  ),
-                  TextButton(
-                    child: Text(
-                      "Cancel",
-                      style: TextStyle(fontSize: 18),
-                    ),
-                    onPressed: () => Navigator.of(context).pop(false),
-                  ),
-                ],
-              );
-            }) ??
-        false;
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Text('Leave?'),
+            content: Text('Exiting cart will clear all your items.'),
+            actions: [
+              TextButton(
+                child: Text(
+                  "OK",
+                  style: TextStyle(fontSize: 18),
+                ),
+                onPressed: () => Navigator.of(context).pop(true),
+              ),
+              TextButton(
+                child: Text(
+                  "Cancel",
+                  style: TextStyle(fontSize: 18),
+                ),
+                onPressed: () => Navigator.of(context).pop(false),
+              ),
+            ],
+          );
+        });
   }
 
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: _onBackPressed,
-      child: Scaffold(
+      child:
+      Scaffold(
         appBar: AppBar(
           title: Text(
             "Shopping Cart",
@@ -207,165 +184,81 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
           ),
           textTheme: GoogleFonts.poppinsTextTheme(),
         ),
-        body: SafeArea(
-          child: Container(
-            child: FutureBuilder(
-              future: _getData(),
-              builder: (context, AsyncSnapshot snapshot) {
-                print("FutureBuilder Hello: ${snapshot.data}");
-                if (snapshot.hasError) {
-                  return Scaffold(
-                    body: Center(
-                      child: Text("Error: ${snapshot.error}"),
-                    ),
-                  );
-                }
-
-                if (snapshot.hasData) {
-                  if (snapshot.data.length > 0) {
-                    //if (qrCode == 'barcode') {
-                    return ListView.builder(
-                        itemCount: snapshot.data.length,
-                        itemBuilder: (BuildContext context, int index) {
-                          //print("document ${document}");
-                          return Container(
-                            height: 120.0,
-                            width: double.infinity,
-                            child: Card(
-                              child: Dismissible(
-                                key: Key(
-                                    scanProducts[index].hashCode.toString()),
-                                onDismissed: (direction) async {
-                                  setState(() {
-                                    scanProducts.removeAt(index);
-                                    ScaffoldMessenger.of(context)
-                                        .showSnackBar(_snackBarItemDeleted);
-
-                                    double ttlTemp = 0;
-                                    int weightTemp = 0;
-
-                                    snapshot.data.forEach((element) {
-                                      ttlTemp = double.parse(
-                                              element['price'].toString()) *
-                                          double.parse(
-                                              element['quantity'].toString());
-                                      weightTemp = int.parse(snapshot
-                                              .data[index]['weight']
-                                              .toString()) *
-                                          int.parse(
-                                              element['quantity'].toString());
-                                    });
-                                    total = ttlTemp;
-                                    totalWeight = weightTemp;
-                                  });
-                                },
-                                direction: DismissDirection.startToEnd,
-                                background: Container(
-                                  color: Color(0xffD50000),
-                                  child: Icon(Icons.delete_rounded,
-                                      color: Colors.white),
-                                  alignment: Alignment.centerLeft,
-                                  padding: EdgeInsets.only(left: 15.0),
-                                ),
-                                child: ListTile(
-                                  leading: Image.network(
-                                      "${snapshot.data[index]['image']}"),
-                                  trailing: Text(
-                                      "LKR ${snapshot.data[index]['price']}"),
-                                  title: Text(
-                                    "${snapshot.data[index]['name']}",
-                                    style: TextStyle(fontSize: 15.0),
-                                  ),
-                                  subtitle: Row(
-                                    children: [
-                                      TextButton(
-                                          style: TextButton.styleFrom(
-                                              backgroundColor:
-                                                  Color(0xff1faa00),
-                                              minimumSize: Size(10.0, 5.0)),
-                                          onPressed: () {
-                                            setState(() {
-                                              snapshot.data[index]
-                                                  ['quantity'] += 1;
-                                              total += double.parse(snapshot
-                                                  .data[index]['price']
-                                                  .toString());
-                                              totalWeight += int.parse(snapshot
-                                                  .data[index]['weight']
-                                                  .toString());
-                                            });
-                                          },
-                                          child: Text('+',
-                                              style: TextStyle(
-                                                  color: Colors.white))),
-                                      Text(' Quantity:   ' +
-                                          (snapshot.data[index]['quantity']
-                                              .toString())),
-                                      TextButton(
-                                        style: TextButton.styleFrom(
-                                            backgroundColor: Color(0xff1faa00),
-                                            minimumSize: Size(10.0, 5.0)),
-                                        onPressed: () {
-                                          setState(() {
-                                            if (snapshot.data[index]
-                                                    ['quantity'] >
-                                                1) {
-                                              snapshot.data[index]
-                                                  ['quantity'] -= 1;
-                                              total -= double.parse(snapshot
-                                                  .data[index]['price']
-                                                  .toString());
-                                              totalWeight -= int.parse(snapshot
-                                                  .data[index]['weight']
-                                                  .toString());
-                                            }
-                                          });
-                                        },
-                                        child: Text(
-                                          '-',
-                                          style: TextStyle(color: Colors.white),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  //dense: true,
-                                ),
-                              ),
-                            ),
-                          );
-                        });
-                  } else {
-                    return Scaffold(
-                      body: Container(
-                        child: Center(
-                          child: ListView(
-                            shrinkWrap: true,
-                            children: [
-                              Icon(
-                                Icons.remove_shopping_cart_rounded,
-                                size: 50.0,
-                                color: Colors.black26,
-                              ),
-                              Text(
-                                "No items added.\nPress the Green button to start!",
-                                textAlign: TextAlign.center,
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    );
-                  }
-                }
-
-                return Scaffold(
-                  body: Center(
-                    child: CircularProgressIndicator(),
+        body: ListView.builder(
+          itemCount: itemsList.length,
+          itemBuilder: (context, index) {
+            return Card(
+              child: Dismissible(
+                  direction: DismissDirection.startToEnd,
+                  background: Container(
+                    color: Colors.red,
+                    child: Icon(Icons.delete_rounded, color: Colors.white,),
+                    alignment: Alignment.centerLeft,
+                    padding: EdgeInsets.only(left: 15.0),
                   ),
-                );
-              },
-            ),
-          ),
+                  onDismissed: (val) {
+                    itemsList.removeAt(index);
+                    ScaffoldMessenger.of(context)
+                        .showSnackBar(_snackBarItemDeleted);
+                    getTotals();
+                  },
+                  key: Key(UniqueKey().toString()),
+                  child: ListTile(
+                    leading: Image.network(itemsList[index].photo),
+                    title: Text(itemsList[index].name),
+                    subtitle: Text('LKR ' +
+                        itemsList[index].price.toString() +
+                        '    Quantity: ' +
+                        itemsList[index].quantity.toString()),
+                    trailing: IconButton(
+                      icon: Icon(Icons.add_circle_outlined, color: Color(0xff1faa00),),
+                      onPressed: () {
+                        showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                title: Text("Change Quantity"),
+                                actions: [
+                                  TextButton(
+                                      child: Text('OK', style: TextStyle(fontSize: 18)),
+                                      onPressed: () {
+                                        getTotals();
+                                        Navigator.pop(context);
+                                      }),
+                                ],
+                                content: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                      children: [
+                                        IconButton(
+                                            icon: Icon(Icons.add_circle_outline_rounded, color: Colors.blue, size: 30.0,),
+                                            onPressed: () {
+                                              itemsList[index].quantity += 1;
+                                              getTotals();
+                                              //Navigator.pop(context);
+                                            }),
+                                        IconButton(
+                                            icon: Icon(Icons.remove_circle_outline_rounded, color: Colors.blue, size: 30.0,),
+                                            onPressed: () {
+                                              if (itemsList[index].quantity > 1) {
+                                                itemsList[index].quantity -= 1;
+                                              }
+                                              getTotals();
+                                              //Navigator.pop(context);
+                                            })
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              );
+                            });
+                      },
+                    ),
+                  )),
+            );
+          },
         ),
         floatingActionButton: Padding(
           padding: const EdgeInsets.only(
@@ -378,7 +271,9 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
             child: FloatingActionButton(
               backgroundColor: Theme.of(context).primaryColor,
               child: Icon(Icons.qr_code_rounded),
-              onPressed: _scanQR,
+              onPressed: () {
+                scanQRCode();
+              },
             ),
           ),
         ),
@@ -398,9 +293,18 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              CartBottomTabBtn(onPressed: () {
-                _onProceedButtonPress();
-              }),
+              CartBottomTabBtn(
+                onPressed: () {
+                  _onProceedButtonPress();
+                  // _addToCart().then((value) {
+                  //   Navigator.push(
+                  //     context,
+                  //     MaterialPageRoute(builder: (context) => CheckingPage()),
+                  //   );
+                  //   clearCart();
+                  // });
+                },
+              ),
               cartBottomTabTotal(total),
             ],
           ),
