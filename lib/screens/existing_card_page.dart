@@ -3,11 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_credit_card/credit_card_widget.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:selfcheckoutapp/constants.dart';
+import 'package:selfcheckoutapp/screens/home.dart';
 import 'package:selfcheckoutapp/services/payment_services.dart';
 import 'package:stripe_payment/stripe_payment.dart';
 import 'package:progress_dialog/progress_dialog.dart';
 
 class ExistingCardPage extends StatefulWidget {
+  final double total;
+
+  const ExistingCardPage({Key key, this.total}) : super(key: key);
+
   @override
   _ExistingCardPageState createState() => _ExistingCardPageState();
 }
@@ -45,7 +50,7 @@ class _ExistingCardPageState extends State<ExistingCardPage> {
       expYear: int.parse(expiryArr[1]),
     );
     var response = await StripeService.payViaExistingCard(
-        amount: '25000', //get total price
+        amount: '${widget.total.toStringAsFixed(0)}00', //get total price
         currency: 'LKR',
         card: stripeCard
     );
@@ -55,7 +60,11 @@ class _ExistingCardPageState extends State<ExistingCardPage> {
           duration: new Duration(milliseconds: 1200),
         )
     ).closed.then((_) {
-      Navigator.pop(context);
+      print(widget.total);
+      Navigator.push(
+              context,
+               MaterialPageRoute(builder: (context) => HomePage()),
+            );
     });
   }
 
