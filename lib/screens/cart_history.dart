@@ -11,13 +11,6 @@ class BillHistoryPage extends StatefulWidget {
 
 class _BillHistoryPageState extends State<BillHistoryPage> {
   FirebaseServices _firebaseServices = FirebaseServices();
-  List billList = [];
-
-  // final CollectionReference _userRef = FirebaseFirestore
-  //     .instance
-  //     .collection('Users').doc(_user.uid).collection("Cart");
-  //
-  // User _user = FirebaseAuth.instance.currentUser;
 
   _deleteCart() async {
     // _firebaseServices.usersCartRef
@@ -35,41 +28,41 @@ class _BillHistoryPageState extends State<BillHistoryPage> {
     // //return _goBack();
 
     DocumentReference documentReference =
-    _firebaseServices.usersPayCheckRef.doc(_firebaseServices.getUserId());
+        _firebaseServices.usersPayCheckRef.doc(_firebaseServices.getUserId());
     documentReference.delete();
   }
 
   Future<bool> _popUpMenu() async {
     return showDialog(
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-            title: Text('Delete Cart'),
-            content: Text('Are you sure you want to delete the cart?'),
-            actions: [
-              TextButton(
-                child: Text(
-                  "No",
-                  style: TextStyle(fontSize: 18),
-                ),
-                onPressed: () => Navigator.of(context).pop(false),
-              ),
-              TextButton(
-                child: Text(
-                  "Yes",
-                  style: TextStyle(fontSize: 18),
-                ),
-                onPressed: () {
-                  _deleteCart();
-                  Navigator.of(context).pop(true);
-                  setState(() {
-                    emptyBodyBuild();
-                  });
-                },
-              ),
-            ],
-          );
-        }) ??
+            context: context,
+            builder: (context) {
+              return AlertDialog(
+                title: Text('Delete Cart'),
+                content: Text('Are you sure you want to delete the cart?'),
+                actions: [
+                  TextButton(
+                    child: Text(
+                      "No",
+                      style: TextStyle(fontSize: 18),
+                    ),
+                    onPressed: () => Navigator.of(context).pop(false),
+                  ),
+                  TextButton(
+                    child: Text(
+                      "Yes",
+                      style: TextStyle(fontSize: 18),
+                    ),
+                    onPressed: () {
+                      _deleteCart();
+                      Navigator.of(context).pop(true);
+                      setState(() {
+                        emptyBodyBuild();
+                      });
+                    },
+                  ),
+                ],
+              );
+            }) ??
         false;
   }
 
@@ -117,7 +110,7 @@ class _BillHistoryPageState extends State<BillHistoryPage> {
                   }
 
                   if (snapshot.connectionState == ConnectionState.done) {
-                    if (snapshot.hasData != null) {
+                    if (snapshot.data != null) {
                       return ListView(
                         children: snapshot.data.docs.map((documents) {
                           return ListTile(
@@ -131,7 +124,25 @@ class _BillHistoryPageState extends State<BillHistoryPage> {
                         }).toList(),
                       );
                     } else {
-                      emptyBodyBuild();
+                       return Container(
+                        color: Colors.pink,
+                        child: Center(
+                          child: ListView(
+                            shrinkWrap: true,
+                            children: [
+                              Icon(
+                                Icons.remove_shopping_cart_outlined,
+                                size: 50.0,
+                                color: Colors.black26,
+                              ),
+                              Text(
+                                "No history to show!",
+                                textAlign: TextAlign.center,
+                              ),
+                            ],
+                          ),
+                        ),
+                      );
                     }
                   }
                   return Scaffold(
