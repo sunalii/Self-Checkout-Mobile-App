@@ -3,9 +3,14 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:progress_dialog/progress_dialog.dart';
 import 'package:selfcheckoutapp/constants.dart';
 import 'package:selfcheckoutapp/screens/existing_card_page.dart';
+import 'package:selfcheckoutapp/screens/home.dart';
 import 'package:selfcheckoutapp/services/payment_services.dart';
 
 class PaymentPage extends StatefulWidget {
+  final double total;
+
+  const PaymentPage({Key key, this.total}) : super(key: key);
+
   @override
   _ExistingCardsPageState createState() => _ExistingCardsPageState();
 }
@@ -21,7 +26,9 @@ class _ExistingCardsPageState extends State<PaymentPage> {
       case 1:
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => ExistingCardPage()),
+          MaterialPageRoute(builder: (context) => ExistingCardPage(
+            total: widget.total,
+          )),
         );
         break;
     }
@@ -34,13 +41,19 @@ class _ExistingCardsPageState extends State<PaymentPage> {
     );
     await dialog.show();
     var response = await StripeService.payWithNewCard(
-        amount: '300000', currency: 'LKR'); //get total price
+        amount: '${widget.total.toStringAsFixed(0)}00', currency: 'LKR'); //get total price
     await dialog.hide();
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
       content: Text(response.message),
       duration:
       Duration(milliseconds: response.success == true ? 1200 : 3000),
-    ));
+    )).closed.then((_) {
+      print(widget.total);
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => HomePage()),
+      );
+    });
   }
 
   @override
