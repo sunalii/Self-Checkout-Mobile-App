@@ -1,18 +1,22 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:selfcheckoutapp/constants.dart';
+import 'package:selfcheckoutapp/models/item.dart';
 import 'package:selfcheckoutapp/screens/payment.dart';
 import 'package:selfcheckoutapp/services/firebase_services.dart';
-
-import 'payment.dart';
-
 
 class CheckingPage extends StatefulWidget {
   final double total;
   final double totalWeight;
+  //final List<Item> itemsList;
 
-  const CheckingPage({Key key, this.total, this.totalWeight,}) : super(key: key);
+  const CheckingPage({
+    Key key,
+    this.total,
+    this.totalWeight,
+    //this.itemsList,
+  }) : super(key: key);
 
   @override
   _CheckingPageState createState() => _CheckingPageState();
@@ -20,32 +24,26 @@ class CheckingPage extends StatefulWidget {
 
 class _CheckingPageState extends State<CheckingPage> {
   FirebaseServices _firebaseServices = FirebaseServices();
-  TextEditingController _userCartController = TextEditingController();
 
-  //String _userCartController = '';
-
-  int totalWeight = 45;
-
-  Future _compareWithCurrentWeight() async {
-//   db = FirebaseDatabase.instance.reference().child("UsersPayCheck");
-//   db.equalTo(Id).once().then((DataSnapshot snapshot){
-//     Map<dynamic, dynamic> values = snapshot.value;
-//     values.forEach((key,values) {
-//       print(values["name"]);
-//     });
-//   });
-//
-
-    double y = 100;
-
-    if (((widget.totalWeight - 50) < y) && ((widget.totalWeight+50) > y)) {
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => PaymentPage()),
-      );
-    } else {
-      return _showConfirmationMessage();
-    }
+  void _compareWithCurrentWeight() async {
+    await FlutterBarcodeScanner.scanBarcode(
+            '#1faa00', "Cancel", true, ScanMode.QR)
+        .then((value) {
+          double qrWeight = double.parse(value);
+      if (((widget.totalWeight - 10) < qrWeight) && ((widget.totalWeight + 10) > qrWeight)) {
+        //_addToCart();
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => PaymentPage(
+                   total: widget.total,
+                  // totalWeight: totalWeight,
+                  // itemsList: [],
+                  )),
+        );
+      } else
+        _showConfirmationMessage();
+    });
   }
 
   @override
@@ -59,21 +57,9 @@ class _CheckingPageState extends State<CheckingPage> {
         builder: (context) {
           return AlertDialog(
             title: Text('Alert!'),
-            content: Text(
-                'Cart weight is not equal. Please try again! Try again.'),
+            content:
+                Text('Cart weight is not equal. Please try again! Try again.'),
             actions: [
-              TextButton(
-                child: Text(
-                  "Checkout",
-                  style: TextStyle(fontSize: 18),
-                ),
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => PaymentPage()),
-                  );
-                },
-              ),
               TextButton(
                 child: Text(
                   "Try again",
@@ -83,8 +69,7 @@ class _CheckingPageState extends State<CheckingPage> {
               ),
             ],
           );
-        }) ??
-        false;
+        });
   }
 
   // bool _checkingWeightLoading = false;
@@ -121,82 +106,67 @@ class _CheckingPageState extends State<CheckingPage> {
   //   );
   // }
 
-  Future _getData() async {
-    return await _firebaseServices.usersPayCheckRef
-        .doc(_firebaseServices.getUserId())
-        .collection('Cart')
-        .get();
-  }
-
-  Stream<QuerySnapshot> getUsersPastTripsStreamSnapshots(
-      BuildContext context) async* {}
+  ///Need to use this
+  // void _addToCart() async {
+  //   widget.itemsList.forEach((element) async {
+  //     await _firebaseServices.usersCartRef
+  //         .doc(_firebaseServices.getUserId())
+  //         .collection("Cart")
+  //         .add({
+  //       'barcode': element.barcode,
+  //       'image': element.photo,
+  //       'name': element.name,
+  //       'quantity': element.quantity,
+  //       'weight': element.weight,
+  //       'price': element.price,
+  //     });
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {
-    return
-      // WillPopScope(
-      // onWillPop: _deleteCart,
-      // child:
-      Scaffold(
-          appBar: AppBar(
-            title: Text(
-              "Weight Checker",
-              style: Constants.boldHeadingAppBar,
-            ),
-            textTheme: GoogleFonts.poppinsTextTheme(),
+    return Scaffold(
+        appBar: AppBar(
+          title: Text(
+            "Weight Checker",
+            style: Constants.boldHeadingAppBar,
           ),
-          body: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Container(
-                child: Card(
-                  child: Padding(
-                    padding: const EdgeInsets.all(16),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text('Users Cart'),
-                        Text('Total: LKR '+widget.total.toString(),
-                            style: TextStyle(fontSize: 32)),
-                        Text('Weight: '+widget.totalWeight.toString()+'g',
-                            style: TextStyle(fontSize: 32))
-                      ],
-                    ),
+          textTheme: GoogleFonts.poppinsTextTheme(),
+        ),
+        body: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+              child: Card(
+                child: Padding(
+                  padding: const EdgeInsets.all(16),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text('Users Cart'),
+                      Text('Total: LKR ' + widget.total.toString() + '0',
+                          style: TextStyle(fontSize: 32)),
+                      Text('Weight: ' + widget.totalWeight.toString() + 'g',
+                          style: TextStyle(fontSize: 32)),
+                    ],
                   ),
                 ),
               ),
-              Container(
-                child: Card(
-                  child: Padding(
-                    padding: const EdgeInsets.all(16),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text('System Cart'),
-                        Text('Total: LKR '+widget.total.toString(),
-                            style: TextStyle(fontSize: 32)),
-                        Text('Weight: '+widget.totalWeight.toString()+'g',
-                            style: TextStyle(fontSize: 32))
-                      ],
-                    ),
-                  ),
+            ),
+            Container(
+              child: ElevatedButton(
+                child: Text(
+                  'Check',
+                  style: TextStyle(fontSize: 18.0),
                 ),
+                onPressed: () {
+                _compareWithCurrentWeight();
+              },
               ),
-              Container(
-                child: ElevatedButton(
-                  onPressed: (){
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => PaymentPage()),
-                    );
-                  },
-                  child: Text('Proceed'),
-                ),
-              ),
-              Row(),
-            ],
-          )
-        // ),
-      );
+            ),
+            Row(),
+          ],
+        ),
+    );
   }
 }

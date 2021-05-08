@@ -19,16 +19,11 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
 
   List<Item> itemsList = [];
 
-  String qrCode = '';
-  bool getDataQr = false;
-
-  //List scanProducts = [];
-
   double total = 0;
   double totalWeight = 0;
 
   static final DateTime now = DateTime.now();
-  static final DateFormat formatter = DateFormat('dd-MM-yyyy hh:mm:ss');
+  static final DateFormat formatter = DateFormat('dd-MM-yyyy HH:mm:ss');
   final String formatted = formatter.format(now);
 
   void scanQRCode() async {
@@ -74,24 +69,7 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
     super.initState();
   }
 
-  // Future _addToCart() async {
-  //   itemsList.forEach((element) async {
-  //     await _firebaseServices.usersCartRef
-  //         .doc(_firebaseServices.getUserId())
-  //         .collection("Cart")
-  //         .add({
-  //       //_firebaseServices.getUserId() = _user.uid
-  //       'barcode': element.barcode,
-  //       'image': element.photo,
-  //       'name': element.name,
-  //       'quantity': element.quantity,
-  //       'weight': element.weight,
-  //       'price': element.price,
-  //       'time': formatted
-  //     });
-  //   });
-  //   _addToPay();
-  // }
+
 
   // Future _addToPay() async {
   //   scanProducts.forEach((element) async {
@@ -110,16 +88,17 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
   Future _onProceedButtonPress() async {
     if (itemsList.isNotEmpty) {
       setState(() {
-        //_addToCart().then((value) {
+      //  _addToCart().then((value) {
           Navigator.push(
             context,
             MaterialPageRoute(
                 builder: (context) => CheckingPage(
                   total: total,
                   totalWeight: totalWeight,
+                  //itemsList: [],
                 )),
           );
-        //});
+       // });
       });
     } else {
       return showDialog(
@@ -175,8 +154,7 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: _onBackPressed,
-      child:
-      Scaffold(
+      child: Scaffold(
         appBar: AppBar(
           title: Text(
             "Shopping Cart",
@@ -215,6 +193,7 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
                       onPressed: () {
                         showDialog(
                             context: context,
+                            barrierDismissible: false,
                             builder: (BuildContext context) {
                               return AlertDialog(
                                 title: Text("Change Quantity"),
@@ -247,7 +226,7 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
                                               }
                                               getTotals();
                                               //Navigator.pop(context);
-                                            })
+                                            }),
                                       ],
                                     ),
                                   ],
@@ -313,3 +292,4 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
     );
   }
 }
+
