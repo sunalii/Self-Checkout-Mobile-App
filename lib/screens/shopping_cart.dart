@@ -28,7 +28,7 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
 
   void scanQRCode() async {
     await FlutterBarcodeScanner.scanBarcode(
-        '#1faa00', "Cancel", true, ScanMode.BARCODE)
+            '#1faa00', "Cancel", true, ScanMode.BARCODE)
         .then((value) {
       print(value);
       _firebaseServices.productsRef
@@ -60,16 +60,30 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
   }
 
   final SnackBar _snackBarItemAdded =
-  SnackBar(content: Text("Item added to cart"));
+      SnackBar(content: Text("Item added to cart"));
   final SnackBar _snackBarItemDeleted =
-  SnackBar(content: Text("Item removed from cart"));
+      SnackBar(content: Text("Item removed from cart"));
 
   @override
   void initState() {
     super.initState();
   }
 
-
+  Future _addToCart() async {
+    itemsList.forEach((element) async {
+      await _firebaseServices.usersCartRef
+          .doc(_firebaseServices.getUserId())
+          .collection("Cart")
+          .add({
+        'barcode': element.barcode,
+        'image': element.photo,
+        'name': element.name,
+        'quantity': element.quantity,
+        'weight': element.weight,
+        'price': element.price,
+      });
+    });
+  }
 
   // Future _addToPay() async {
   //   scanProducts.forEach((element) async {
@@ -88,17 +102,16 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
   Future _onProceedButtonPress() async {
     if (itemsList.isNotEmpty) {
       setState(() {
-      //  _addToCart().then((value) {
+        _addToCart().then((value) {
           Navigator.push(
             context,
             MaterialPageRoute(
                 builder: (context) => CheckingPage(
-                  total: total,
-                  totalWeight: totalWeight,
-                  //itemsList: [],
-                )),
+                      total: total,
+                      totalWeight: totalWeight,
+                    )),
           );
-       // });
+        });
       });
     } else {
       return showDialog(
@@ -170,7 +183,10 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
                   direction: DismissDirection.startToEnd,
                   background: Container(
                     color: Colors.red,
-                    child: Icon(Icons.delete_rounded, color: Colors.white,),
+                    child: Icon(
+                      Icons.delete_rounded,
+                      color: Colors.white,
+                    ),
                     alignment: Alignment.centerLeft,
                     padding: EdgeInsets.only(left: 15.0),
                   ),
@@ -189,7 +205,10 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
                         '    Quantity: ' +
                         itemsList[index].quantity.toString()),
                     trailing: IconButton(
-                      icon: Icon(Icons.add_circle_outlined, color: Color(0xff1faa00),),
+                      icon: Icon(
+                        Icons.add_circle_outlined,
+                        color: Color(0xff1faa00),
+                      ),
                       onPressed: () {
                         showDialog(
                             context: context,
@@ -199,7 +218,8 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
                                 title: Text("Change Quantity"),
                                 actions: [
                                   TextButton(
-                                      child: Text('OK', style: TextStyle(fontSize: 18)),
+                                      child: Text('OK',
+                                          style: TextStyle(fontSize: 18)),
                                       onPressed: () {
                                         getTotals();
                                         Navigator.pop(context);
@@ -209,19 +229,30 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
                                     Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceAround,
                                       children: [
                                         IconButton(
-                                            icon: Icon(Icons.add_circle_outline_rounded, color: Colors.blue, size: 30.0,),
+                                            icon: Icon(
+                                              Icons.add_circle_outline_rounded,
+                                              color: Colors.blue,
+                                              size: 30.0,
+                                            ),
                                             onPressed: () {
                                               itemsList[index].quantity += 1;
                                               getTotals();
                                               //Navigator.pop(context);
                                             }),
                                         IconButton(
-                                            icon: Icon(Icons.remove_circle_outline_rounded, color: Colors.blue, size: 30.0,),
+                                            icon: Icon(
+                                              Icons
+                                                  .remove_circle_outline_rounded,
+                                              color: Colors.blue,
+                                              size: 30.0,
+                                            ),
                                             onPressed: () {
-                                              if (itemsList[index].quantity > 1) {
+                                              if (itemsList[index].quantity >
+                                                  1) {
                                                 itemsList[index].quantity -= 1;
                                               }
                                               getTotals();
@@ -275,13 +306,6 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
               CartBottomTabBtn(
                 onPressed: () {
                   _onProceedButtonPress();
-                  // _addToCart().then((value) {
-                  //   Navigator.push(
-                  //     context,
-                  //     MaterialPageRoute(builder: (context) => CheckingPage()),
-                  //   );
-                  //   clearCart();
-                  // });
                 },
               ),
               cartBottomTabTotal(total),
@@ -292,4 +316,3 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
     );
   }
 }
-

@@ -5,7 +5,7 @@ import 'package:selfcheckoutapp/services/firebase_services.dart';
 import 'package:selfcheckoutapp/widgets/custom_button.dart';
 import 'package:selfcheckoutapp/widgets/custom_input.dart';
 import 'package:selfcheckoutapp/widgets/profile_avatar.dart';
-import '../constants.dart';
+import 'package:selfcheckoutapp/constants.dart';
 
 class EditUserProfile extends StatefulWidget {
   @override
@@ -25,9 +25,6 @@ class _EditUserProfileState extends State<EditUserProfile> {
   @override
   void initState() {
     super.initState();
-    // setState(() {
-    //   String _usernameController = FirebaseAuth.instance.currentUser.displayName;
-    // });
   }
 
   @override

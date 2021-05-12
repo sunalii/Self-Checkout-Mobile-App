@@ -40,11 +40,12 @@ class _AppDrawerState extends State<AppDrawer> {
                                 fit: BoxFit.cover),
                           ),
                           accountName: Text(
-                            _firebaseServices.getCurrentUserName() ?? "Display Name",
+                            _firebaseServices.getCurrentUserName() ??
+                                "Display Name",
                             style: TextStyle(fontSize: 20.0),
                           ),
-                          accountEmail: Text(
-                              '${_firebaseServices.getCurrentEmail()}'),
+                          accountEmail:
+                              Text('${_firebaseServices.getCurrentEmail()}'),
                           currentAccountPicture: Avatar(),
                         );
                       } else {
@@ -63,8 +64,8 @@ class _AppDrawerState extends State<AppDrawer> {
                                   style: TextStyle(fontSize: 20.0),
                                 );
                               }),
-                          accountEmail: Text(
-                              '${_firebaseServices.getCurrentEmail()}'),
+                          accountEmail:
+                              Text('${_firebaseServices.getCurrentEmail()}'),
                           currentAccountPicture: Avatar(),
                         );
                       }

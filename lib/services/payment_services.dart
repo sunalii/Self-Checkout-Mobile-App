@@ -11,51 +11,38 @@ class StripeTransactionResponse {
   String message;
   bool success;
 
-   final double total;
-  // final double totalWeight;
-  // final List itemsList;
+  final double total;
 
-  StripeTransactionResponse(
-      {
-      // Key key,
-       this.total,
-      // this.totalWeight,
-      // this.itemsList,
-
-      this.message,
-      this.success});
+  StripeTransactionResponse({this.total, this.message, this.success});
 }
 
 void _getFromCart() async {
-
   final DateTime now = DateTime.now();
   final DateFormat formatter = DateFormat('dd-MM-yyyy HH:mm:ss');
   final String formatted = formatter.format(now);
 
-
-    _firebaseServices.usersCartRef
-        .doc(_firebaseServices.getUserId())
-        .collection("Cart")
-        .get()
-        .then((value) {
-      List getFromCart = [value];
-      print(getFromCart);
-      getFromCart.forEach((element) async {
-        _firebaseServices.usersPayCheckRef
-            .doc(_firebaseServices.getUserId())
-            .collection("Cart")
-            .add({
-          'barcode': element.barcode,
-          'image': element.photo,
-          'name': element.name,
-          'quantity': element.quantity,
-          'weight': element.weight,
-          'price': element.price,
-          'time': formatted
-        });
+  _firebaseServices.usersCartRef
+      .doc(_firebaseServices.getUserId())
+      .collection("Cart")
+      .get()
+      .then((value) {
+    List getFromCart = [value];
+    print(getFromCart);
+    getFromCart.forEach((element) async {
+      _firebaseServices.usersPayCheckRef
+          .doc(_firebaseServices.getUserId())
+          .collection("Cart")
+          .add({
+        'barcode': element.barcode,
+        'image': element.photo,
+        'name': element.name,
+        'quantity': element.quantity,
+        'weight': element.weight,
+        'price': element.price,
+        'time': formatted
       });
     });
-
+  });
 }
 
 class StripeService {
@@ -157,62 +144,4 @@ class StripeService {
     }
     return null;
   }
-
-//   static void addToCart() {
-//     scanProducts.forEach((element) async {
-//       await _firebaseServices.usersCartRef.doc(_firebaseServices.getUserId()).collection("Cart").add({ //_firebaseServices.getUserId() = _user.uid
-//         'barcode': element['barcode'],
-//         'name': element['name'],
-//         'quantity': element['quantity'],
-//         'weight': element['weight'],
-//         'price': element['price'],
-//         'time': formatted
-//       });
-//     });
-//   }
-// }
-
-// Future<void> cartAddedToHistory() async {
-//   _firebaseServices.usersCartRef.get().then((querySnapshot) {
-//     querySnapshot.docs.forEach((result) {
-//       _firebaseServices.usersCartRef.doc(_firebaseServices.getUserId())
-//           .collection("Cart").get()
-//           .then((querySnapshot) {
-//         querySnapshot.docs.forEach((result) {
-//           FirebaseFirestore
-//               .instance
-//               .collection('BillHistory')
-//               .doc(_firebaseServices.getUserId())
-//           //  .add({
-//           // 'barcode': barcode,
-//           // 'name': name,
-//           // 'quantity': quantity,
-//           // 'weight': weight,
-//           // 'price': price,
-//           //})
-//               ;
-//           //print(result.data);
-//         });
-//       });
-//     });
-//   });
-// }
-
-// Future cartAddedToHistory() async {
-//   itemsList.forEach((element) async {
-//     await _firebaseServices.usersCartRef
-//         .doc(_firebaseServices.getUserId())
-//         .collection("Cart")
-//         .add({
-//       //_firebaseServices.getUserId() = _user.uid
-//       'barcode': element.barcode,
-//       'image': element.photo,
-//       'name': element.name,
-//       'quantity': element.quantity,
-//       'weight': element.weight,
-//       'price': element.price,
-//       'time': formatted
-//     });
-//   });
-// }
 }

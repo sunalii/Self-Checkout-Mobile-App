@@ -21,7 +21,7 @@ class _BillHistoryPageState extends State<BillHistoryPage> {
     //
     //   for (QueryDocumentSnapshot snapshot in element.docs) {
     //     snapshot.reference
-    //         .delete(); //first time -- add > delete //second time -- add and deleting at the same time
+    //         .delete();
     //   }
     //   //_goBack();
     // });
@@ -124,7 +124,7 @@ class _BillHistoryPageState extends State<BillHistoryPage> {
                         }).toList(),
                       );
                     } else {
-                       return Container(
+                      return Container(
                         color: Colors.pink,
                         child: Center(
                           child: ListView(
