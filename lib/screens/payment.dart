@@ -70,6 +70,7 @@ class _ExistingCardsPageState extends State<PaymentPage> {
           "Payment",
           style: Constants.boldHeadingAppBar,
         ),
+        leading: Icon(Icons.monetization_on_rounded),
         textTheme: GoogleFonts.poppinsTextTheme(),
       ),
       body: Container(
