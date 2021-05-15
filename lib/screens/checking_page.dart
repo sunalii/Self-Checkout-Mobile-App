@@ -3,7 +3,6 @@ import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:selfcheckoutapp/constants.dart';
 import 'package:selfcheckoutapp/screens/payment.dart';
-import 'package:selfcheckoutapp/services/firebase_services.dart';
 
 class CheckingPage extends StatefulWidget {
   final double total;
@@ -20,7 +19,6 @@ class CheckingPage extends StatefulWidget {
 }
 
 class _CheckingPageState extends State<CheckingPage> {
-  FirebaseServices _firebaseServices = FirebaseServices();
 
   void _compareWithCurrentWeight() async {
     await FlutterBarcodeScanner.scanBarcode(
@@ -29,7 +27,6 @@ class _CheckingPageState extends State<CheckingPage> {
       double qrWeight = double.parse(value);
       if (((widget.totalWeight - 10) < qrWeight) &&
           ((widget.totalWeight + 10) > qrWeight)) {
-        //_addToCart();
         Navigator.push(
           context,
           MaterialPageRoute(
@@ -76,6 +73,7 @@ class _CheckingPageState extends State<CheckingPage> {
           "Weight Checker",
           style: Constants.boldHeadingAppBar,
         ),
+        leading: Icon(Icons.hourglass_bottom),
         textTheme: GoogleFonts.poppinsTextTheme(),
       ),
       body: Column(
