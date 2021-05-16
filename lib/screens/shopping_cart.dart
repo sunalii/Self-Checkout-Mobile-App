@@ -107,38 +107,38 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
   Future _onProceedButtonPress() async {
     if (itemsList.isNotEmpty) {
       return showDialog(
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-            title: Text('Confirm Cart!'),
-            content: Text('Confirm your cart before proceeding.\n\nTotal Price: LKR ${total.toString()}0'),
-            actions: [
-              TextButton(
-                child: Text(
-                  "CONFIRM",
-                  style: TextStyle(fontSize: 18),
-                ),
-                onPressed: () {
-                  setState(() {
-                    _addToCartHistory();
-                    _addToCart().then((value) {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => CheckingPage(
-                              total: total,
-                              totalWeight: totalWeight,
-                            )),
-                      );
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              title: Text('Confirm Cart!'),
+              content: Text(
+                  'Confirm your cart before proceeding.\n\nTotal Price: LKR ${total.toString()}0'),
+              actions: [
+                TextButton(
+                  child: Text(
+                    "CONFIRM",
+                    style: TextStyle(fontSize: 18),
+                  ),
+                  onPressed: () {
+                    setState(() {
+                      _addToCartHistory();
+                      _addToCart().then((value) {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => CheckingPage(
+                                    total: total,
+                                    totalWeight: totalWeight,
+                                  )),
+                        );
+                      });
                     });
-                  });
-                  Navigator.of(context).pop(true);
-                },
-              ),
-            ],
-          );
-        }
-      );
+                    Navigator.of(context).pop(true);
+                  },
+                ),
+              ],
+            );
+          });
     } else {
       return showDialog(
           context: context,
