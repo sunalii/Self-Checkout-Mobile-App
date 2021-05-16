@@ -29,7 +29,7 @@ void _getFromCart() async {
     List getFromCart = [value];
     print(getFromCart);
     getFromCart.forEach((element) async {
-      _firebaseServices.usersPayCheckRef
+      _firebaseServices.usersCartHistoryRef
           .doc(_firebaseServices.getUserId())
           .collection("Cart")
           .add({
