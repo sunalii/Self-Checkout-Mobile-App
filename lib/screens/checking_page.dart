@@ -19,14 +19,13 @@ class CheckingPage extends StatefulWidget {
 }
 
 class _CheckingPageState extends State<CheckingPage> {
-
   void _compareWithCurrentWeight() async {
     await FlutterBarcodeScanner.scanBarcode(
             '#1faa00', "Cancel", true, ScanMode.QR)
         .then((value) {
       double qrWeight = double.parse(value);
-      if (((widget.totalWeight - 10) < qrWeight) &&
-          ((widget.totalWeight + 10) > qrWeight)) {
+      if (((widget.totalWeight - 20) < qrWeight) &&
+          ((widget.totalWeight + 20) > qrWeight)) {
         Navigator.push(
           context,
           MaterialPageRoute(
@@ -50,8 +49,7 @@ class _CheckingPageState extends State<CheckingPage> {
         builder: (context) {
           return AlertDialog(
             title: Text('Alert!'),
-            content:
-                Text('Cart weight is not equal. Please try again! Try again.'),
+            content: Text('Cart weight is not equal. Please try again!'),
             actions: [
               TextButton(
                 child: Text(
@@ -67,48 +65,51 @@ class _CheckingPageState extends State<CheckingPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          "Weight Checker",
-          style: Constants.boldHeadingAppBar,
+    return WillPopScope(
+      onWillPop: () async => false,
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text(
+            "Weight Checker",
+            style: Constants.boldHeadingAppBar,
+          ),
+          leading: Icon(Icons.hourglass_bottom),
+          textTheme: GoogleFonts.poppinsTextTheme(),
         ),
-        leading: Icon(Icons.hourglass_bottom),
-        textTheme: GoogleFonts.poppinsTextTheme(),
-      ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Container(
-            child: Card(
-              child: Padding(
-                padding: const EdgeInsets.all(16),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text('Users Cart'),
-                    Text('Total: LKR ' + widget.total.toString() + '0',
-                        style: TextStyle(fontSize: 32)),
-                    Text('Weight: ' + widget.totalWeight.toString() + 'g',
-                        style: TextStyle(fontSize: 32)),
-                  ],
+        body: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+              child: Card(
+                child: Padding(
+                  padding: const EdgeInsets.all(16),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text('Users Cart'),
+                      Text('Total: LKR ' + widget.total.toString() + '0',
+                          style: TextStyle(fontSize: 32)),
+                      Text('Weight: ' + widget.totalWeight.toString() + 'g',
+                          style: TextStyle(fontSize: 32)),
+                    ],
+                  ),
                 ),
               ),
             ),
-          ),
-          Container(
-            child: ElevatedButton(
-              child: Text(
-                'Check',
-                style: TextStyle(fontSize: 18.0),
+            Container(
+              child: ElevatedButton(
+                child: Text(
+                  'Check',
+                  style: TextStyle(fontSize: 18.0),
+                ),
+                onPressed: () {
+                  _compareWithCurrentWeight();
+                },
               ),
-              onPressed: () {
-                _compareWithCurrentWeight();
-              },
             ),
-          ),
-          Row(),
-        ],
+            Row(),
+          ],
+        ),
       ),
     );
   }
