@@ -36,6 +36,7 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
           .get()
           .then((val) {
         itemsList.add(new Item(
+          barcode: val.docs.first['barcode'],
           name: val.docs.first['name'],
           price: double.parse(val.docs.first['price'].toString()),
           weight: double.parse(val.docs.first['weight'].toString()),
@@ -81,38 +82,63 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
         'quantity': element.quantity,
         'weight': element.weight,
         'price': element.price,
+        'time': formatted,
       });
     });
   }
 
-  // Future _addToPay() async {
-  //   scanProducts.forEach((element) async {
-  //     await _firebaseServices.usersPayCheckRef
-  //         .doc(_firebaseServices.getUserId())
-  //         .collection("Total")
-  //         .doc(_firebaseServices.getUserId())
-  //         .set({
-  //       'email': _firebaseServices.getCurrentEmail(),
-  //       'totalWeight': totalWeight,
-  //       'totalPrice': total,
-  //     });
-  //   });
-  // }
+  Future _addToCartHistory() async {
+    itemsList.forEach((element) async {
+      await _firebaseServices.usersCartHistoryRef
+          .doc(_firebaseServices.getUserId())
+          .collection("Cart")
+          .add({
+        'barcode': element.barcode,
+        'image': element.photo,
+        'name': element.name,
+        'quantity': element.quantity,
+        'weight': element.weight,
+        'price': element.price,
+        'time': formatted,
+      });
+    });
+  }
 
   Future _onProceedButtonPress() async {
     if (itemsList.isNotEmpty) {
-      setState(() {
-        _addToCart().then((value) {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => CheckingPage(
-                      total: total,
-                      totalWeight: totalWeight,
-                    )),
+      return showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Text('Confirm Cart!'),
+            content: Text('Confirm your cart before proceeding.\n\nTotal Price: LKR ${total.toString()}0'),
+            actions: [
+              TextButton(
+                child: Text(
+                  "CONFIRM",
+                  style: TextStyle(fontSize: 18),
+                ),
+                onPressed: () {
+                  setState(() {
+                    _addToCartHistory();
+                    _addToCart().then((value) {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => CheckingPage(
+                              total: total,
+                              totalWeight: totalWeight,
+                            )),
+                      );
+                    });
+                  });
+                  Navigator.of(context).pop(true);
+                },
+              ),
+            ],
           );
-        });
-      });
+        }
+      );
     } else {
       return showDialog(
           context: context,
