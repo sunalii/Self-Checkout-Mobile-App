@@ -48,11 +48,13 @@ class _ExistingCardsPageState extends State<PaymentPage> {
       duration:
       Duration(milliseconds: response.success == true ? 1200 : 3000),
     )).closed.then((_) {
-      print(widget.total);
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => HomePage()),
-      );
+      if (response.success) {
+        print(widget.total);
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => HomePage()),
+        );
+      }
     });
   }
 
@@ -64,49 +66,52 @@ class _ExistingCardsPageState extends State<PaymentPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          "Payment",
-          style: Constants.boldHeadingAppBar,
+    return WillPopScope(
+      onWillPop: () async => false,
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text(
+            "Payment",
+            style: Constants.boldHeadingAppBar,
+          ),
+          leading: Icon(Icons.monetization_on_rounded),
+          textTheme: GoogleFonts.poppinsTextTheme(),
         ),
-        leading: Icon(Icons.monetization_on_rounded),
-        textTheme: GoogleFonts.poppinsTextTheme(),
-      ),
-      body: Container(
-        padding: EdgeInsets.all(20),
-        child: ListView.separated(
-            itemBuilder: (context, index) {
-              Icon icon;
-              Text text;
+        body: Container(
+          padding: EdgeInsets.all(20),
+          child: ListView.separated(
+              itemBuilder: (context, index) {
+                Icon icon;
+                Text text;
 
-              switch (index) {
-                case 0:
-                  icon = Icon(Icons.add_rounded,
-                      color: Theme.of(context).primaryColor);
-                  text = Text("Pay via new card");
-                  break;
+                switch (index) {
+                  case 0:
+                    icon = Icon(Icons.add_rounded,
+                        color: Theme.of(context).primaryColor);
+                    text = Text("Pay via new card");
+                    break;
 
-                case 1:
-                  icon = Icon(Icons.credit_card_rounded,
-                      color: Theme.of(context).primaryColor);
-                  text = Text("Pay via existing card");
-                  break;
-              }
-              return InkWell(
-                child: ListTile(
-                  onTap: () {
-                    onItemPress(context, index);
-                  },
-                  title: text,
-                  leading: icon,
-                ),
-              );
-            },
-            separatorBuilder: (context, index) => Divider(
-                  color: Theme.of(context).primaryColor,
-                ),
-            itemCount: 2),
+                  case 1:
+                    icon = Icon(Icons.credit_card_rounded,
+                        color: Theme.of(context).primaryColor);
+                    text = Text("Pay via existing card");
+                    break;
+                }
+                return InkWell(
+                  child: ListTile(
+                    onTap: () {
+                      onItemPress(context, index);
+                    },
+                    title: text,
+                    leading: icon,
+                  ),
+                );
+              },
+              separatorBuilder: (context, index) => Divider(
+                    color: Theme.of(context).primaryColor,
+                  ),
+              itemCount: 2),
+        ),
       ),
     );
   }
