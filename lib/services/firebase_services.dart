@@ -26,9 +26,9 @@ class FirebaseServices{
       .instance
       .collection('Users'); // TO STORE USERS CART | User-->userId->Cart-->productId
 
-  final CollectionReference usersPayCheckRef = FirebaseFirestore
+  final CollectionReference usersCartHistoryRef = FirebaseFirestore
       .instance
-      .collection("UsersPayCheck");
+      .collection("UsersCartHistory");
 
   final CollectionReference userDetailsRef = FirebaseFirestore
       .instance
