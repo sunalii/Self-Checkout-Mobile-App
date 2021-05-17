@@ -12,25 +12,55 @@ class BillHistoryPage extends StatefulWidget {
 class _BillHistoryPageState extends State<BillHistoryPage> {
   FirebaseServices _firebaseServices = FirebaseServices();
 
-  _deleteCart() async {
-    // _firebaseServices.usersCartRef
-    //     .doc(_firebaseServices.getUserId())
-    //     .collection("Cart")
-    //     .snapshots()
-    //     .forEach((element) {
-    //
-    //   for (QueryDocumentSnapshot snapshot in element.docs) {
-    //     snapshot.reference
-    //         .delete();
-    //   }
-    //   //_goBack();
-    // });
-    // //return _goBack();
+  CollectionReference users = FirebaseFirestore.instance.collection('users');
 
-    DocumentReference documentReference =
-        _firebaseServices.usersPayCheckRef.doc(_firebaseServices.getUserId());
-    documentReference.delete();
+  Future<QuerySnapshot> _getData() async {
+    return await _firebaseServices.usersCartHistoryRef //FirebaseFirestore.instance.collection("UsersCartHistory");
+        .doc(_firebaseServices.getUserId())
+        .collection('Cart')
+        .orderBy('time', descending: true)
+        .get();
   }
+
+  // void deleteCart() async {
+  //    _firebaseServices.usersCartHistoryRef
+  //       .doc(_firebaseServices.getUserId())
+  //       .delete()
+  //       .then((value) => print("User Deleted"))
+  //       .catchError((error) => print("Failed to delete user: $error"));
+  // }
+
+  Future<void> _deleteCart() async {
+     await _firebaseServices.usersCartHistoryRef
+        .doc(_firebaseServices.getUserId())
+        .collection("Cart")
+        .snapshots()
+        .forEach((snapshot) {
+      for (QueryDocumentSnapshot snapshot in snapshot.docs) {
+        snapshot.reference.delete();
+        break;
+      }
+    });
+    // DocumentReference documentReference =
+    //     _firebaseServices.usersCartRef.doc(_firebaseServices.getUserId()).collection("Cart").doc();
+    // documentReference.delete();
+  }
+
+  // Future<void> _deleteCart() async {
+  //   _firebaseServices.usersCartHistoryRef
+  //       .doc(_firebaseServices.getUserId())
+  //       .collection("Cart")
+  //       .snapshots()
+  //       .forEach((snapshot) {
+  //     for (QueryDocumentSnapshot snapshot in snapshot.docs) {
+  //       snapshot.reference.delete();
+  //       break;
+  //     }
+  //   });
+  //   // DocumentReference documentReference =
+  //   //     _firebaseServices.usersCartRef.doc(_firebaseServices.getUserId());
+  //   // documentReference.delete();
+  // }
 
   Future<bool> _popUpMenu() async {
     return showDialog(
@@ -55,23 +85,15 @@ class _BillHistoryPageState extends State<BillHistoryPage> {
                     onPressed: () {
                       _deleteCart();
                       Navigator.of(context).pop(true);
-                      setState(() {
-                        emptyBodyBuild();
-                      });
+                       setState(() {
+                      //   emptyBodyBuild();
+                       });
                     },
                   ),
                 ],
               );
             }) ??
         false;
-  }
-
-  Future<QuerySnapshot> _getData() async {
-    return await _firebaseServices.usersCartRef
-        .doc(_firebaseServices.getUserId())
-        .collection('Cart')
-        .orderBy('time', descending: true)
-        .get();
   }
 
   @override

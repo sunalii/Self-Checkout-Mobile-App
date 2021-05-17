@@ -57,7 +57,10 @@ class _AppDrawerState extends State<AppDrawer> {
                                 fit: BoxFit.cover),
                           ),
                           accountName: StreamBuilder<Object>(
-                              stream: null,
+                              stream: FirebaseFirestore.instance
+                                  .collection('UserDetails')
+                                  .doc('displayName')
+                                  .snapshots(),
                               builder: (context, snapshot) {
                                 return Text(
                                   "${_firebaseServices.getCurrentUserName()}",
