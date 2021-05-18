@@ -12,10 +12,11 @@ class BillHistoryPage extends StatefulWidget {
 class _BillHistoryPageState extends State<BillHistoryPage> {
   FirebaseServices _firebaseServices = FirebaseServices();
 
-  CollectionReference users = FirebaseFirestore.instance.collection('users');
+  //CollectionReference users = FirebaseFirestore.instance.collection('users');
 
   Future<QuerySnapshot> _getData() async {
-    return await _firebaseServices.usersCartHistoryRef //FirebaseFirestore.instance.collection("UsersCartHistory");
+    return _firebaseServices
+        .usersCartHistoryRef //FirebaseFirestore.instance.collection("UsersCartHistory");
         .doc(_firebaseServices.getUserId())
         .collection('Cart')
         .orderBy('time', descending: true)
@@ -31,19 +32,11 @@ class _BillHistoryPageState extends State<BillHistoryPage> {
   // }
 
   Future<void> _deleteCart() async {
-     await _firebaseServices.usersCartHistoryRef
-        .doc(_firebaseServices.getUserId())
-        .collection("Cart")
-        .snapshots()
-        .forEach((snapshot) {
+    _getData().then((snapshot) {
       for (QueryDocumentSnapshot snapshot in snapshot.docs) {
         snapshot.reference.delete();
-        break;
       }
     });
-    // DocumentReference documentReference =
-    //     _firebaseServices.usersCartRef.doc(_firebaseServices.getUserId()).collection("Cart").doc();
-    // documentReference.delete();
   }
 
   // Future<void> _deleteCart() async {
@@ -84,10 +77,10 @@ class _BillHistoryPageState extends State<BillHistoryPage> {
                     ),
                     onPressed: () {
                       _deleteCart();
-                      Navigator.of(context).pop(true);
-                       setState(() {
-                      //   emptyBodyBuild();
-                       });
+                      setState(() {
+                        _getData();
+                        Navigator.of(context).pop(true);
+                      });
                     },
                   ),
                 ],
@@ -138,34 +131,14 @@ class _BillHistoryPageState extends State<BillHistoryPage> {
                           return ListTile(
                             leading: Image.network("${documents['image']}"),
                             title: Text("${documents['name']}"),
-                            trailing: Text("LKR ${documents['price']}"),
+                            trailing: Text("LKR ${documents['price']}0"),
                             subtitle: Text(
                                 "Quantity: ${documents['quantity']}\nWeight: ${documents['weight']} g"),
                             isThreeLine: true,
                           );
                         }).toList(),
                       );
-                    } else {
-                      return Container(
-                        color: Colors.pink,
-                        child: Center(
-                          child: ListView(
-                            shrinkWrap: true,
-                            children: [
-                              Icon(
-                                Icons.remove_shopping_cart_outlined,
-                                size: 50.0,
-                                color: Colors.black26,
-                              ),
-                              Text(
-                                "No history to show!",
-                                textAlign: TextAlign.center,
-                              ),
-                            ],
-                          ),
-                        ),
-                      );
-                    }
+                    } else emptyBodyBuild();
                   }
                   return Scaffold(
                     body: Center(
