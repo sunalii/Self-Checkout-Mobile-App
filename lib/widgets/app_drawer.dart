@@ -25,11 +25,11 @@ class _AppDrawerState extends State<AppDrawer> {
             child: ListView(
               padding: EdgeInsets.zero,
               children: [
-                FutureBuilder(
-                    future: FirebaseFirestore.instance
+                StreamBuilder(
+                    stream: FirebaseFirestore.instance
                         .collection('UserDetails')
                         .doc('displayName')
-                        .get(),
+                        .snapshots(),
                     builder: (context, snapshot) {
                       if (!snapshot.hasData) {
                         return UserAccountsDrawerHeader(
