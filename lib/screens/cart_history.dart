@@ -12,48 +12,23 @@ class BillHistoryPage extends StatefulWidget {
 class _BillHistoryPageState extends State<BillHistoryPage> {
   FirebaseServices _firebaseServices = FirebaseServices();
 
-  //CollectionReference users = FirebaseFirestore.instance.collection('users');
-
   Future<QuerySnapshot> _getData() async {
-    return _firebaseServices
-        .usersCartHistoryRef //FirebaseFirestore.instance.collection("UsersCartHistory");
+    return _firebaseServices.usersCartHistoryRef
         .doc(_firebaseServices.getUserId())
         .collection('Cart')
         .orderBy('time', descending: true)
         .get();
   }
 
-  // void deleteCart() async {
-  //    _firebaseServices.usersCartHistoryRef
-  //       .doc(_firebaseServices.getUserId())
-  //       .delete()
-  //       .then((value) => print("User Deleted"))
-  //       .catchError((error) => print("Failed to delete user: $error"));
-  // }
-
-  Future<void> _deleteCart() async {
+  void _deleteCart() async {
     _getData().then((snapshot) {
-      for (QueryDocumentSnapshot snapshot in snapshot.docs) {
-        snapshot.reference.delete();
-      }
+      setState(() {
+        for (QueryDocumentSnapshot snapshot in snapshot.docs) {
+          snapshot.reference.delete();
+        }
+      });
     });
   }
-
-  // Future<void> _deleteCart() async {
-  //   _firebaseServices.usersCartHistoryRef
-  //       .doc(_firebaseServices.getUserId())
-  //       .collection("Cart")
-  //       .snapshots()
-  //       .forEach((snapshot) {
-  //     for (QueryDocumentSnapshot snapshot in snapshot.docs) {
-  //       snapshot.reference.delete();
-  //       break;
-  //     }
-  //   });
-  //   // DocumentReference documentReference =
-  //   //     _firebaseServices.usersCartRef.doc(_firebaseServices.getUserId());
-  //   // documentReference.delete();
-  // }
 
   Future<bool> _popUpMenu() async {
     return showDialog(
@@ -77,10 +52,8 @@ class _BillHistoryPageState extends State<BillHistoryPage> {
                     ),
                     onPressed: () {
                       _deleteCart();
-                      setState(() {
-                        _getData();
-                        Navigator.of(context).pop(true);
-                      });
+                      _getData();
+                      Navigator.of(context).pop(true);
                     },
                   ),
                 ],
@@ -133,12 +106,13 @@ class _BillHistoryPageState extends State<BillHistoryPage> {
                             title: Text("${documents['name']}"),
                             trailing: Text("LKR ${documents['price']}0"),
                             subtitle: Text(
-                                "Quantity: ${documents['quantity']}\nWeight: ${documents['weight']} g"),
+                                "Quantity: ${documents['quantity']}\nWeight: ${documents['weight']} kg"),
                             isThreeLine: true,
                           );
                         }).toList(),
                       );
-                    } else emptyBodyBuild();
+                    } else
+                      emptyBodyBuild();
                   }
                   return Scaffold(
                     body: Center(

@@ -89,7 +89,7 @@ class _CheckingPageState extends State<CheckingPage> {
                       Text('Users Cart'),
                       Text('Total: LKR ' + widget.total.toString() + '0',
                           style: TextStyle(fontSize: 32)),
-                      Text('Weight: ' + widget.totalWeight.toStringAsFixed(2) + 'g',
+                      Text('Weight: ' + widget.totalWeight.toStringAsFixed(2) + 'kg',
                           style: TextStyle(fontSize: 32)),
                     ],
                   ),
