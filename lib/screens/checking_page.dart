@@ -24,8 +24,8 @@ class _CheckingPageState extends State<CheckingPage> {
             '#1faa00', "Cancel", true, ScanMode.QR)
         .then((value) {
       double qrWeight = double.parse(value);
-      if (((widget.totalWeight - 10) < qrWeight) &&
-          ((widget.totalWeight + 10) > qrWeight)) {
+      if (((widget.totalWeight - 0.05) < qrWeight) &&
+          ((widget.totalWeight + 0.05) > qrWeight)) {
         Navigator.push(
           context,
           MaterialPageRoute(
@@ -89,7 +89,7 @@ class _CheckingPageState extends State<CheckingPage> {
                       Text('Users Cart'),
                       Text('Total: LKR ' + widget.total.toString() + '0',
                           style: TextStyle(fontSize: 32)),
-                      Text('Weight: ' + widget.totalWeight.toStringAsFixed(2) + 'kg',
+                      Text('Weight: ' + widget.totalWeight.toStringAsFixed(2) + ' kg',
                           style: TextStyle(fontSize: 32)),
                     ],
                   ),
