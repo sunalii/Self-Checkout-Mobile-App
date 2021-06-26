@@ -2,9 +2,9 @@
 Using Flutter and Firebase
 
 ## Features
-- Developement is based on **Flutter** framework.
+- Developement is based on **Flutter**.
 - Supports on **Android**.
-- Barcode/QR Code scanning.
+- Barcode/QR Code **scanning**.
 - Integrated for **Stripe API**.
 
 ## Libraries
@@ -17,7 +17,7 @@ Using Flutter and Firebase
 
 ### Stripe API
 - [Stripe](https://stripe.com/) (free plan) was used to do payments from the mobile app.
-- Replace the ```payment_services.dart``` file with your own SECRET KEY and PUBLIC KEY from your Stripe account.
+- Replace the ```payment_services.dart``` file with your own *SECRET KEY* and *PUBLIC KEY* from your Stripe account.
 
 ## Hardware requirements
 - Smartphone enabled with camera.
@@ -25,3 +25,8 @@ Using Flutter and Firebase
 ## How the application works
 - Scan barcodes/QR codes of products to add them to cart.
 - The payments can be done only upon an equal total weight of the products brought were verified by scanning a equally weighted QR code.
+
+## Installation
+1. Add your Firebase ```google-services.json``` to the project
+2. Add your Stripe API *SECRET KEY* and *PUBLIC KEY* in ```payment_services.dart``` 
+3. Update dependencies in ```pubspec.yaml``` file.
