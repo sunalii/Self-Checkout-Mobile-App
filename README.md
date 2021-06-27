@@ -26,6 +26,7 @@ Using Flutter and Firebase <br><br>
 ## How the application works
 - Scan barcodes/QR codes of products to add them to cart.
 - The payments can be done only upon an equal total weight of the products brought were verified by scanning a equally weighted QR code.
+- Payments are enabled by the *test version* of Stripe.
 
 ## Installation
 1. Add your Firebase ```google-services.json``` to the project
