@@ -1,6 +1,6 @@
 # Self-Checkout Mobile Application 
-Using Flutter and Firebase
-![ScanGo mobile application flyer design](https://github.com/sunalii/Self-Checkout-Mobile-App/blob/master/assets/ScanGo%20Poster.png)
+Using Flutter and Firebase <br>
+![ScanGo mobile application flyer design](https://github.com/sunalii/Self-Checkout-Mobile-App/blob/master/assets/ScanGo%20Flyer.png)
 
 ## Features
 - Developement is based on **Flutter**.
